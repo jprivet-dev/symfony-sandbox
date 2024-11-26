@@ -138,8 +138,8 @@ restart: stop start ## Restart the project
 
 .PHONY: install
 install: confirm_continue ## Install (or update) the local project [y/N]
-	$(MAKE) -s \
-		composer_install git_hooks_on info \
+	$(MAKE) \
+		composer_install permissions git_hooks_on info \
 		yes_by_default=true
 
 ##
