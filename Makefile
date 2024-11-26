@@ -363,12 +363,10 @@ permissions: ## Run it if you cannot edit some of the project files on Linux (ht
 .PHONY: git_hooks_on
 git_hooks_on: ## Use the hooks directory of this project
 	git config core.hooksPath hooks/
-	#sudo chmod +x hooks/* # 755
 
 .PHONY: git_hooks_off
 git_hooks_off: ## Use the default hooks directory of Git
 	git config --unset core.hooksPath
-	#sudo chmod 644 hooks/*
 
 .PHONY: git_hooks_pre_push
 git_hooks_pre_push: check ## Actions on pre-push
