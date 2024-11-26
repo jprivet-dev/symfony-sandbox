@@ -127,6 +127,9 @@ help: ## Print self-documented Makefile
 
 ## — PROJECT 🚀 ———————————————————————————————————————————————————————————————
 
+.PHONY: first
+first: confirm_continue build up_d install ## The first command executed after cloning the project [y/N]
+
 .PHONY: start
 start: up_d info ## Start the project (implies detached mode)
 
@@ -137,10 +140,7 @@ stop: down ## Stop the project
 restart: stop start ## Restart the project
 
 .PHONY: install
-install: confirm_continue ## Install (or update) the local project [y/N]
-	$(MAKE) \
-		composer_install permissions git_hooks_on info \
-		yes_by_default=true
+install: confirm_continue composer_install permissions git_hooks_on info ## Install (or update) the local project [y/N]
 
 ##
 
