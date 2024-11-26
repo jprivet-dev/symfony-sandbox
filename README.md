@@ -11,10 +11,16 @@ Symfony experimentation area.
 Be sure to install the latest version of [Docker Engine](https://docs.docker.com/engine/install/).
 
 ## Installation
+
+### The very first time
  
 - `git clone git@github.com:jprivet-dev/symfony-sandbox.git`
 - `cd symfony-sandbox`
-- `make install`
+- `make first`:
+    - Build fresh images.
+    - Start the containers.
+    - Install dependencies.
+    - Fix permissions.
 - Go on https://symfony-sandbox.localhost/.
 
 All in one:
@@ -22,10 +28,12 @@ All in one:
 ```shell
 git clone git@github.com:jprivet-dev/symfony-sandbox.git \
 && cd symfony-sandbox \
-&& make install
+&& make first
 ```
 
-## Start and stop the project (Docker)
+### The following times
+
+start and stop the project (Docker):
 
 ```shell
 make start
