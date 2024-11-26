@@ -349,15 +349,6 @@ docker_stop_all: confirm_continue ## Stop all running containers [y/N]
 docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
 	docker rm $$(docker ps -a -q)
 
-## — TROUBLESHOOTING 😵‍️ ———————————————————————————————————————————————————————
-
-.PHONY: permissions
-permissions: ## Run it if you cannot edit some of the project files on Linux (https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md)
-	@printf "\n$(Y)Permissions$(S)"
-	@printf "\n$(Y)-----------$(S)\n\n"
-	$(COMPOSE) run --rm php chown -R $(USER_ID):$(GROUP_ID) .
-	@printf " $(G)✔$(S) You are now defined as the owner $(Y)$(USER_ID):$(GROUP_ID)$(S) of the project files.\n"
-
 ## — GIT 🐙 ———————————————————————————————————————————————————————————————————
 
 .PHONY: git_hooks_on
@@ -370,6 +361,15 @@ git_hooks_off: ## Use the default hooks directory of Git
 
 .PHONY: git_hooks_pre_push
 git_hooks_pre_push: check ## Actions on pre-push
+
+## — TROUBLESHOOTING 😵‍️ ———————————————————————————————————————————————————————
+
+.PHONY: permissions
+permissions: ## Run it if you cannot edit some of the project files on Linux (https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md)
+	@printf "\n$(Y)Permissions$(S)"
+	@printf "\n$(Y)-----------$(S)\n\n"
+	$(COMPOSE) run --rm php chown -R $(USER_ID):$(GROUP_ID) .
+	@printf " $(G)✔$(S) You are now defined as the owner $(Y)$(USER_ID):$(GROUP_ID)$(S) of the project files.\n"
 
 ## — UTILS 🛠️  —————————————————————————————————————————————————————————————————
 
