@@ -21,6 +21,8 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
     - Start the containers.
     - Install dependencies.
     - Fix permissions.
+    - Init Git hook pre-push.
+    - Show info.
 - Go on https://symfony-sandbox.localhost/.
 
 All in one:
