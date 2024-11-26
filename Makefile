@@ -16,13 +16,6 @@ USER_ID  = $(shell id -u)
 GROUP_ID = $(shell id -g)
 
 #
-# BASE
-#
-
-CLONE_DIR  = clone
-REPOSITORY = git@github.com:dunglas/symfony-docker.git
-
-#
 # OVERLOADING
 #
 
@@ -89,7 +82,14 @@ else
 COMPOSE = $(COMPOSE_PREFIX) -f $(COMPOSE_OVERRIDE)
 endif
 
-CONTAINER_PHP = $(COMPOSE) exec php
+# -T : avoid "the input device is not a TTY" error - Example: $ make php no_tty=true
+no_tty ?= false
+ifeq ($(no_tty), true)
+T_FLAG = -T
+endif
+
+EXEC          = $(COMPOSE) exec $(T_FLAG)
+CONTAINER_PHP = $(EXEC) php
 PHP           = $(CONTAINER_PHP) php
 COMPOSER      = $(CONTAINER_PHP) composer
 CONSOLE       = $(PHP) bin/console
@@ -127,9 +127,6 @@ help: ## Print self-documented Makefile
 
 ## — PROJECT 🚀 ———————————————————————————————————————————————————————————————
 
-.PHONY: generate
-generate: confirm_continue clone build up_d permissions info ## Generate a fresh Symfony application with the Docker configuration
-
 .PHONY: start
 start: up_d info ## Start the project (implies detached mode)
 
@@ -139,18 +136,16 @@ stop: down ## Stop the project
 .PHONY: restart
 restart: stop start ## Restart the project
 
-##
-
-.PHONY: clean
-clean: confirm_continue ## Remove all generated files [y/N]
-	rm -rf $(CLONE_DIR) \
-      .github bin config docs frankenphp public src var vendor
-	rm  -f \
-      .dockerignore .editorconfig .env .gitattributes .gitignore \
-      compose.override.yaml compose.prod.yaml compose.yaml \
-      composer.json composer.lock Dockerfile symfony.lock
+.PHONY: install
+install: confirm_continue ## Install (or update) the local project [y/N]
+	$(MAKE) -s \
+		composer_install git_hooks_on info \
+		yes_by_default=true
 
 ##
+
+.PHONY: check
+check: confirm_continue composer_validate ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
@@ -164,13 +159,17 @@ info i: ## Show info
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 
 .PHONY: symfony
-symfony sf: ## Run Symfony - $ make symfony [p=<params>] - Example: $ make symfony p=cache:clear
+symfony sf: ## Run Symfony - $ make symfony [p=<params>] - Example: $ make symfony p=--help
 	@$(eval p ?=)
 	$(CONSOLE) $(p)
 
 .PHONY: cc
 cc: ## Clear the cache
 	$(CONSOLE) cache:clear
+
+.PHONY: cct
+cct: ## Clear the cache (TEST)
+	$(CONSOLE) cache:clear --env=test
 
 .PHONY: cw
 cw: ## Warm up an empty cache
@@ -188,24 +187,76 @@ dotenv: ## Lists all dotenv files with variables and values
 dumpenv: ## Generate .env.local.php (PROD)
 	$(COMPOSER) dump-env prod
 
-## — PHP 🐘 ———————————————————————————————————————————————————————————————————
+## — DOCTRINE & MYSQL 💽 ——————————————————————————————————————————————————————
 
-.PHONY: php
-php: ## Run PHP - $ make php [p=<params>]- Example: $ make php p=--version
+.PHONY: db
+db: confirm_continue ## Drop and create the database and migrate (env "dev" by default) [y/N]
+	$(MAKE) -s db_drop yes_by_default=true
+	$(MAKE) -s db_create yes_by_default=true
+	$(MAKE) -s migrate yes_by_default=true
+
+.PHONY: db@test
+db@test: confirm_continue ## Drop and create the database and migrate (env "test") [y/N]
+	$(MAKE) -s db_drop p="--env=test" yes_by_default=true
+	$(MAKE) -s db_create p="--env=test" yes_by_default=true
+	$(MAKE) -s migrate@test yes_by_default=true
+
+.PHONY: db_drop
+db_drop: confirm_continue ## Drop the database [y/N] - $ make db_drop [p=<params>] - Example: $ make db_drop p="--env=test"
 	@$(eval p ?=)
-	$(PHP) $(p)
+	$(CONSOLE) doctrine:database:drop --if-exists --force $(p)
 
-.PHONY: php_sh
-php_sh: ## Connect to the PHP container
-	$(CONTAINER_PHP) sh
+.PHONY: db_create
+db_create: confirm_continue ## Create the database [y/N] - $ make db_create [p=<params>] - Example: $ make db_create p="--env=test"
+	@$(eval p ?=)
+	$(CONSOLE) doctrine:database:create --if-not-exists $(p)
 
-.PHONY: php_version
-php_version: ## PHP version number
-	$(PHP) -v
+##
 
-.PHONY: php_modules
-php_modules: ## Show compiled in modules
-	$(PHP) -m
+.PHONY: validate
+validate: ## Validate the mapping files - $ make validate [p=<params>] - Example: $ make validate p="--env=test"
+	@$(eval p ?=)
+	$(CONSOLE) doctrine:schema:validate -v $(p)
+
+.PHONY: update_dump_sql
+update_dump_sql: ## Generate and output the SQL needed to synchronize the database schema with the current mapping metadata
+	$(CONSOLE) doctrine:schema:update --dump-sql
+
+.PHONY: update_force
+update_force: ## Execute the generated SQL needed to synchronize the database schema with the current mapping metadata
+	$(CONSOLE) doctrine:schema:update --force
+
+##
+
+.PHONY: migration
+migration: ## Create a new migration based on database changes
+	$(CONSOLE) make:migration
+
+.PHONY: migrate
+migrate: ## Execute a migration to the latest available version - $ make migrate [p=<param>] - Example: $ make migrate p="current+3"
+	@$(eval p ?=)
+	$(CONSOLE) doctrine:migrations:migrate --no-interaction --all-or-nothing $(p)
+	$(MAKE) -s --ignore-errors validate
+
+.PHONY: migrate@test
+migrate@test: ## Execute a migration to the latest available version - $ make migrate@test [p=<param>] - Example: $ make migrate@test p="current+3"
+	@$(eval p ?=)
+	$(CONSOLE) doctrine:migrations:migrate --no-interaction --all-or-nothing --env=test $(p)
+	$(MAKE) -s validate p="--env=test"
+
+.PHONY: list
+list: ## Display a list of all available migrations and their status
+	$(CONSOLE) doctrine:migrations:list
+
+.PHONY: execute
+execute: ## Execute one or more migration versions up or down manually - $ make execute p=<params> - Example: $ make execute p="DoctrineMigrations\Version20240205143239"
+	@$(eval p ?=)
+	$(CONSOLE) doctrine:migrations:execute $(p)
+	$(MAKE) -s --ignore-errors validate p="$(p)"
+
+.PHONY: generate
+generate: ## Generate a blank migration class
+	$(CONSOLE) doctrine:migrations:generate
 
 ## — COMPOSER 🧙 ——————————————————————————————————————————————————————————————
 
@@ -240,26 +291,30 @@ composer_update: ## Update packages using composer
 composer_update@prod: ## Update packages using composer (PROD)
 	$(COMPOSER) update --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
 
-## — SYMFONY DOCKER 🎵 🐳 —————————————————————————————————————————————————————
+##
 
-PHONY: clone
-clone: ## Clone Symfony Docker
-	@printf "\n$(Y)Clone Symfony Docker$(S)"
-	@printf "\n$(Y)--------------------$(S)\n\n"
-ifeq ($(wildcard Dockerfile),)
-	@printf "Repository: $(Y)$(REPOSITORY)$(S)\n"
-	git clone $(REPOSITORY) $(CLONE_DIR)
-	@printf "\n$(Y)Extract Symfony Docker at the root$(S)"
-	@printf "\n$(Y)----------------------------------$(S)\n\n"
-	rm -rf $(CLONE_DIR)/.git
-	rm  -f $(CLONE_DIR)/README.md
-	-mv -vf $(CLONE_DIR)/.*
-	-mv -vf $(CLONE_DIR)/* .
-	rm -rf $(CLONE_DIR)
-	@printf " $(G)✔$(S) Symfony Docker cloned and extracted at the root.\n\n"
-else
-	@printf " $(G)✔$(S) Symfony Docker already cloned and extracted at the root.\n\n"
-endif
+.PHONY: composer_clean
+composer_clean: ## Remove vendor/
+	rm -rf vendor
+
+## — PHP 🐘 ———————————————————————————————————————————————————————————————————
+
+.PHONY: php
+php: ## Run PHP - $ make php [p=<params>]- Example: $ make php p=--version
+	@$(eval p ?=)
+	$(PHP) $(p)
+
+.PHONY: php_sh
+php_sh: ## Connect to the PHP container
+	$(CONTAINER_PHP) sh
+
+.PHONY: php_version
+php_version: ## PHP version number
+	$(PHP) -v
+
+.PHONY: php_modules
+php_modules: ## Show compiled in modules
+	$(PHP) -m
 
 ## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
 
@@ -267,7 +322,6 @@ endif
 up: ## Start the container - $ make up [p=<params>] - Example: $ make up p=-d
 	@$(eval p ?=)
 	SERVER_NAME=$(COMPOSE_UP_SERVER_NAME) $(COMPOSE_UP_ENV_VARS) $(COMPOSE) up --remove-orphans --pull always $(p)
-
 .PHONY: up_d
 up_d: ## Start the container (wait for services to be running|healthy - detached mode)
 	$(MAKE) up p="--wait -d"
@@ -303,6 +357,21 @@ permissions: ## Run it if you cannot edit some of the project files on Linux (ht
 	@printf "\n$(Y)-----------$(S)\n\n"
 	$(COMPOSE) run --rm php chown -R $(USER_ID):$(GROUP_ID) .
 	@printf " $(G)✔$(S) You are now defined as the owner $(Y)$(USER_ID):$(GROUP_ID)$(S) of the project files.\n"
+
+## — GIT 🐙 ———————————————————————————————————————————————————————————————————
+
+.PHONY: git_hooks_on
+git_hooks_on: ## Use the hooks directory of this project
+	git config core.hooksPath hooks/
+	sudo chmod +x hooks/* # 755
+
+.PHONY: git_hooks_off
+git_hooks_off: ## Use the default hooks directory of Git
+	git config --unset core.hooksPath
+	sudo chmod 644 hooks/*
+
+.PHONY: git_hooks_pre_push
+git_hooks_pre_push: check ## Actions on pre-push
 
 ## — UTILS 🛠️  —————————————————————————————————————————————————————————————————
 
@@ -350,9 +419,6 @@ vars: ## Show variables
 	@printf "\n$(G)USER$(S)\n"
 	@printf "  USER_ID : $(USER_ID)\n"
 	@printf "  GROUP_ID: $(GROUP_ID)\n"
-	@printf "\n$(G)BASE$(S)\n"
-	@printf "  CLONE_DIR : $(CLONE_DIR)\n"
-	@printf "  REPOSITORY: $(REPOSITORY)\n"
 	@printf "\n$(G)OVERLOADING$(S)\n"
 	@printf "  PROJECT_NAME          : $(PROJECT_NAME)\n"
 	@printf "  COMPOSE_BUILD_OPTS    : $(COMPOSE_BUILD_OPTS)\n"
