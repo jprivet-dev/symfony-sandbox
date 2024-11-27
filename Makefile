@@ -140,7 +140,7 @@ stop: down ## Stop the project
 restart: stop start ## Restart the project
 
 .PHONY: install
-install: confirm_continue composer_install permissions git_hooks_on info ## Install (or update) the local project [y/N]
+install: confirm_continue composer_install migrate permissions git_hooks_on info ## Install (or update) the local project [y/N]
 
 ##
 
