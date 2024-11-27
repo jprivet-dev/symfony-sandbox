@@ -257,6 +257,29 @@ execute: ## Execute one or more migration versions up or down manually - $ make 
 generate: ## Generate a blank migration class
 	$(CONSOLE) doctrine:migrations:generate
 
+##
+
+.PHONY: sql
+sql: ## Execute the given SQL query and output the results - $ make sql [q=<query>] - Example: $ make sql q="SELECT * FROM user"
+	@$(eval q ?=)
+	$(CONSOLE) doctrine:query:sql "$(q)"
+
+.PHONY: sql@test
+sql@test: ## Execute the given SQL query and output the results (TEST) - $ make sql@test [q=<query>] - Example: $ make sql@test q="SELECT * FROM user"
+	@$(eval q ?=)
+	$(CONSOLE) doctrine:query:sql "$(q)" --env=test
+
+##
+
+.PHONY: sql_tables
+# @see https://stackoverflow.com/questions/769683/how-to-show-tables-in-postgresql
+sql_tables: ## Show all tables
+	$(MAKE) -s sql q="SELECT * FROM pg_catalog.pg_tables;"
+
+.PHONY: sql_tables@test
+sql_tables@test: ## Show all tables (TEST)
+	$(MAKE) -s sql@test q="SELECT * FROM pg_catalog.pg_tables;"
+
 ## — COMPOSER 🧙 ——————————————————————————————————————————————————————————————
 
 .PHONY: composer
