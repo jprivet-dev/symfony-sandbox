@@ -252,7 +252,6 @@ list: ## Display a list of all available migrations and their status
 execute: ## Execute one or more migration versions up or down manually - $ make execute p=<params> - Example: $ make execute p="DoctrineMigrations\Version20240205143239"
 	@$(eval p ?=)
 	$(CONSOLE) doctrine:migrations:execute $(p)
-	$(MAKE) -s --ignore-errors validate p="$(p)"
 
 .PHONY: generate
 generate: ## Generate a blank migration class
