@@ -132,7 +132,7 @@ Do you want to execute this recipe?
 (defaults to n): y
 ```
 
-#### Configure PHP_CodeSniffer in PhpStorm
+#### Configure PhpStorm
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHP_CodeSniffer area** and switch `ON` the tool.
@@ -147,6 +147,28 @@ Do you want to execute this recipe?
 - https://github.com/PHPCSStandards/PHP_CodeSniffer/
 - https://github.com/symfony/recipes-contrib/tree/main/squizlabs/php_codesniffer
 - https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html#installing-configuring-code-sniffer
+
+### PHP Mess Detector
+
+#### Installation
+
+```
+composer require --dev phpmd/phpmd
+```
+
+#### Configure PhpStorm
+
+- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
+- Expand the **PHP Mess Detector** area and switch `ON` the tool.
+- In **Configuration**, choose **By default project interpreter**.
+- In **Custom rulesets**, click on `+` button and choose the `phpmd.xml` file of this repository.
+- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
+
+#### Resources
+
+- https://github.com/phpmd/phpmd
+- https://packagist.org/packages/phpmd/phpmd
+- https://www.jetbrains.com/help/phpstorm/using-php-mess-detector.html
 
 ## Troubleshooting
 
