@@ -67,6 +67,40 @@ These variables will be taken into account by the `make` commands.
 
 > As the variables are common to the `Makefile` and `docker compose`, I'm not attaching an environment file with the `--env-file` option at the moment. See https://docs.docker.com/compose/how-tos/environment-variables/.
 
+## PHPStorm configuration
+
+> The following configuration are provided for PHPStorm 2023.2.1
+
+### Docker Compose-based remote PHP interpreter
+
+1. Go on **Settings (Ctrl+Alt+S) > PHP**.
+2. In the **PHP** section:
+   - Click on `…`, next to the **CLI Interpreter** list.
+3. In the **CLI Interpreters** dialog:
+   - Click on `+`.
+4. In the **Select CLI Interpreters** dialog:
+   - Select **From Docker, Vagrant, VM, WSL, Remote…​**.
+5. In the **Configure Remote PHP Interpreter** dialog:
+   - Select **Docker Compose**.
+   - Click on `New...`:
+     - Name: Docker
+     - Unix socket: `default unix:///.../docker.sock`.
+     - Click on `OK`.
+   - Server: Docker
+   - Click on **Configuration files**:
+     - In the **Docker Compose Configuration Files** dialog:
+       - Clic `+` and choose `.../symfony-sandbox/compose.yaml`
+       - Clic `+` and choose `.../symfony-sandbox/compose-override.yaml`
+       - Click on `OK`.
+   - Service: php
+   - PHP interpreter path: php
+   - Click on `OK`.
+6. In the **CLI Interpreters**:
+   - Lifecycle: Connect to existing container
+   - Click on `OK`.
+7. In the **Settings** dialog:
+   - Click on `OK`.
+
 ## Troubleshooting
 
 ### Error "address already in use" or "port is already allocated"
