@@ -93,6 +93,10 @@ CONTAINER_PHP = $(EXEC) php
 PHP           = $(CONTAINER_PHP) php
 COMPOSER      = $(CONTAINER_PHP) composer
 CONSOLE       = $(PHP) bin/console
+PHPMETRICS    = $(PHP) vendor/bin/phpmetrics
+
+PHPMETRICS_REPORT = build/phpmetrics-report
+PHPMETRICS_PARSE  = src
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
 
@@ -370,6 +374,22 @@ docker_stop_all: confirm_continue ## Stop all running containers [y/N]
 .PHONY: docker_remove_all
 docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
 	docker rm $$(docker ps -a -q)
+
+## — TESTS / QUALITY ✅ ———————————————————————————————————————————————————————
+
+.PHONY: phpmetrics
+phpmetrics: ## Run PhpMetrics - $ make phpmetrics [p=<params>] - Example: $ make phpmetrics p=--help
+	@$(eval p ?=)
+	$(PHPMETRICS) $(p)
+
+.PHONY: phpmetrics_report
+phpmetrics_report: ## Generate the PhpMetrics HTML report
+	@printf "\n$(Y)PhpMetrics HTML report$(S)"
+	@printf "\n$(Y)----------------------$(S)\n\n"
+	@directory=$(PHPMETRICS_REPORT)-$$(date +%Y%m%d-%H%M) \
+		&& printf "Parse $(G)$(PHPMETRICS_PARSE)$(S) and generate the PhpMetrics HTML report in the $(Y)$${directory}$(S) directory\n" \
+		&& $(PHPMETRICS) --report-html="$${directory}" $(PHPMETRICS_PARSE) \
+		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
 
 ## — GIT 🐙 ———————————————————————————————————————————————————————————————————
 

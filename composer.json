@@ -72,6 +72,7 @@
         }
     },
     "require-dev": {
+        "phpmetrics/phpmetrics": "2.8.1",
         "symfony/maker-bundle": "^1.61"
     }
 }
