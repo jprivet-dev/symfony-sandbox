@@ -73,6 +73,7 @@
     },
     "require-dev": {
         "phpmetrics/phpmetrics": "2.8.1",
+        "squizlabs/php_codesniffer": "*",
         "symfony/maker-bundle": "^1.61"
     }
 }

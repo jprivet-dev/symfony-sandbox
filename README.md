@@ -105,6 +105,8 @@ These variables will be taken into account by the `make` commands.
 
 ### PhpMetrics
 
+#### Installation
+
 I don't know why, but I've had this problem: : `composer require --dev phpmetrics/phpmetrics` add `"phpmetrics/phpmetrics": "^0.0.1"` in `composer.json`, and do not create `vendor/bin/phpmetrics`.
 
 I need to force the version with the following command :
@@ -119,6 +121,32 @@ composer require --dev phpmetrics/phpmetrics:2.8.1 --with-all-dependencies
 - https://github.com/phpmetrics/PhpMetrics
 - https://packagist.org/packages/phpmetrics/phpmetrics
 
+### PHP_CodeSniffer
+
+#### Installation
+
+```
+composer require --dev squizlabs/php_codesniffer=*
+Do you want to execute this recipe?
+...
+(defaults to n): y
+```
+
+#### Configure PHP_CodeSniffer in PhpStorm
+
+- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
+- Expand the **PHP_CodeSniffer area** and switch `ON` the tool.
+- In **Configuration**, choose **By default project interpreter**.
+- In **Coding standard**, select **Custom** and choose the `phpcs.xml` file of this repository.
+- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
+
+> After the configuration of PHP_CodeSniffer, PHPStorm will highlight the problematic lines in the files and can run PHP CS fixer.
+
+#### Resources
+
+- https://github.com/PHPCSStandards/PHP_CodeSniffer/
+- https://github.com/symfony/recipes-contrib/tree/main/squizlabs/php_codesniffer
+- https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html#installing-configuring-code-sniffer
 
 ## Troubleshooting
 

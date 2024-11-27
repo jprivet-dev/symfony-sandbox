@@ -20,12 +20,12 @@ class ProductController extends AbstractController
 
         $productRepository->save($product);
 
-        return new Response('Saved new product with id '.$product->getId());
+        return new Response('Saved new product with id ' . $product->getId());
     }
 
     #[Route('/product/{id}', name: 'product_show')]
     public function show(Product $product): Response
     {
-        return new Response('Check out this great product: '.$product->getName());
+        return new Response('Check out this great product: ' . $product->getName());
     }
 }
