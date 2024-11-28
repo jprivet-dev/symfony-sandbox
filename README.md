@@ -134,29 +134,11 @@ PHP_CodeSniffer is a set of two PHP scripts:
 
 #### Installation
 
-```
-composer require --dev squizlabs/php_codesniffer=*
-Do you want to execute this recipe?
-...
-(defaults to n): y
-```
-
-#### Configure PhpStorm
-
-- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
-- Expand the **PHP_CodeSniffer area** and switch `ON` the tool.
-- In **Configuration**, choose **By default project interpreter**.
-- In **Coding standard**, select **Custom** and choose the `phpcs.xml` file of this repository.
-- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
-
-> After the configuration of **PHP_CodeSniffer**, **PhpStorm** will highlight the problematic lines in the files and can run **PHP Code Beautifier and Fixer**.
+> **PHP_CodeSniffer** is not used in this project. **PHP CS Fixer** is used instead.
 
 #### Resources
 
 - https://github.com/PHPCSStandards/PHP_CodeSniffer/
-- https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki
-- https://github.com/symfony/recipes-contrib/tree/main/squizlabs/php_codesniffer
-- https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html#installing-configuring-code-sniffer
 
 ### PHP Mess Detector
 

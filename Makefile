@@ -95,8 +95,6 @@ PHP                = $(CONTAINER_PHP) php
 COMPOSER           = $(CONTAINER_PHP) composer
 CONSOLE            = $(PHP) bin/console
 PHPMETRICS         = $(PHP) vendor/bin/phpmetrics
-PHPCS              = $(PHP) vendor/bin/phpcs
-PHPCBF             = $(PHP) vendor/bin/phpcbf
 PHPCSFIXER         = $(PHP) vendor/bin/php-cs-fixer
 PHPMD              = $(PHP) vendor/bin/phpmd
 PHPSTAN            = $(PHP) vendor/bin/phpstan
@@ -109,7 +107,6 @@ PHPUNIT_XDEBUG     = $(PHP) -d xdebug.mode=coverage vendor/bin/phpunit
 
 PHPMETRICS_REPORT = build/phpmetrics-report
 PHPMETRICS_DIR    = src
-PHPCS_DIR         = src
 PHPMD_DIR         = bin,config,public,src
 PHPSTAN_DIR       = src
 PHPSTAN_CONFIG    = phpstan.dist.neon
@@ -181,9 +178,9 @@ info i: ## Show info
 	@printf "* Run $(Y). aliases$(S) to load all the project aliases.\n"
 	@printf "* Configure in your favorite IDE (see README):\n"
 	@printf "  * Docker Compose-based remote PHP interpreter\n"
-	@printf "  * PHP_CodeSniffer\n"
 	@printf "  * PHP Mess Detector\n"
 	@printf "  * PHPStan\n"
+	@printf "  * PHP CS Fixer\n"
 
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 
@@ -460,20 +457,6 @@ phpmetrics_report: ## Generate the PhpMetrics HTML report
 		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
 
 ##
-
-.PHONY: phpcs
-phpcs: ## Run PHP_CodeSniffer - $ make phpcs [p=<params>] - Example: $ make phpcs p=src/Kernel.php
-	@printf "\n$(Y)PHP_CodeSniffer$(S)"
-	@printf "\n$(Y)---------------$(S)\n\n"
-	@$(eval p ?= $(PHPCS_DIR))
-	$(PHPCS) $(p)
-
-.PHONY: phpcs_fix
-phpcs_fix: ## Run PHP Code Beautifier and Fixer - $ make phpcs_fix [p=<params>] - Example: $ make phpcs_fix p=src/Kernel.php
-	@printf "\n$(Y)PHP Code Beautifier and Fixer$(S)"
-	@printf "\n$(Y)-----------------------------$(S)\n\n"
-	@$(eval p ?= $(PHPCS_DIR))
-	$(PHPCBF) $(p)
 
 .PHONY: phpmd
 phpmd: ## Run PHP Mess Detector - $ make phpmd [p=<params>] - Example: $ make phpmd p=src/Kernel.php
