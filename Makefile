@@ -97,11 +97,15 @@ PHPMETRICS    = $(PHP) vendor/bin/phpmetrics
 PHPCS         = $(PHP) vendor/bin/phpcs
 PHPCS_FIXER   = $(PHP) vendor/bin/phpcbf
 PHPMD         = $(PHP) vendor/bin/phpmd
+PHPSTAN       = $(PHP) vendor/bin/phpstan
 
 PHPMETRICS_REPORT = build/phpmetrics-report
 PHPMETRICS_DIR    = src
 PHPCS_DIR         = src
 PHPMD_DIR         = bin,config,public,src
+PHPSTAN_DIR       = src
+PHPSTAN_CONFIG    = phpstan.dist.neon
+PHPSTAN_BASELINE  = phpstan-baseline.php
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
 
@@ -154,7 +158,7 @@ install: confirm_continue composer_install migrate permissions git_hooks_on info
 ##
 
 .PHONY: check
-check: confirm_continue composer_validate phpcs ## Check everything before you deliver [y/N]
+check: confirm_continue composer_validate phpcs phpmd ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
@@ -168,6 +172,7 @@ info i: ## Show info
 	@printf "  * Docker Compose-based remote PHP interpreter\n"
 	@printf "  * PHP_CodeSniffer\n"
 	@printf "  * PHP Mess Detector\n"
+	@printf "  * PHPStan\n"
 
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 
@@ -404,27 +409,52 @@ phpmetrics_report: ## Generate the PhpMetrics HTML report
 
 .PHONY: phpcs
 phpcs: ## Run PHP_CodeSniffer - $ make phpcs [p=<params>] - Example: $ make phpcs p=src/Kernel.php
+	@printf "\n$(Y)PHP_CodeSniffer$(S)"
+	@printf "\n$(Y)---------------$(S)\n\n"
 	@$(eval p ?= $(PHPCS_DIR))
 	$(PHPCS) $(p)
 
 .PHONY: phpcs_fix
 phpcs_fix: ## Run PHP Code Beautifier and Fixer - $ make phpcs_fix [p=<params>] - Example: $ make phpcs_fix p=src/Kernel.php
+	@printf "\n$(Y)PHP Code Beautifier and Fixer$(S)"
+	@printf "\n$(Y)-----------------------------$(S)\n\n"
 	@$(eval p ?= $(PHPCS_DIR))
 	$(PHPCS_FIXER) $(p)
 
 .PHONY: phpmd
 phpmd: ## Run PHP Mess Detector - $ make phpmd [p=<params>] - Example: $ make phpmd p=src/Kernel.php
+	@printf "\n$(Y)PHP Mess Detector$(S)"
+	@printf "\n$(Y)-----------------$(S)\n\n"
 	@$(eval p ?= $(PHPMD_DIR))
 	$(PHPMD) $(p) ansi phpmd.xml
+
+.PHONY: phpstan
+phpstan: ## Run PHPStan - $ make phpstan [p=<params>] - Example: $ make phpstan p="src tests"
+	@$(eval p ?=)
+	$(PHPSTAN) $(p)
+
+.PHONY: phpstan_analyse
+phpstan_analyse: ## Run PHPStan analyse - $ make phpstan_analyse [p=<params>] - Example: $ make phpstan_analyse p="src tests"
+	@printf "\n$(Y)PHPStan analyse$(S)"
+	@printf "\n$(Y)---------------$(S)\n\n"
+	@$(eval p ?=)
+	$(PHPSTAN) analyse -c $(PHPSTAN_CONFIG) $(p)
+
+.PHONY: phpstan_baseline
+phpstan_baseline: ## Generate PHPStan baseline - $ make phpstan_baseline [p=<params>] - Example: $ make phpstan_baseline p="src tests"
+	@printf "\n$(Y)PHPStan baseline$(S)"
+	@printf "\n$(Y)----------------$(S)\n\n"
+	@$(eval p ?=)
+	$(PHPSTAN) analyse -c $(PHPSTAN_CONFIG) $(p) --generate-baseline $(PHPSTAN_BASELINE)
 
 ## — GIT 🐙 ———————————————————————————————————————————————————————————————————
 
 .PHONY: git_hooks_on
-git_hooks_on: ## Use the hooks directory of this project
+git_hooks_on on: ## Use the hooks directory of this project
 	git config core.hooksPath hooks/
 
 .PHONY: git_hooks_off
-git_hooks_off: ## Use the default hooks directory of Git
+git_hooks_off of: ## Use the default hooks directory of Git
 	git config --unset core.hooksPath
 
 .PHONY: git_hooks_pre_push
@@ -433,7 +463,7 @@ git_hooks_pre_push: check ## Actions on pre-push
 ## — TROUBLESHOOTING 😵‍️ ———————————————————————————————————————————————————————
 
 .PHONY: permissions
-permissions: ## Run it if you cannot edit some of the project files on Linux (https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md)
+permissions p: ## Run it if you cannot edit some of the project files on Linux (https://github.com/dunglas/symfony-docker/blob/main/docs/troubleshooting.md)
 	@printf "\n$(Y)Permissions$(S)"
 	@printf "\n$(Y)-----------$(S)\n\n"
 	$(COMPOSE) run --rm php chown -R $(USER_ID):$(GROUP_ID) .

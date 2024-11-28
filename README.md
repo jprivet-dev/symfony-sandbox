@@ -190,6 +190,34 @@ composer require --dev phpmd/phpmd
 - https://packagist.org/packages/phpmd/phpmd
 - https://www.jetbrains.com/help/phpstorm/using-php-mess-detector.html
 
+### PHPStan
+
+#### About
+
+PHPStan scans your whole codebase and looks for both obvious & tricky bugs.
+
+#### Installation
+
+```
+composer require --dev phpstan/phpstan
+Do you want to execute this recipe?
+...
+(defaults to n): y
+```
+
+#### Configure PhpStorm
+
+- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
+- Expand the **PHPStan** area and switch `ON` the tool.
+- In **Configuration**, choose **By default project interpreter**.
+- In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
+- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
+
+#### Resources
+
+- https://phpstan.org/
+- https://packagist.org/packages/phpstan/phpstan-doctrine
+
 ## Troubleshooting
 
 ### Error "address already in use" or "port is already allocated"
