@@ -94,9 +94,14 @@ PHP           = $(CONTAINER_PHP) php
 COMPOSER      = $(CONTAINER_PHP) composer
 CONSOLE       = $(PHP) bin/console
 PHPMETRICS    = $(PHP) vendor/bin/phpmetrics
+PHPCS         = $(PHP) vendor/bin/phpcs
+PHPCS_FIXER   = $(PHP) vendor/bin/phpcbf
+PHPMD         = $(PHP) vendor/bin/phpmd
 
 PHPMETRICS_REPORT = build/phpmetrics-report
-PHPMETRICS_PARSE  = src
+PHPMETRICS_DIR    = src
+PHPCS_DIR         = src
+PHPMD_DIR         = bin,config,public,src
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
 
@@ -149,7 +154,7 @@ install: confirm_continue composer_install migrate permissions git_hooks_on info
 ##
 
 .PHONY: check
-check: confirm_continue composer_validate ## Check everything before you deliver [y/N]
+check: confirm_continue composer_validate phpcs ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
@@ -159,6 +164,10 @@ info i: ## Show info
 	@printf "* Go on $(G)https://$(COMPOSE_UP_SERVER_NAME)/$(S)\n"
 	@printf "* Run $(Y)make$(S) to see all shorcuts for the most common tasks.\n"
 	@printf "* Run $(Y). aliases$(S) to load all the project aliases.\n"
+	@printf "* Configure in your favorite IDE (see README):\n"
+	@printf "  * Docker Compose-based remote PHP interpreter\n"
+	@printf "  * PHP_CodeSniffer\n"
+	@printf "  * PHP Mess Detector\n"
 
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 
@@ -387,9 +396,26 @@ phpmetrics_report: ## Generate the PhpMetrics HTML report
 	@printf "\n$(Y)PhpMetrics HTML report$(S)"
 	@printf "\n$(Y)----------------------$(S)\n\n"
 	@directory=$(PHPMETRICS_REPORT)-$$(date +%Y%m%d-%H%M) \
-		&& printf "Parse $(G)$(PHPMETRICS_PARSE)$(S) and generate the PhpMetrics HTML report in the $(Y)$${directory}$(S) directory\n" \
-		&& $(PHPMETRICS) --report-html="$${directory}" $(PHPMETRICS_PARSE) \
+		&& printf "Parse $(G)$(PHPMETRICS_DIR)$(S) and generate the PhpMetrics HTML report in the $(Y)$${directory}$(S) directory\n" \
+		&& $(PHPMETRICS) --report-html="$${directory}" $(PHPMETRICS_DIR) \
 		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
+
+##
+
+.PHONY: phpcs
+phpcs: ## Run PHP_CodeSniffer - $ make phpcs [p=<params>] - Example: $ make phpcs p=src/Kernel.php
+	@$(eval p ?= $(PHPCS_DIR))
+	$(PHPCS) $(p)
+
+.PHONY: phpcs_fix
+phpcs_fix: ## Run PHP Code Beautifier and Fixer - $ make phpcs_fix [p=<params>] - Example: $ make phpcs_fix p=src/Kernel.php
+	@$(eval p ?= $(PHPCS_DIR))
+	$(PHPCS_FIXER) $(p)
+
+.PHONY: phpmd
+phpmd: ## Run PHP Mess Detector - $ make phpmd [p=<params>] - Example: $ make phpmd p=src/Kernel.php
+	@$(eval p ?= $(PHPMD_DIR))
+	$(PHPMD) $(p) ansi phpmd.xml
 
 ## — GIT 🐙 ———————————————————————————————————————————————————————————————————
 

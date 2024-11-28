@@ -67,39 +67,39 @@ These variables will be taken into account by the `make` commands.
 
 > As the variables are common to the `Makefile` and `docker compose`, I'm not attaching an environment file with the `--env-file` option at the moment. See https://docs.docker.com/compose/how-tos/environment-variables/.
 
-## PHPStorm configuration
+## PhpStorm configuration
 
-> The following configuration are provided for PHPStorm 2023.2.1
+> The following configuration are provided for PhpStorm 2023.2.1
 
 ### Docker Compose-based remote PHP interpreter
 
-1. Go on **Settings (Ctrl+Alt+S) > PHP**.
-2. In the **PHP** section:
-   - Click on `…`, next to the **CLI Interpreter** list.
-3. In the **CLI Interpreters** dialog:
-   - Click on `+`.
-4. In the **Select CLI Interpreters** dialog:
-   - Select **From Docker, Vagrant, VM, WSL, Remote…​**.
-5. In the **Configure Remote PHP Interpreter** dialog:
-   - Select **Docker Compose**.
-   - Click on `New...`:
-     - Name: Docker
-     - Unix socket: `default unix:///.../docker.sock`.
-     - Click on `OK`.
-   - Server: Docker
-   - Click on **Configuration files**:
-     - In the **Docker Compose Configuration Files** dialog:
-       - Clic `+` and choose `.../symfony-sandbox/compose.yaml`
-       - Clic `+` and choose `.../symfony-sandbox/compose-override.yaml`
-       - Click on `OK`.
-   - Service: php
-   - PHP interpreter path: php
-   - Click on `OK`.
-6. In the **CLI Interpreters**:
-   - Lifecycle: Connect to existing container
-   - Click on `OK`.
-7. In the **Settings** dialog:
-   - Click on `OK`.
+- Go on **Settings (Ctrl+Alt+S) > PHP**.
+- In the **PHP** section:
+  - Click on `…`, next to the **CLI Interpreter** list.
+- In the **CLI Interpreters** dialog:
+  - Click on `+`.
+- In the **Select CLI Interpreters** dialog:
+  - Select **From Docker, Vagrant, VM, WSL, Remote…**.
+- In the **Configure Remote PHP Interpreter** dialog:
+  - Select **Docker Compose**.
+  - Click on `New...`:
+    - Name: Docker
+    - Unix socket: `default unix:///.../docker.sock`.
+    - Click on `OK`.
+  - Server: Docker
+  - Click on **Configuration files**:
+    - In the **Docker Compose Configuration Files** dialog:
+      - Clic `+` and choose `.../symfony-sandbox/compose.yaml`
+      - Clic `+` and choose `.../symfony-sandbox/compose-override.yaml`
+      - Click on `OK`.
+  - Service: php
+  - PHP interpreter path: php
+  - Click on `OK`.
+- In the **CLI Interpreters**:
+  - Lifecycle: Connect to existing container
+    - Click on `OK`.
+- In the **Settings** dialog:
+  - Click on `OK`.
 
 ## Components / Packages
 
@@ -120,8 +120,17 @@ composer require --dev phpmetrics/phpmetrics:2.8.1 --with-all-dependencies
 - https://phpmetrics.org/
 - https://github.com/phpmetrics/PhpMetrics
 - https://packagist.org/packages/phpmetrics/phpmetrics
+- https://laravel-news.com/sharing-phpcs-rules
 
 ### PHP_CodeSniffer
+
+#### About
+
+PHP_CodeSniffer is a set of two PHP scripts:
+
+- `phpcs` (PHP_CodeSniffer) script that tokenizes PHP, JavaScript and CSS files to detect violations of a defined coding standard.
+- `phpcbf` (PHP Code Beautifier and Fixer) script automatically correct coding standard violations.
+
 
 #### Installation
 
@@ -140,15 +149,25 @@ Do you want to execute this recipe?
 - In **Coding standard**, select **Custom** and choose the `phpcs.xml` file of this repository.
 - In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
 
-> After the configuration of PHP_CodeSniffer, PHPStorm will highlight the problematic lines in the files and can run PHP CS fixer.
+> After the configuration of **PHP_CodeSniffer**, **PhpStorm** will highlight the problematic lines in the files and can run **PHP Code Beautifier and Fixer**.
 
 #### Resources
 
 - https://github.com/PHPCSStandards/PHP_CodeSniffer/
+- https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki
 - https://github.com/symfony/recipes-contrib/tree/main/squizlabs/php_codesniffer
 - https://www.jetbrains.com/help/phpstorm/using-php-code-sniffer.html#installing-configuring-code-sniffer
 
 ### PHP Mess Detector
+
+#### About
+
+PHPMD takes a given PHP source code base and look for several potential problems within that source. These problems can be things like:
+
+- Possible bugs
+- Suboptimal code
+- Overcomplicated expressions
+- Unused parameters, methods, properties
 
 #### Installation
 
@@ -166,6 +185,7 @@ composer require --dev phpmd/phpmd
 
 #### Resources
 
+- https://phpmd.org/
 - https://github.com/phpmd/phpmd
 - https://packagist.org/packages/phpmd/phpmd
 - https://www.jetbrains.com/help/phpstorm/using-php-mess-detector.html
