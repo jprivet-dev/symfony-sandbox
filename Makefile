@@ -96,14 +96,15 @@ COMPOSER           = $(CONTAINER_PHP) composer
 CONSOLE            = $(PHP) bin/console
 PHPMETRICS         = $(PHP) vendor/bin/phpmetrics
 PHPCS              = $(PHP) vendor/bin/phpcs
-PHPCS_FIXER        = $(PHP) vendor/bin/phpcbf
+PHPCBF             = $(PHP) vendor/bin/phpcbf
+PHPCSFIXER         = $(PHP) vendor/bin/php-cs-fixer
 PHPMD              = $(PHP) vendor/bin/phpmd
 PHPSTAN            = $(PHP) vendor/bin/phpstan
 PHPUNIT            = $(PHP) vendor/bin/phpunit
 PHPUNIT_XDEBUG     = $(PHP) -d xdebug.mode=coverage vendor/bin/phpunit
 
 #
-# FILES & FOLDERS
+# FILES & DIRECTORIES
 #
 
 PHPMETRICS_REPORT = build/phpmetrics-report
@@ -115,6 +116,7 @@ PHPSTAN_CONFIG    = phpstan.dist.neon
 PHPSTAN_BASELINE  = phpstan-baseline.php
 XDEBUG_INI        = /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COVERAGE_DIR      = build/coverage
+PHPCSFIXER_CONFIG = .php-cs-fixer.dist.php
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
 
@@ -167,7 +169,7 @@ install: confirm_continue composer_install migrate permissions git_hooks_on info
 ##
 
 .PHONY: check
-check: confirm_continue composer_validate phpcs phpmd ## Check everything before you deliver [y/N]
+check: confirm_continue composer_validate phpmd phpcsfixer_check ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
@@ -471,7 +473,7 @@ phpcs_fix: ## Run PHP Code Beautifier and Fixer - $ make phpcs_fix [p=<params>] 
 	@printf "\n$(Y)PHP Code Beautifier and Fixer$(S)"
 	@printf "\n$(Y)-----------------------------$(S)\n\n"
 	@$(eval p ?= $(PHPCS_DIR))
-	$(PHPCS_FIXER) $(p)
+	$(PHPCBF) $(p)
 
 .PHONY: phpmd
 phpmd: ## Run PHP Mess Detector - $ make phpmd [p=<params>] - Example: $ make phpmd p=src/Kernel.php
@@ -498,6 +500,27 @@ phpstan_baseline: ## Generate PHPStan baseline - $ make phpstan_baseline [p=<par
 	@printf "\n$(Y)----------------$(S)\n\n"
 	@$(eval p ?=)
 	$(PHPSTAN) analyse -c $(PHPSTAN_CONFIG) $(p) --generate-baseline $(PHPSTAN_BASELINE)
+
+##
+
+.PHONY: phpcsfixer
+phpcsfixer: ## Run PHP CS Fixer version - $ make phpcsfixer [p=<params>] - Example: $ make phpcsfixer p=list
+	@$(eval p ?=)
+	$(PHPCSFIXER) $(p)
+
+.PHONY: phpcsfixer_check
+phpcsfixer_check: ## Check code style
+	@printf "\n$(Y)PHP CS Fixer$(S)"
+	@printf "\n$(Y)------------$(S)\n\n"
+	$(PHPCSFIXER) --config=$(PHPCSFIXER_CONFIG) check -v
+
+.PHONY: phpcsfixer_fix
+phpcsfixer_fix: ## Fix code style
+	$(PHPCSFIXER) --config=$(PHPCSFIXER_CONFIG) fix
+
+.PHONY: phpcsfixer_version
+phpcsfixer_version: ## Show PHP CS Fixer version
+	$(PHPCSFIXER) --version
 
 ## — GIT 🐙 ———————————————————————————————————————————————————————————————————
 

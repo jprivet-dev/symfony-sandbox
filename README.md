@@ -220,9 +220,9 @@ Do you want to execute this recipe?
 
 ### PHPUnit
 
-PHPUnit is a programmer-oriented testing framework for PHP. It is an instance of the xUnit architecture for unit testing frameworks.
-
 #### About
+
+PHPUnit is a programmer-oriented testing framework for PHP. It is an instance of the xUnit architecture for unit testing frameworks.
 
 #### Installation
 
@@ -235,6 +235,31 @@ composer require --dev symfony/test-pack
 #### Resources
 
 - https://symfony.com/doc/current/testing.html
+
+### PHP Coding Standards Fixer (PHP CS Fixer)
+
+#### About
+
+The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards; whether you want to follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the Symfony one.
+
+#### Installation
+
+```
+composer require --dev friendsofphp/php-cs-fixer
+```
+
+#### Configure PhpStorm
+
+- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
+- Expand the **PHPStan** area and switch `ON` the tool.
+- In **Configuration**, choose **By default project interpreter**.
+- In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
+- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
+
+#### Resources
+
+- https://cs.symfony.com/
+- https://github.com/PHP-CS-Fixer/PHP-CS-Fixer
 
 ## Troubleshooting
 
