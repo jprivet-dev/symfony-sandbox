@@ -67,43 +67,39 @@ These variables will be taken into account by the `make` commands.
 
 > As the variables are common to the `Makefile` and `docker compose`, I'm not attaching an environment file with the `--env-file` option at the moment. See https://docs.docker.com/compose/how-tos/environment-variables/.
 
-## PhpStorm configuration
+## Docker Compose-based remote PHP interpreter
 
-> The following configuration are provided for PhpStorm 2023.2.1
+### PhpStorm
 
-### Docker Compose-based remote PHP interpreter
+1. Go on **Settings (Ctrl+Alt+S) > PHP**.
+2. In the **PHP** section, click on `…`, next to the **CLI Interpreter** list.
+3. In the **CLI Interpreters** dialog, click on `+`.
+4. In the **Select CLI Interpreters** dialog, select **From Docker, Vagrant, VM, WSL, Remote…**.
+5. In the **Configure Remote PHP Interpreter** dialog:
+   - Select **Docker**.
+   - Click on `New...`:
+       - Name: `Docker`.
+       - Unix socket: `default unix:///.../docker.sock`.
+       - Click on `OK`.
+   - Server: `Docker`.
+   - Image name: `app-php:latest`.
+   - PHP interpreter path: `php`.
+   - Click on `OK`.
+6. In the **CLI Interpreters**:
+   - Server: `Docker`.
+   - Image name: `app-php:latest`.
+   - Click on `OK`.
+7. In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
-- Go on **Settings (Ctrl+Alt+S) > PHP**.
-- In the **PHP** section:
-  - Click on `…`, next to the **CLI Interpreter** list.
-- In the **CLI Interpreters** dialog:
-  - Click on `+`.
-- In the **Select CLI Interpreters** dialog:
-  - Select **From Docker, Vagrant, VM, WSL, Remote…**.
-- In the **Configure Remote PHP Interpreter** dialog:
-  - Select **Docker Compose**.
-  - Click on `New...`:
-    - Name: Docker
-    - Unix socket: `default unix:///.../docker.sock`.
-    - Click on `OK`.
-  - Server: Docker
-  - Click on **Configuration files**:
-    - In the **Docker Compose Configuration Files** dialog:
-      - Clic `+` and choose `.../symfony-sandbox/compose.yaml`
-      - Clic `+` and choose `.../symfony-sandbox/compose-override.yaml`
-      - Click on `OK`.
-  - Service: php
-  - PHP interpreter path: php
-  - Click on `OK`.
-- In the **CLI Interpreters**:
-  - Lifecycle: Connect to existing container
-    - Click on `OK`.
-- In the **Settings** dialog:
-  - Click on `OK`.
+> That configuration is provided for PhpStorm 2023.2.1
 
 ## Components / Packages
 
 ### PhpMetrics
+
+#### About
+
+PhpMetrics provides various metrics about PHP projects.
 
 #### Installation
 
@@ -122,6 +118,31 @@ composer require --dev phpmetrics/phpmetrics:2.8.1 --with-all-dependencies
 - https://packagist.org/packages/phpmetrics/phpmetrics
 - https://laravel-news.com/sharing-phpcs-rules
 
+### PHP CS Fixer
+
+#### About
+
+The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards; whether you want to follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the Symfony one.
+
+#### Installation
+
+```
+composer require --dev friendsofphp/php-cs-fixer
+```
+
+#### Configure PhpStorm
+
+- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
+- Expand the **PHPStan** area and switch `ON` the tool.
+- In **Configuration**, choose **By default project interpreter**.
+- In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
+- In the **Settings** dialog, click on `OK` or `Apply` to validate all.
+
+#### Resources
+
+- https://cs.symfony.com/
+- https://github.com/PHP-CS-Fixer/PHP-CS-Fixer
+
 ### PHP_CodeSniffer
 
 #### About
@@ -130,9 +151,6 @@ PHP_CodeSniffer is a set of two PHP scripts:
 
 - `phpcs` (PHP_CodeSniffer) script that tokenizes PHP, JavaScript and CSS files to detect violations of a defined coding standard.
 - `phpcbf` (PHP Code Beautifier and Fixer) script automatically correct coding standard violations.
-
-
-#### Installation
 
 > **PHP_CodeSniffer** is not used in this project. **PHP CS Fixer** is used instead.
 
@@ -163,7 +181,7 @@ composer require --dev phpmd/phpmd
 - Expand the **PHP Mess Detector** area and switch `ON` the tool.
 - In **Configuration**, choose **By default project interpreter**.
 - In **Custom rulesets**, click on `+` button and choose the `phpmd.xml` file of this repository.
-- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
+- In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
 #### Resources
 
@@ -193,7 +211,7 @@ Do you want to execute this recipe?
 - Expand the **PHPStan** area and switch `ON` the tool.
 - In **Configuration**, choose **By default project interpreter**.
 - In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
-- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
+- In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
 #### Resources
 
@@ -217,31 +235,6 @@ composer require --dev symfony/test-pack
 #### Resources
 
 - https://symfony.com/doc/current/testing.html
-
-### PHP Coding Standards Fixer (PHP CS Fixer)
-
-#### About
-
-The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards; whether you want to follow PHP coding standards as defined in the PSR-1, PSR-2, etc., or other community driven ones like the Symfony one.
-
-#### Installation
-
-```
-composer require --dev friendsofphp/php-cs-fixer
-```
-
-#### Configure PhpStorm
-
-- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
-- Expand the **PHPStan** area and switch `ON` the tool.
-- In **Configuration**, choose **By default project interpreter**.
-- In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
-- In the **Settings** dialog, click on `OK` or `Apply` button to validate all.
-
-#### Resources
-
-- https://cs.symfony.com/
-- https://github.com/PHP-CS-Fixer/PHP-CS-Fixer
 
 ## Troubleshooting
 
