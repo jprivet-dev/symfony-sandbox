@@ -88,16 +88,23 @@ ifeq ($(no_tty), true)
 T_FLAG = -T
 endif
 
-EXEC          = $(COMPOSE) exec $(T_FLAG)
-CONTAINER_PHP = $(EXEC) php
-PHP           = $(CONTAINER_PHP) php
-COMPOSER      = $(CONTAINER_PHP) composer
-CONSOLE       = $(PHP) bin/console
-PHPMETRICS    = $(PHP) vendor/bin/phpmetrics
-PHPCS         = $(PHP) vendor/bin/phpcs
-PHPCS_FIXER   = $(PHP) vendor/bin/phpcbf
-PHPMD         = $(PHP) vendor/bin/phpmd
-PHPSTAN       = $(PHP) vendor/bin/phpstan
+EXEC               = $(COMPOSE) exec $(T_FLAG)
+CONTAINER_PHP      = $(EXEC) php
+CONTAINER_PHP_ROOT = $(EXEC) -u 0 php
+PHP                = $(CONTAINER_PHP) php
+COMPOSER           = $(CONTAINER_PHP) composer
+CONSOLE            = $(PHP) bin/console
+PHPMETRICS         = $(PHP) vendor/bin/phpmetrics
+PHPCS              = $(PHP) vendor/bin/phpcs
+PHPCS_FIXER        = $(PHP) vendor/bin/phpcbf
+PHPMD              = $(PHP) vendor/bin/phpmd
+PHPSTAN            = $(PHP) vendor/bin/phpstan
+PHPUNIT            = $(PHP) vendor/bin/phpunit
+PHPUNIT_XDEBUG     = $(PHP) -d xdebug.mode=coverage vendor/bin/phpunit
+
+#
+# FILES & FOLDERS
+#
 
 PHPMETRICS_REPORT = build/phpmetrics-report
 PHPMETRICS_DIR    = src
@@ -106,6 +113,8 @@ PHPMD_DIR         = bin,config,public,src
 PHPSTAN_DIR       = src
 PHPSTAN_CONFIG    = phpstan.dist.neon
 PHPSTAN_BASELINE  = phpstan-baseline.php
+XDEBUG_INI        = /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COVERAGE_DIR      = build/coverage
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
 
@@ -390,6 +399,49 @@ docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
 	docker rm $$(docker ps -a -q)
 
 ## — TESTS / QUALITY ✅ ———————————————————————————————————————————————————————
+
+.PHONY: tests
+tests: confirm_continue unit ## Run all tests [y/N]
+
+.PHONY: phpunit
+phpunit: ## Run PHPUnit - $ make phpunit [p=<params>] - Example: $ make phpunit p="tests/myTest.php"
+	@$(eval p ?=)
+	$(PHPUNIT) $(p)
+
+##
+
+.PHONY: unit
+unit: confirm_continue ## Run unit tests [y/N]
+	@printf "\n$(Y)Unit tests$(S)"
+	@printf "\n$(Y)----------$(S)\n\n"
+	$(MAKE) -s xdebug_off
+	$(PHPUNIT) --testsuite unit
+
+PHONY: unit_coverage
+unit_coverage: confirm_continue ## Generate code coverage report in HTML format (unit) [y/N]
+	@printf "\n$(Y)Unit tests (coverage)$(S)"
+	@printf "\n$(Y)---------------------$(S)\n\n"
+	$(MAKE) -s xdebug_on
+	$(PHPUNIT) --testsuite unit --coverage-html $(COVERAGE_DIR)
+
+##
+
+.PHONY: xdebug_version
+xdebug_version: ## Xdebug version number
+	$(PHP) -r "var_dump(phpversion('xdebug'));"
+
+.PHONY: xdebug_on
+xdebug_on: ## Enable the Xdebug module
+	$(CONTAINER_PHP_ROOT) sed -i.default "s/^;zend_extension=/zend_extension=/" $(XDEBUG_INI)
+	@printf "$(G)>\n> Xdebug ON\n>$(S)\n"
+
+
+.PHONY: xdebug_off
+xdebug_off: ## Disable the Xdebug module
+	$(CONTAINER_PHP_ROOT) sed -i.default "s/^zend_extension=/;zend_extension=/" $(XDEBUG_INI)
+	@printf "$(R)>\n> Xdebug OFF\n>$(S)\n"
+
+##
 
 .PHONY: phpmetrics
 phpmetrics: ## Run PhpMetrics - $ make phpmetrics [p=<params>] - Example: $ make phpmetrics p=--help

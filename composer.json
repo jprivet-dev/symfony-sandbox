@@ -75,7 +75,11 @@
         "phpmd/phpmd": "^2.15",
         "phpmetrics/phpmetrics": "2.8.1",
         "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "*",
-        "symfony/maker-bundle": "^1.61"
+        "symfony/browser-kit": "7.1.*",
+        "symfony/css-selector": "7.1.*",
+        "symfony/maker-bundle": "^1.61",
+        "symfony/phpunit-bridge": "^7.1"
     }
 }

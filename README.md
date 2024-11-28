@@ -218,6 +218,24 @@ Do you want to execute this recipe?
 - https://phpstan.org/
 - https://packagist.org/packages/phpstan/phpstan-doctrine
 
+### PHPUnit
+
+PHPUnit is a programmer-oriented testing framework for PHP. It is an instance of the xUnit architecture for unit testing frameworks.
+
+#### About
+
+#### Installation
+
+```
+composer require --dev symfony/test-pack
+```
+
+#### Configure PhpStorm
+
+#### Resources
+
+- https://symfony.com/doc/current/testing.html
+
 ## Troubleshooting
 
 ### Error "address already in use" or "port is already allocated"
