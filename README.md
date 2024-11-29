@@ -35,12 +35,11 @@ git clone git@github.com:jprivet-dev/symfony-sandbox.git \
 
 ### The following times
 
-start and stop the project (Docker):
-
 ```shell
-make start
-make stop
-make restart
+make start    # Start the project
+make stop     # Stop the project
+make restart  # Stop and start the project
+make install  # Install all (for example, after an update of your curent branch)
 ```
 
 > Run `make` to see all shorcuts for the most common tasks.
