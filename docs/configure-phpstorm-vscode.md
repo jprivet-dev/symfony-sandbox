@@ -161,7 +161,9 @@ Do you want to execute this recipe?
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHPStan** area and switch `ON` the tool.
 - In **Configuration**, choose **app-php:latest**.
-- In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
+- In **Options** area:
+    - Level: `6`.
+    - Configuration file: choose the `phpstan.dist.neon` file of this repository.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
 ![phpstorm-settings-php-qualitytools-phpstan.png](img/phpstorm-settings-php-qualitytools-phpstan.png)
