@@ -320,6 +320,8 @@ composer_version: ## Composer version
 
 .PHONY: composer_validate
 composer_validate: ## Validate composer.json and composer.lock
+	@printf "\n$(Y)Composer validate$(S)"
+	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(COMPOSER) validate --strict --check-lock
 
 ##
