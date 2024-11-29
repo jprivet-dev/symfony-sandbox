@@ -218,15 +218,15 @@ dumpenv: ## Generate .env.local.php (PROD)
 
 .PHONY: db
 db: confirm_continue ## Drop and create the database and migrate (env "dev" by default) [y/N]
-	$(MAKE) -s db_drop yes_by_default=true
-	$(MAKE) -s db_create yes_by_default=true
-	$(MAKE) -s migrate yes_by_default=true
+	$(MAKE) -s db_drop no_interaction=true
+	$(MAKE) -s db_create no_interaction=true
+	$(MAKE) -s migrate no_interaction=true
 
 .PHONY: db@test
 db@test: confirm_continue ## Drop and create the database and migrate (env "test") [y/N]
-	$(MAKE) -s db_drop p="--env=test" yes_by_default=true
-	$(MAKE) -s db_create p="--env=test" yes_by_default=true
-	$(MAKE) -s migrate@test yes_by_default=true
+	$(MAKE) -s db_drop p="--env=test" no_interaction=true
+	$(MAKE) -s db_create p="--env=test" no_interaction=true
+	$(MAKE) -s migrate@test no_interaction=true
 
 .PHONY: db_drop
 db_drop: confirm_continue ## Drop the database [y/N] - $ make db_drop [p=<params>] - Example: $ make db_drop p="--env=test"
@@ -600,25 +600,25 @@ vars: ## Show variables
 ## — INTERNAL 🚧‍️ ——————————————————————————————————————————————————————————————
 
 .PHONY: confirm
-confirm: ## Display a confirmation before executing a makefile command - @$(MAKE) -s confirm question=<question> [make_yes=<command>] [make_no=<command>] [yes_by_default=<bool>]
+confirm: ## Display a confirmation before executing a makefile command - @$(MAKE) -s confirm question=<question> [make_yes=<command>] [make_no=<command>] [no_interaction=<bool>]
 	@$(if $(question),, $(error question argument is required))   # Question to display
 	@$(eval make_yes ?=)                                          # Makefile commands to execute on yes
 	@$(eval make_no ?=)                                           # Makefile commands to execute on no
-	@$(eval yes_by_default ?=)                                    # Default ‘yes’ answer
+	@$(eval no_interaction ?=)                                    # Interactive question or not
 	@\
 	question=$${question:-"Confirm?"}; \
-	if [ "$${yes_by_default}" != "true" ]; then \
+	if [ "$${no_interaction}" != "true" ]; then \
 		printf "$(G)$${question}$(S) [$(Y)y/N$(S)]: " && read answer; \
 	fi; \
 	answer=$${answer:-N}; \
-	if [ "$${answer}" = y ] || [ "$${answer}" = Y ] || [ "$${yes_by_default}" = "true" ]; then \
-		[ -z "$$make_yes" ] && printf "$(Y)(YES) no action!$(S)\n" || $(MAKE) -s $$make_yes yes_by_default=true; \
+	if [ "$${answer}" = y ] || [ "$${answer}" = Y ] || [ "$${no_interaction}" = "true" ]; then \
+		[ -z "$$make_yes" ] && printf "$(Y)(YES) no action!$(S)\n" || $(MAKE) -s $$make_yes no_interaction=true; \
 	else \
 		[ -z "$$make_no" ] && printf "$(Y)(NO) no action!$(S)\n" || $(MAKE) -s $$make_no; \
 	fi
 
 PHONY: confirm_continue
 confirm_continue: ## Display a confirmation before continuing [y/N]
-	@$(eval yes_by_default ?=) # Default ‘yes’ answer
-	@if [ "$${yes_by_default}" = "true" ]; then exit 0; fi; \
+	@$(eval no_interaction ?=) # Interactive question or not
+	@if [ "$${no_interaction}" = "true" ]; then exit 0; fi; \
 	printf "$(G)Do you want to continue?$(S) [$(Y)y/N$(S)]: " && read answer && [ $${answer:-N} = y ]
