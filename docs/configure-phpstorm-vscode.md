@@ -107,11 +107,7 @@ PHP_CodeSniffer is a set of two PHP scripts:
 - `phpcs` (PHP_CodeSniffer) script that tokenizes PHP, JavaScript and CSS files to detect violations of a defined coding standard.
 - `phpcbf` (PHP Code Beautifier and Fixer) script automatically correct coding standard violations.
 
-> **PHP_CodeSniffer** is not used in this project. **PHP CS Fixer** is used instead.
-
-### VS Code
-
-TODO
+> ❌ **PHP_CodeSniffer** is not used in this project. **PHP CS Fixer** is used instead.
 
 ### Resources
 
@@ -185,6 +181,8 @@ Do you want to execute this recipe?
 - In **Configuration**, choose **By default project interpreter**.
 - In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
+
+![phpstorm-settings-php-qualitytools-phpstan.png](img%2Fphpstorm-settings-php-qualitytools-phpstan.png)
 
 ### VS Code
 
