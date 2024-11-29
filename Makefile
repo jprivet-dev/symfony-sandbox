@@ -24,6 +24,7 @@ GROUP_ID = $(shell id -g)
 PROJECT_NAME           ?= $(shell basename $(CURDIR))
 COMPOSE_BUILD_OPTS     ?=
 COMPOSE_UP_SERVER_NAME ?= $(PROJECT_NAME).localhost
+COMPOSE_UP_ENV_BASE    ?= XDEBUG_MODE=coverage SERVER_NAME=$(COMPOSE_UP_SERVER_NAME)
 COMPOSE_UP_ENV_VARS    ?=
 
 #
@@ -369,7 +370,8 @@ php_modules: ## Show compiled in modules
 .PHONY: up
 up: ## Start the container - $ make up [p=<params>] - Example: $ make up p=-d
 	@$(eval p ?=)
-	SERVER_NAME=$(COMPOSE_UP_SERVER_NAME) $(COMPOSE_UP_ENV_VARS) $(COMPOSE) up --remove-orphans --pull always $(p)
+	$(COMPOSE_UP_ENV_BASE) $(COMPOSE_UP_ENV_VARS) $(COMPOSE) up --remove-orphans --pull always $(p)
+
 .PHONY: up_d
 up_d: ## Start the container (wait for services to be running|healthy - detached mode)
 	$(MAKE) up p="--wait -d"
@@ -417,11 +419,21 @@ unit: confirm_continue ## Run unit tests [y/N]
 	$(PHPUNIT) --testsuite unit
 
 PHONY: unit_coverage
-unit_coverage: confirm_continue ## Generate code coverage report in HTML format (unit) [y/N]
+unit_coverage: confirm_continue ## Generate code coverage report in HTML format for unit tests [y/N]
 	@printf "\n$(Y)Unit tests (coverage)$(S)"
 	@printf "\n$(Y)---------------------$(S)\n\n"
 	$(MAKE) -s xdebug_on
-	$(PHPUNIT) --testsuite unit --coverage-html $(COVERAGE_DIR)
+	@directory=$(COVERAGE_DIR)-$$(date +%Y%m%d-%H%M) \
+		&& printf "Generate code coverage report in the $(Y)$${directory}$(S) directory.\n" \
+		&& $(PHPUNIT_XDEBUG) --testsuite unit --coverage-html $${directory} \
+		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
+
+.PHONY: unit_dox
+unit_dox: confirm_continue ## Report test execution progress in TestDox format for unit tests [y/N]
+	@printf "\n$(Y)Unit tests (testdox)$(S)"
+	@printf "\n$(Y)--------------------$(S)\n\n"
+	$(MAKE) -s xdebug_off
+	$(PHPUNIT) --testsuite unit --testdox
 
 ##
 
@@ -452,7 +464,7 @@ phpmetrics_report: ## Generate the PhpMetrics HTML report
 	@printf "\n$(Y)PhpMetrics HTML report$(S)"
 	@printf "\n$(Y)----------------------$(S)\n\n"
 	@directory=$(PHPMETRICS_REPORT)-$$(date +%Y%m%d-%H%M) \
-		&& printf "Parse $(G)$(PHPMETRICS_DIR)$(S) and generate the PhpMetrics HTML report in the $(Y)$${directory}$(S) directory\n" \
+		&& printf "Parse $(G)$(PHPMETRICS_DIR)$(S) and generate the PhpMetrics HTML report in the $(Y)$${directory}$(S) directory.\n" \
 		&& $(PHPMETRICS) --report-html="$${directory}" $(PHPMETRICS_DIR) \
 		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
 

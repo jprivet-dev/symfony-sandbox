@@ -11,6 +11,9 @@ class TrueTest extends TestCase
     {
         $product = new Product();
         $product->setName('__NAME__');
+        $product->setPrice(2000);
+
         $this->assertSame('__NAME__', $product->getName());
+        $this->assertSame(2000, $product->getPrice());
     }
 }

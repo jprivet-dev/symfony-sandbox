@@ -76,19 +76,30 @@ These variables will be taken into account by the `make` commands.
 3. In the **CLI Interpreters** dialog, click on `+`.
 4. In the **Select CLI Interpreters** dialog, select **From Docker, Vagrant, VM, WSL, Remote…**.
 5. In the **Configure Remote PHP Interpreter** dialog:
-   - Select **Docker**.
-   - Click on `New...`:
-       - Name: `Docker`.
-       - Unix socket: `default unix:///.../docker.sock`.
-       - Click on `OK`.
-   - Server: `Docker`.
-   - Image name: `app-php:latest`.
-   - PHP interpreter path: `php`.
-   - Click on `OK`.
-6. In the **CLI Interpreters**:
-   - Server: `Docker`.
-   - Image name: `app-php:latest`.
-   - Click on `OK`.
+    - Select **Docker Compose**.
+    - Click on **Server** `New...`:
+        - Name: `Docker`.
+        - Unix socket: `default unix:///.../docker.sock`.
+        - Click on `OK`.
+    - Server: `Docker`.
+    - Click on **Configuration files**:
+        - In the **Docker Compose Configuration Files**:
+            - Click on `+` and choose `./compose.yaml` in this project.
+            - Click on `+` and choose `./compose.override.yaml` in this project.
+            - Click on `OK`.
+    - Service: `php`.
+    - Environnment variables: `XDEBUG_MODE=coverage`.
+    - PHP interpreter path: `php`.
+    - Click on `OK`.
+6. In the **CLI Interpreters** dialog:
+    - In the **Docker Compose** area:
+        - Server: `Docker`.
+    - Configuration files: `./compose.yaml; ./compose.override.yaml`
+    - Service: `php`.
+    - Environnment variables: `XDEBUG=coverage`.
+    - In the **Lifecycle** area:
+        - Choose `Connect to existing container ('docker-compose exec')`.
+    - Click on `OK`.
 7. In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
 > That configuration is provided for PhpStorm 2023.2.1
@@ -130,7 +141,7 @@ The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow sta
 composer require --dev friendsofphp/php-cs-fixer
 ```
 
-#### Configure PhpStorm
+#### PhpStorm
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHPStan** area and switch `ON` the tool.
@@ -175,13 +186,21 @@ PHPMD takes a given PHP source code base and look for several potential problems
 composer require --dev phpmd/phpmd
 ```
 
-#### Configure PhpStorm
+#### PhpStorm
 
-- Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
-- Expand the **PHP Mess Detector** area and switch `ON` the tool.
-- In **Configuration**, choose **By default project interpreter**.
-- In **Custom rulesets**, click on `+` button and choose the `phpmd.xml` file of this repository.
-- In the **Settings** dialog, click on `OK` or `Apply` to validate all.
+- Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
+- Click on `+` and select **PHPUnit by Remote Interpreter**.
+- In the **PHPUnit by Remote Interpreter** dialog, select `Interpreter: php`.
+- Click on `OK`.
+- In the **Settings** dialog:
+    - ClI interpreter: `app-php:latest`.
+    - In **PHPUnit library** area:
+        - Choose **Use Composer autoloader**.
+        - Path to script: `/app/vendor/autoload.php`.
+        - PHPUnit version is indicated.
+    - In **Test Runner** area:
+        - Default configuration file: `/app/phpunit.xml.dist`.
+    - Click on `OK` or `Apply` to validate all.
 
 #### Resources
 
@@ -205,7 +224,7 @@ Do you want to execute this recipe?
 (defaults to n): y
 ```
 
-#### Configure PhpStorm
+#### PhpStorm
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHPStan** area and switch `ON` the tool.
@@ -230,11 +249,29 @@ PHPUnit is a programmer-oriented testing framework for PHP. It is an instance of
 composer require --dev symfony/test-pack
 ```
 
-#### Configure PhpStorm
+#### PhpStorm
+
+- Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
+- Click on `+` and select **PHPUnit by Remote Interpreter**.
+- In the **PHPUnit by Remote Interpreter** dialog:
+    - Select `Interpreter: php`.
+    - Click on `OK`.
+- In the **Settings** dialog:
+    - ClI interpreter: `php`.
+    - In the **PHPUnit library** area:
+        - Choose **Use Composer autoloader**.
+        - Path to script: `/app/vendor/autoload.php`.
+        - PHPUnit version is indicated after the click on refresh button.
+    - In the **Test Runner** area:
+        - Default configuration file: `/app/phpunit.xml.dist`.
+    - Click on `OK` or `Apply` to validate all.
 
 #### Resources
 
+- https://phpunit.de/
 - https://symfony.com/doc/current/testing.html
+- https://www.jetbrains.com/help/phpstorm/using-phpunit-framework.html
+- https://github.com/dunglas/symfony-docker/blob/main/docs/xdebug.md
 
 ## Troubleshooting
 
