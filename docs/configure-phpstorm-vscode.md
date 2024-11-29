@@ -2,6 +2,8 @@
 
 ⬅️ [Go back to README](..%2FREADME.md)
 
+> This configuration is provided for PhpStorm 2023.2.1
+
 ## Docker Compose-based remote PHP interpreter
 
 ### About
@@ -38,34 +40,13 @@ This is the main configuration to be made before any others.
 
 ![phpstorm-settings-php.png](img%2Fphpstorm-settings-php.png)
 
-> That configuration is provided for PhpStorm 2023.2.1
-
 ### VS Code
 
 TODO
 
-## PhpMetrics
-
-### About
-
-PhpMetrics provides various metrics about PHP projects.
-
-### Installation
-
-I don't know why, but I've had this problem: : `composer require --dev phpmetrics/phpmetrics` add `"phpmetrics/phpmetrics": "^0.0.1"` in `composer.json`, and do not create `vendor/bin/phpmetrics`.
-
-I need to force the version with the following command :
-
-```
-composer require --dev phpmetrics/phpmetrics:2.8.1 --with-all-dependencies
-```
-
 ### Resources
 
-- https://phpmetrics.org/
-- https://github.com/phpmetrics/PhpMetrics
-- https://packagist.org/packages/phpmetrics/phpmetrics
-- https://laravel-news.com/sharing-phpcs-rules
+- https://www.jetbrains.com/help/phpstorm/configuring-remote-interpreters.html
 
 ## PHP CS Fixer
 
