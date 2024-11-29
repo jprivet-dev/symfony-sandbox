@@ -369,6 +369,11 @@ php_modules: ## Show compiled in modules
 
 ## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
 
+.PHONY: compose
+compose: ## Execute compose with default options - $ make compose [p=<params>] - Example: $ make compose p=--help
+	@$(eval p ?=)
+	$(COMPOSE) $(p)
+
 .PHONY: up
 up: ## Start the container - $ make up [p=<params>] - Example: $ make up p=-d
 	@$(eval p ?=)
@@ -388,8 +393,12 @@ build: ## Build or rebuild services - $ make build [p=<params>] - Example: $ mak
 	$(COMPOSE) build $(COMPOSE_BUILD_OPTS) $(p)
 
 .PHONY: logs
-logs: ## See the container’s logs
-	$(COMPOSE) logs -f
+logs: ## View output from containers
+	$(COMPOSE) logs
+
+.PHONY: config
+config: ## Parse, resolve and render compose file in canonical format
+	$(COMPOSE) config
 
 ##
 
@@ -426,7 +435,7 @@ unit_coverage: confirm_continue ## Generate code coverage report in HTML format 
 	@printf "\n$(Y)---------------------$(S)\n\n"
 	$(MAKE) -s xdebug_on
 	@directory=$(COVERAGE_DIR)-$$(date +%Y%m%d-%H%M) \
-		&& printf "Generate code coverage report in the $(Y)$${directory}$(S) directory.\n" \
+		&& printf "Generate code coverage report in HTML format for unit tests in the $(Y)$${directory}$(S) directory.\n" \
 		&& $(PHPUNIT_XDEBUG) --testsuite unit --coverage-html $${directory} \
 		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
 
@@ -448,7 +457,6 @@ xdebug_on: ## Enable the Xdebug module
 	$(CONTAINER_PHP_ROOT) sed -i.default "s/^;zend_extension=/zend_extension=/" $(XDEBUG_INI)
 	@printf "$(G)>\n> Xdebug ON\n>$(S)\n"
 
-
 .PHONY: xdebug_off
 xdebug_off: ## Disable the Xdebug module
 	$(CONTAINER_PHP_ROOT) sed -i.default "s/^zend_extension=/;zend_extension=/" $(XDEBUG_INI)
@@ -462,7 +470,7 @@ phpmetrics: ## Run PhpMetrics - $ make phpmetrics [p=<params>] - Example: $ make
 	$(PHPMETRICS) $(p)
 
 .PHONY: phpmetrics_report
-phpmetrics_report: ## Generate the PhpMetrics HTML report
+phpmetrics_report: confirm_continue ## Generate the PhpMetrics HTML report
 	@printf "\n$(Y)PhpMetrics HTML report$(S)"
 	@printf "\n$(Y)----------------------$(S)\n\n"
 	@directory=$(PHPMETRICS_REPORT)-$$(date +%Y%m%d-%H%M) \

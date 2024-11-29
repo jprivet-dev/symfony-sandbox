@@ -62,15 +62,18 @@ function aliases_info() {
 
 function aliases_create_all() {
   aliases_title
+  aliases_create compose
   aliases_create symfony
   aliases_create sf
   aliases_create composer
   aliases_create php
+  aliases_create ppunit
   aliases_info
 }
 
 function aliases_delete_all() {
   aliases_title
+  aliases_delete compose
   aliases_delete symfony
   aliases_delete sf
   aliases_delete composer
