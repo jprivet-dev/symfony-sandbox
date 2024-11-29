@@ -1,6 +1,6 @@
 # Configure PhpStorm & VS Code
 
-⬅️ [Go back to README](..%2FREADME.md)
+⬅️ [Go back to README](../README.md)
 
 > This configuration is provided for PhpStorm 2023.2.1
 
@@ -38,7 +38,7 @@ This is the main configuration to be made before any others.
     - Click on `OK`.
 7. In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
-![phpstorm-settings-php.png](img%2Fphpstorm-settings-php.png)
+![phpstorm-settings-php.png](img/phpstorm-settings-php.png)
 
 ### VS Code
 
@@ -69,7 +69,7 @@ composer require --dev friendsofphp/php-cs-fixer
 - In **External formatters**, choose `PHP CS Fixer`.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
-![phpstorm-settings-php-qualitytools-phpcsfixer.png](img%2Fphpstorm-settings-php-qualitytools-phpcsfixer.png)
+![phpstorm-settings-php-qualitytools-phpcsfixer.png](img/phpstorm-settings-php-qualitytools-phpcsfixer.png)
 
 ### VS Code
 
@@ -128,7 +128,7 @@ composer require --dev phpmd/phpmd
         - Default configuration file: `/app/phpunit.xml.dist`.
     - Click on `OK` or `Apply` to validate all.
 
-![phpstorm-settings-php-qualitytools-phpmessdetector.png](img%2Fphpstorm-settings-php-qualitytools-phpmessdetector.png)
+![phpstorm-settings-php-qualitytools-phpmessdetector.png](img/phpstorm-settings-php-qualitytools-phpmessdetector.png)
 
 ### VS Code
 
@@ -164,7 +164,7 @@ Do you want to execute this recipe?
 - In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
-![phpstorm-settings-php-qualitytools-phpstan.png](img%2Fphpstorm-settings-php-qualitytools-phpstan.png)
+![phpstorm-settings-php-qualitytools-phpstan.png](img/phpstorm-settings-php-qualitytools-phpstan.png)
 
 ### VS Code
 
@@ -204,7 +204,7 @@ composer require --dev symfony/test-pack
         - Default configuration file: `/opt/project/phpunit.xml.dist`.
     - Click on `OK` or `Apply` to validate all.
 
-![phpstorm-settings-php-testframeworks.png](img%2Fphpstorm-settings-php-testframeworks.png)
+![phpstorm-settings-php-testframeworks.png](img/phpstorm-settings-php-testframeworks.png)
 
 ### VS Code
 

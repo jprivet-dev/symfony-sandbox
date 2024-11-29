@@ -47,10 +47,10 @@ make restart
 
 ## Docs
 
-1. [Makefile: variables overloading](docs%2Fmakefile-variables-overloading.md)
-2. [Configure PhpStorm & VS Code](docs%2Fconfigure-phpstorm-vscode.md)
-3. [PhpMetrics](docs%2Fphpmetrics.md)
-4. [Troubleshooting](docs%2Ftroubleshooting.md)
+1. [Makefile: variables overloading](docs/makefile-variables-overloading.md)
+2. [Configure PhpStorm & VS Code](docs/configure-phpstorm-vscode.md)
+3. [PhpMetrics](docs/phpmetrics.md)
+4. [Troubleshooting](docs/troubleshooting.md)
 
 ## Main resources
 
