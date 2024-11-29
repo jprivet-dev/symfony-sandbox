@@ -82,9 +82,10 @@ composer require --dev friendsofphp/php-cs-fixer
 ### PhpStorm
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
-- Expand the **PHPStan** area and switch `ON` the tool.
-- In **Configuration**, choose **By default project interpreter**.
-- In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
+- Expand the **PHP CS Fixer** area and switch `ON` the tool.
+- In **Configuration**, choose **app-php:latest**.
+- In **Options > Ruleset**, choose the `.php-cs-fixer.dist.php` file of this repository.
+- In **External formatters**, choose `PHP CS Fixer`.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
 ![phpstorm-settings-php-qualitytools-phpcsfixer.png](img%2Fphpstorm-settings-php-qualitytools-phpcsfixer.png)
@@ -178,7 +179,7 @@ Do you want to execute this recipe?
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHPStan** area and switch `ON` the tool.
-- In **Configuration**, choose **By default project interpreter**.
+- In **Configuration**, choose **app-php:latest**.
 - In **Options > Configuration file**, choose the `phpstan.dist.neon` file of this repository.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
