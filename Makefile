@@ -100,20 +100,24 @@ PHPCSFIXER         = $(PHP) vendor/bin/php-cs-fixer
 PHPMD              = $(PHP) vendor/bin/phpmd
 PHPSTAN            = $(PHP) vendor/bin/phpstan
 PHPUNIT            = $(PHP) vendor/bin/phpunit
-PHPUNIT_XDEBUG     = $(PHP) -d xdebug.mode=coverage vendor/bin/phpunit
+PHPUNIT_XDEBUG     = XDEBUG_MODE=coverage $(PHPUNIT)
 
 #
 # FILES & DIRECTORIES
 #
 
-PHPMETRICS_REPORT = build/phpmetrics-report
+PWD               = $(shell pwd)
+NOW               = $(shell date +%Y%m%d-%H%M)
 PHPMETRICS_DIR    = src
+PHPMETRICS_REPORT = build/phpmetrics-report-$(NOW)
+PHPMETRICS_INDEX  = $(PWD)/$(PHPMETRICS_REPORT)/index.html
 PHPMD_DIR         = bin,config,public,src
 PHPSTAN_DIR       = src
 PHPSTAN_CONFIG    = phpstan.dist.neon
 PHPSTAN_BASELINE  = phpstan-baseline.php
 XDEBUG_INI        = /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-COVERAGE_DIR      = build/coverage
+COVERAGE_DIR      = build/coverage-$(NOW)
+COVERAGE_INDEX    = $(PWD)/$(COVERAGE_DIR)/index.html
 PHPCSFIXER_CONFIG = .php-cs-fixer.dist.php
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
@@ -125,7 +129,7 @@ PHPCSFIXER_CONFIG = .php-cs-fixer.dist.php
 .DEFAULT_GOAL = help
 .PHONY: help
 help: ## Print self-documented Makefile
-	@grep -E '(^[.a-zA-Z_-]+[^:]+:.*##.*?$$)|(^#{2})' Makefile \
+	@grep -E '(^[.a-zA-Z_-]+[^:]+:.*##.*?$$)|(^#{2})' Makefile \ 
 	| awk 'BEGIN {FS = "## "}; \
 		{ \
 			split($$1, line, ":"); \
@@ -426,24 +430,20 @@ phpunit: ## Run PHPUnit - $ make phpunit [p=<params>] - Example: $ make phpunit 
 unit: confirm_continue ## Run unit tests [y/N]
 	@printf "\n$(Y)Unit tests$(S)"
 	@printf "\n$(Y)----------$(S)\n\n"
-	$(MAKE) -s xdebug_off
 	$(PHPUNIT) --testsuite unit
 
 PHONY: unit_coverage
 unit_coverage: confirm_continue ## Generate code coverage report in HTML format for unit tests [y/N]
 	@printf "\n$(Y)Unit tests (coverage)$(S)"
 	@printf "\n$(Y)---------------------$(S)\n\n"
-	$(MAKE) -s xdebug_on
-	@directory=$(COVERAGE_DIR)-$$(date +%Y%m%d-%H%M) \
-		&& printf "Generate code coverage report in HTML format for unit tests in the $(Y)$${directory}$(S) directory.\n" \
-		&& $(PHPUNIT_XDEBUG) --testsuite unit --coverage-html $${directory} \
-		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
+	@printf "Generate code coverage report in HTML format for unit tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
+	$(PHPUNIT_XDEBUG) --testsuite unit --coverage-html $(COVERAGE_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
 .PHONY: unit_dox
 unit_dox: confirm_continue ## Report test execution progress in TestDox format for unit tests [y/N]
 	@printf "\n$(Y)Unit tests (testdox)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
-	$(MAKE) -s xdebug_off
 	$(PHPUNIT) --testsuite unit --testdox
 
 ##
@@ -451,16 +451,6 @@ unit_dox: confirm_continue ## Report test execution progress in TestDox format f
 .PHONY: xdebug_version
 xdebug_version: ## Xdebug version number
 	$(PHP) -r "var_dump(phpversion('xdebug'));"
-
-.PHONY: xdebug_on
-xdebug_on: ## Enable the Xdebug module
-	$(CONTAINER_PHP_ROOT) sed -i.default "s/^;zend_extension=/zend_extension=/" $(XDEBUG_INI)
-	@printf "$(G)>\n> Xdebug ON\n>$(S)\n"
-
-.PHONY: xdebug_off
-xdebug_off: ## Disable the Xdebug module
-	$(CONTAINER_PHP_ROOT) sed -i.default "s/^zend_extension=/;zend_extension=/" $(XDEBUG_INI)
-	@printf "$(R)>\n> Xdebug OFF\n>$(S)\n"
 
 ##
 
@@ -473,10 +463,9 @@ phpmetrics: ## Run PhpMetrics - $ make phpmetrics [p=<params>] - Example: $ make
 phpmetrics_report: confirm_continue ## Generate the PhpMetrics HTML report
 	@printf "\n$(Y)PhpMetrics HTML report$(S)"
 	@printf "\n$(Y)----------------------$(S)\n\n"
-	@directory=$(PHPMETRICS_REPORT)-$$(date +%Y%m%d-%H%M) \
-		&& printf "Parse $(G)$(PHPMETRICS_DIR)$(S) and generate the PhpMetrics HTML report in the $(Y)$${directory}$(S) directory.\n" \
-		&& $(PHPMETRICS) --report-html="$${directory}" $(PHPMETRICS_DIR) \
-		&& printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(shell pwd)/$${directory}/index.html$(S)\n"
+	@printf "Parse $(G)$(PHPMETRICS_DIR)$(S) and generate the PhpMetrics HTML report in the $(Y)$(PHPMETRICS_REPORT)$(S) directory.\n"
+	$(PHPMETRICS) --report-html="$(PHPMETRICS_REPORT)" $(PHPMETRICS_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(PHPMETRICS_INDEX)$(S)\n"
 
 ##
 
