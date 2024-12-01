@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Repository\ProductRepository;
+use App\Service\ProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,21 +11,21 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'product_create')]
-    public function create(ProductRepository $productRepository): Response
+    public function create(ProductService $productService): Response
     {
-        $product = new Product();
-        $product->setName('Keyboard');
-        $product->setPrice(1999);
-        $product->setDescription('Ergonomic and stylish!');
-
-        $productRepository->save($product);
-
-        return new Response('Saved new product with id '.$product->getId());
+        return new Response('Saved new product with id '.$productService->create()->getId());
     }
 
     #[Route('/product/{id}', name: 'product_show')]
     public function show(Product $product): Response
     {
         return new Response('Check out this great product: '.$product->getName());
+    }
+
+    #[Route('/product/{id}/remove', name: 'product_remove')]
+    public function remove(Product $product, ProductService $productService): Response
+    {
+        $productService->remove($product);
+        return new Response('Remove this product: '. $product->getName());
     }
 }
