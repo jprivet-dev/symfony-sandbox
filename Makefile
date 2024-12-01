@@ -182,10 +182,11 @@ info i: ## Show info
 	@printf "* Run $(Y)make$(S) to see all shorcuts for the most common tasks.\n"
 	@printf "* Run $(Y). aliases$(S) to load all the project aliases.\n"
 	@printf "* Configure in your favorite IDE (see README):\n"
-	@printf "  * Docker Compose-based remote PHP interpreter\n"
+	@printf "  * Remote PHP interpreter (Docker)\n"
+	@printf "  * PHP CS Fixer\n"
 	@printf "  * PHP Mess Detector\n"
 	@printf "  * PHPStan\n"
-	@printf "  * PHP CS Fixer\n"
+	@printf "  * PHPUnit\n"
 
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 

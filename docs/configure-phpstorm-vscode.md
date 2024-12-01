@@ -4,39 +4,42 @@
 
 > This configuration is provided for PhpStorm 2023.2.1
 
-## Docker Compose-based remote PHP interpreter
+## Remote PHP interpreter (Docker)
 
 ### About
 
-This is the main configuration to be made before any others.
+You can access a PHP interpreter installed in a Docker container. This is the main configuration to be made before any others.
 
 ### PhpStorm
 
-1. Go on **Settings (Ctrl+Alt+S) > PHP**.
-2. In the **PHP** section, click on `…`, next to the **CLI Interpreter** list.
-3. In the **CLI Interpreters** dialog, click on `+`.
-4. In the **Select CLI Interpreters** dialog, select **From Docker, Vagrant, VM, WSL, Remote…**.
-5. In the **Configure Remote PHP Interpreter** dialog:
-    - Select **Docker**.
-    - Click on **Server** `New...`:
+- Go on **Settings (Ctrl+Alt+S) > Build, Execution, Deployment > Docker**.
+    - Click on `+`:
         - Name: `Docker`.
         - Unix socket: `default unix:///.../docker.sock`.
-        - Click on `OK`.
-    - Server: `Docker`.
-    - Image name: `app-php:latest`.
-    - PHP interpreter path: `php`.
     - Click on `OK`.
-6. In the **CLI Interpreters** dialog:
-    - In the **Docker** area:
+
+![phpstorm-settings-buildexecutiondeployment-docker.png](img%2Fphpstorm-settings-buildexecutiondeployment-docker.png)
+
+- Go on **Settings (Ctrl+Alt+S) > PHP**.
+    - In the **PHP** section, click on `…`, next to the **CLI Interpreter** list.
+    - In the **CLI Interpreters** dialog, click on `+`.
+    - In the **Select CLI Interpreters** dialog, select **From Docker, Vagrant, VM, WSL, Remote…**.
+    - In the **Configure Remote PHP Interpreter** dialog:
         - Server: `Docker`.
         - Image name: `app-php:latest`.
-    - In the **General** area:
-        - PHP executable: `php`.
-        - Configuration file: empty.
-        - PHP version is dynamically indicated.
-        - Configuration file is dynamically indicated.
-    - Click on `OK`.
-7. In the **Settings** dialog, click on `OK` or `Apply` to validate all.
+        - PHP interpreter path: `php`.
+        - Click on `OK`.
+    - In the **CLI Interpreters** dialog:
+        - In the **Docker** area:
+            - Server: `Docker`.
+            - Image name: `app-php:latest`.
+        - In the **General** area:
+            - PHP executable: `php`.
+            - Configuration file: empty.
+            - PHP version is dynamically indicated.
+            - Configuration file is dynamically indicated.
+        - Click on `OK`.
+- In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
 ![phpstorm-settings-php.png](img/phpstorm-settings-php.png)
 
@@ -208,6 +211,8 @@ composer require --dev symfony/test-pack
 
 ![phpstorm-settings-php-testframeworks.png](img/phpstorm-settings-php-testframeworks.png)
 
+#### Run tests
+
 ### VS Code
 
 TODO
@@ -218,3 +223,4 @@ TODO
 - https://symfony.com/doc/current/testing.html
 - https://www.jetbrains.com/help/phpstorm/using-phpunit-framework.html
 - https://github.com/dunglas/symfony-docker/blob/main/docs/xdebug.md
+- https://www.youtube.com/watch?v=I7aGWO6K3Ho
