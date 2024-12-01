@@ -1,0 +1,11 @@
+### Create a product
+GET {{url}}/product
+Accept: application/json
+
+### Show a product by id
+GET {{url}}/product/{{product_id}}
+Accept: application/json
+
+### Remove a product by id
+GET {{url}}/product/{{product_id}}/remove
+Accept: application/json
