@@ -32,7 +32,7 @@ class ProductServiceTest extends TestCase
     public function testRemove(): void
     {
         $product = new Product();
-        
+
         $this->productRepository
             ->expects(self::once())
             ->method('remove')

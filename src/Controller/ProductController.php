@@ -26,6 +26,7 @@ class ProductController extends AbstractController
     public function remove(Product $product, ProductService $productService): Response
     {
         $productService->remove($product);
-        return new Response('Remove this product: '. $product->getName());
+
+        return new Response('Remove this product: '.$product->getName());
     }
 }
