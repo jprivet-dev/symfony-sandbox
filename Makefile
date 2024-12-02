@@ -486,8 +486,33 @@ unit_dox: confirm_continue ## Report test execution progress in TestDox format f
 
 ##
 
+.PHONY: integration
+integration: confirm_continue integration_setup ## Run integration tests [y/N]
+	@printf "\n$(Y)Integration tests$(S)"
+	@printf "\n$(Y)-----------------$(S)\n\n"
+	$(PHPUNIT) --testsuite integration
+
+PHONY: integration_coverage
+integration_coverage: confirm_continue integration_setup ## Generate code coverage report in HTML format for integration tests [y/N]
+	@printf "\n$(Y)Integration tests (coverage)$(S)"
+	@printf "\n$(Y)----------------------------$(S)\n\n"
+	@printf "Generate code coverage report in HTML format for integration tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
+	$(PHPUNIT) --testsuite integration --coverage-html $(COVERAGE_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
+
+.PHONY: integration_dox
+integration_dox: confirm_continue ## Report test execution progress in TestDox format for integration tests [y/N]
+	@printf "\n$(Y)Integration tests (testdox)$(S)"
+	@printf "\n$(Y)---------------------------$(S)\n\n"
+	$(PHPUNIT) --testsuite integration --testdox
+
+PHONY: integration_setup
+integration_setup: confirm_continue db@test fixtures@test ## Setup before launch integration tests [y/N]
+
+##
+
 .PHONY: application
-application: confirm_continue application_setup ## Run application tests (functional) [y/N]
+application: confirm_continue application_setup ## Run application tests [y/N]
 	@printf "\n$(Y)Application tests$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application
