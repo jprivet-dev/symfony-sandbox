@@ -443,6 +443,20 @@ phpunit: ## Run PHPUnit - $ make phpunit [p=<params>] - Example: $ make phpunit 
 	@$(eval p ?=)
 	$(PHPUNIT) $(p)
 
+PHONY: coverage
+coverage: confirm_continue application_setup ## Generate code coverage report in HTML format for all tests [y/N]
+	@printf "\n$(Y)All tests (coverage)$(S)"
+	@printf "\n$(Y)--------------------$(S)\n\n"
+	@printf "Generate code coverage report in HTML format for all tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
+	$(PHPUNIT) --coverage-html $(COVERAGE_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
+
+.PHONY: dox
+dox: confirm_continue application_setup ## Report test execution progress in TestDox format for all tests [y/N]
+	@printf "\n$(Y)All tests (testdox)$(S)"
+	@printf "\n$(Y)-------------------$(S)\n\n"
+	$(PHPUNIT) --testdox
+
 ##
 
 .PHONY: unit
@@ -468,7 +482,7 @@ unit_dox: confirm_continue ## Report test execution progress in TestDox format f
 ##
 
 .PHONY: application
-application: confirm_continue ## Run application tests (functional) [y/N]
+application: confirm_continue application_setup ## Run application tests (functional) [y/N]
 	@printf "\n$(Y)Application tests$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application
@@ -480,6 +494,12 @@ application_coverage: confirm_continue application_setup ## Generate code covera
 	@printf "Generate code coverage report in HTML format for application tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
 	$(PHPUNIT) --testsuite application --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
+
+.PHONY: application_dox
+application_dox: confirm_continue ## Report test execution progress in TestDox format for application tests [y/N]
+	@printf "\n$(Y)Application tests (testdox)$(S)"
+	@printf "\n$(Y)---------------------------$(S)\n\n"
+	$(PHPUNIT) --testsuite application --testdox
 
 PHONY: application_setup
 application_setup: confirm_continue db@test fixtures@test ## Setup before launch application tests [y/N]
