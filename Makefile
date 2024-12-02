@@ -100,7 +100,6 @@ PHPCSFIXER         = $(PHP) vendor/bin/php-cs-fixer
 PHPMD              = $(PHP) vendor/bin/phpmd
 PHPSTAN            = $(PHP) vendor/bin/phpstan
 PHPUNIT            = $(PHP) vendor/bin/phpunit
-PHPUNIT_XDEBUG     = XDEBUG_MODE=coverage $(PHPUNIT)
 
 #
 # FILES & DIRECTORIES
@@ -223,12 +222,16 @@ dumpenv: ## Generate .env.local.php (PROD)
 
 .PHONY: db
 db: confirm_continue ## Drop and create the database and migrate (env "dev" by default) [y/N]
+	@printf "\n$(Y)Database init$(S)"
+	@printf "\n$(Y)-------------$(S)\n\n"
 	$(MAKE) -s db_drop no_interaction=true
 	$(MAKE) -s db_create no_interaction=true
 	$(MAKE) -s migrate no_interaction=true
 
 .PHONY: db@test
 db@test: confirm_continue ## Drop and create the database and migrate (env "test") [y/N]
+	@printf "\n$(Y)Database init (test)$(S)"
+	@printf "\n$(Y)--------------------$(S)\n\n"
 	$(MAKE) -s db_drop p="--env=test" no_interaction=true
 	$(MAKE) -s db_create p="--env=test" no_interaction=true
 	$(MAKE) -s migrate@test no_interaction=true
@@ -248,7 +251,7 @@ db_create: confirm_continue ## Create the database [y/N] - $ make db_create [p=<
 .PHONY: validate
 validate: ## Validate the mapping files - $ make validate [p=<params>] - Example: $ make validate p="--env=test"
 	@$(eval p ?=)
-	$(CONSOLE) doctrine:schema:validate -v $(p)
+	-$(CONSOLE) doctrine:schema:validate -v $(p)
 
 .PHONY: update_dump_sql
 update_dump_sql: ## Generate and output the SQL needed to synchronize the database schema with the current mapping metadata
@@ -438,7 +441,7 @@ unit_coverage: confirm_continue ## Generate code coverage report in HTML format 
 	@printf "\n$(Y)Unit tests (coverage)$(S)"
 	@printf "\n$(Y)---------------------$(S)\n\n"
 	@printf "Generate code coverage report in HTML format for unit tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
-	$(PHPUNIT_XDEBUG) --testsuite unit --coverage-html $(COVERAGE_DIR)
+	$(PHPUNIT) --testsuite unit --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
 .PHONY: unit_dox
@@ -446,6 +449,22 @@ unit_dox: confirm_continue ## Report test execution progress in TestDox format f
 	@printf "\n$(Y)Unit tests (testdox)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite unit --testdox
+
+##
+
+.PHONY: application
+application: confirm_continue ## Run application tests (functional) [y/N]
+	@printf "\n$(Y)Application tests$(S)"
+	@printf "\n$(Y)-----------------$(S)\n\n"
+	$(PHPUNIT) --testsuite application
+
+PHONY: application_coverage
+application_coverage: confirm_continue db@test ## Generate code coverage report in HTML format for application tests [y/N]
+	@printf "\n$(Y)Application tests (coverage)$(S)"
+	@printf "\n$(Y)----------------------------$(S)\n\n"
+	@printf "Generate code coverage report in HTML format for application tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
+	$(PHPUNIT) --testsuite application --coverage-html $(COVERAGE_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
 ##
 
@@ -589,6 +608,7 @@ vars: ## Show variables
 	@printf "  PROJECT_NAME          : $(PROJECT_NAME)\n"
 	@printf "  COMPOSE_BUILD_OPTS    : $(COMPOSE_BUILD_OPTS)\n"
 	@printf "  COMPOSE_UP_SERVER_NAME: $(COMPOSE_UP_SERVER_NAME)\n"
+	@printf "  COMPOSE_UP_ENV_BASE   : $(COMPOSE_UP_ENV_BASE)\n"
 	@printf "  COMPOSE_UP_ENV_VARS   : $(COMPOSE_UP_ENV_VARS)\n"
 	@printf "\n$(G)SYMFONY ENVIRONMENT VARIABLES$(S)\n"
 	@printf "  APP_ENV   : $(APP_ENV)\n"
