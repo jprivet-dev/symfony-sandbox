@@ -49,7 +49,8 @@ make install  # Install all (for example, after an update of your curent branch)
 1. [Makefile: variables overloading](docs/makefile-variables-overloading.md)
 2. [Configure PhpStorm & VS Code](docs/configure-phpstorm-vscode.md)
 3. [PhpMetrics](docs/phpmetrics.md)
-4. [Troubleshooting](docs/troubleshooting.md)
+4. [Testing](docs/testing.md)
+5. [Troubleshooting](docs/troubleshooting.md)
 
 ## Main resources
 

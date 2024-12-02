@@ -12,6 +12,8 @@ You can access a PHP interpreter installed in a Docker container. This is the ma
 
 ### PhpStorm
 
+#### 1. Connect to Docker daemon
+
 - Go on **Settings (Ctrl+Alt+S) > Build, Execution, Deployment > Docker**.
     - Click on `+`:
         - Name: `Docker`.
@@ -19,6 +21,8 @@ You can access a PHP interpreter installed in a Docker container. This is the ma
     - Click on `OK`.
 
 ![phpstorm-settings-buildexecutiondeployment-docker.png](img%2Fphpstorm-settings-buildexecutiondeployment-docker.png)
+
+#### 2. Select the PHP interpreter image
 
 - Go on **Settings (Ctrl+Alt+S) > PHP**.
     - In the **PHP** section, click on `…`, next to the **CLI Interpreter** list.
@@ -40,7 +44,7 @@ You can access a PHP interpreter installed in a Docker container. This is the ma
             - Configuration file is dynamically indicated.
         - Click on `OK`.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
-
+  Select the image of the PHP interpreter
 ![phpstorm-settings-php.png](img/phpstorm-settings-php.png)
 
 ### VS Code
@@ -122,7 +126,7 @@ composer require --dev phpmd/phpmd
 - In the **PHPUnit by Remote Interpreter** dialog, select `Interpreter: php`.
 - Click on `OK`.
 - In the **Settings** dialog:
-    - ClI interpreter: `app-php:latest`.
+    - CLI interpreter: `app-php:latest`.
     - In **PHPUnit library** area:
         - Choose **Use Composer autoloader**.
         - Path to script: `/app/vendor/autoload.php`.
@@ -194,13 +198,15 @@ composer require --dev symfony/test-pack
 
 ### PhpStorm
 
+#### If you need to use the PHP interpreter without a database
+
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.
 - In the **PHPUnit by Remote Interpreter** dialog:
-    - Select `Interpreter: app-php:latest`.
+    - Select **Interpreter**: `app-php:latest`.
     - Click on `OK`.
 - In the **Settings** dialog:
-    - ClI interpreter: `app-php:latest`.
+    - CLI interpreter: `app-php:latest`.
     - In the **PHPUnit library** area:
         - Choose **Use Composer autoloader**.
         - Path to script: `/opt/project/vendor/autoload.php`.
@@ -210,6 +216,52 @@ composer require --dev symfony/test-pack
     - Click on `OK` or `Apply` to validate all.
 
 ![phpstorm-settings-php-testframeworks.png](img/phpstorm-settings-php-testframeworks.png)
+
+#### If you need to use the PHP interpreter with a database
+
+- Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
+- Click on `+` and select **PHPUnit by Remote Interpreter**.
+- In the **PHPUnit by Remote Interpreter** dialog:
+    - Click on `…`, next to the **Interpreter** list.
+    - In the **CLI Interpreters** dialog, click on `+`:
+        - In the **Select CLI Interpreters** dialog, select **From Docker, Vagrant, VM, WSL, Remote…**.
+        - In the **Configure Remote PHP Interpreter** dialog:
+            - Select **Docker Compose**.
+            - Server: `Docker`.
+            - Configuration files: add `./compose.yaml` and `./compose.override.yaml`.
+            - Service: `php`.
+            - Environment variables: empty.
+            - PHP interpreter path: `php`.
+            - Click on `OK`.
+    - In the **CLI Interpreters** dialog:
+        - In the **Docker Compose** area:
+            - Select **Docker Compose**.
+            - Server: `Docker`.
+            - Configuration files: `./compose.yaml` and `./compose.override.yaml`.
+            - Service: `php`.
+            - Environment variables: empty.
+        - In the **Lifecycle** area:
+            - Choose `Connect to existing container ('docker-compose exec')`.
+        - In the **General** area:
+            - PHP executable: `php`.
+            - Configuration file: empty.
+            - PHP version is automaticaly indicated.
+            - Configuration file  is automaticaly indicated
+        - Click on `OK`
+- In the **PHPUnit by Remote Interpreter** dialog:
+    - Select **Interpreter**: `php`.
+    - Click on `OK`.
+- In the **Settings** dialog:
+    - CLI interpreter: `php`.
+    - In the **PHPUnit library** area:
+        - Choose **Use Composer autoloader**.
+        - Path to script: `/app/vendor/autoload.php`.
+        - PHPUnit version is automaticaly indicated.
+    - In the **Test Runner** area:
+        - Default configuration file: `/app/phpunit.xml.dist`.
+    - Click on `OK` or `Apply` to validate all.
+
+![phpstorm-settings-php-testframeworks-2.png](img%2Fphpstorm-settings-php-testframeworks-2.png)
 
 #### Run tests
 
