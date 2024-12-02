@@ -435,13 +435,18 @@ docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
 
 ## — TESTS / QUALITY ✅ ———————————————————————————————————————————————————————
 
-.PHONY: tests
-tests: confirm_continue unit ## Run all tests [y/N]
-
 .PHONY: phpunit
 phpunit: ## Run PHPUnit - $ make phpunit [p=<params>] - Example: $ make phpunit p="tests/myTest.php"
 	@$(eval p ?=)
 	$(PHPUNIT) $(p)
+
+##
+
+.PHONY: tests
+tests: confirm_continue application_setup ## Run all tests [y/N]
+	@printf "\n$(Y)All tests$(S)"
+	@printf "\n$(Y)---------$(S)\n\n"
+	$(PHPUNIT)
 
 PHONY: coverage
 coverage: confirm_continue application_setup ## Generate code coverage report in HTML format for all tests [y/N]
