@@ -294,6 +294,21 @@ generate: ## Generate a blank migration class
 
 ##
 
+.PHONY: fixtures
+fixtures: confirm_continue ## Load fixtures (CAUTION! by default the load command purges the database) [y/N] - $ make fixtures [p=<param>] - Example: $ make fixtures p="--append"
+	@printf "\n$(Y)Load fixtures$(S)"
+	@printf "\n$(Y)-------------$(S)\n\n"
+	@$(eval p ?=)
+	$(CONSOLE) doctrine:fixtures:load -n $(p)
+
+.PHONY: fixtures@test
+fixtures@test: confirm_continue ## Load fixtures (TEST) [y/N]
+	@printf "\n$(Y)Load fixtures (test)$(S)"
+	@printf "\n$(Y)--------------------$(S)\n\n"
+	$(CONSOLE) doctrine:fixtures:load -n --env=test
+
+##
+
 .PHONY: sql
 sql: ## Execute the given SQL query and output the results - $ make sql [q=<query>] - Example: $ make sql q="SELECT * FROM user"
 	@$(eval q ?=)
@@ -459,12 +474,15 @@ application: confirm_continue ## Run application tests (functional) [y/N]
 	$(PHPUNIT) --testsuite application
 
 PHONY: application_coverage
-application_coverage: confirm_continue db@test ## Generate code coverage report in HTML format for application tests [y/N]
+application_coverage: confirm_continue application_setup ## Generate code coverage report in HTML format for application tests [y/N]
 	@printf "\n$(Y)Application tests (coverage)$(S)"
 	@printf "\n$(Y)----------------------------$(S)\n\n"
 	@printf "Generate code coverage report in HTML format for application tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
 	$(PHPUNIT) --testsuite application --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
+
+PHONY: application_setup
+application_setup: confirm_continue db@test fixtures@test ## Setup before launch application tests [y/N]
 
 ##
 
