@@ -170,7 +170,7 @@ install: confirm_continue composer_install migrate permissions git_hooks_on info
 ##
 
 .PHONY: check
-check: confirm_continue composer_validate phpmd phpcsfixer_check ## Check everything before you deliver [y/N]
+check: confirm_continue composer_validate phpmd phpcsfixer_check phpstan_analyse ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
@@ -561,8 +561,8 @@ phpmetrics_report: confirm_continue ## Generate the PhpMetrics HTML report
 phpmd: ## Run PHP Mess Detector - $ make phpmd [p=<params>] - Example: $ make phpmd p=src/Kernel.php
 	@printf "\n$(Y)PHP Mess Detector$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
-	@$(eval p ?= $(PHPMD_DIR))
-	$(PHPMD) $(p) ansi phpmd.xml
+	@$(eval p ?=)
+	$(PHPMD) $(p) $(PHPMD_DIR) ansi phpmd.xml
 
 .PHONY: phpstan
 phpstan: ## Run PHPStan - $ make phpstan [p=<params>] - Example: $ make phpstan p="src tests"
