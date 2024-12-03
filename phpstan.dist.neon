@@ -5,6 +5,7 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-doctrine/rules.neon
+
 parameters:
     level: 8
     paths:
@@ -12,3 +13,5 @@ parameters:
         - config/
         - public/
         - src/
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
