@@ -14,16 +14,22 @@ PHPStan - PHP Static Analysis Tool:
 composer require --dev phpstan/phpstan
 ```
 
-PHPStan PHPUnit extensions and rules:
+PHPStan Symfony Framework extensions and rules:
 
 ```
-composer require --dev phpstan/phpstan-phpunit
+composer require --dev phpstan/phpstan-symfony
 ```
 
 Doctrine extensions for PHPStan:
 
 ```
 composer require --dev phpstan/phpstan-doctrine
+```
+
+PHPStan PHPUnit extensions and rules:
+
+```
+composer require --dev phpstan/phpstan-phpunit
 ```
 
 ## PhpStorm
@@ -34,7 +40,7 @@ composer require --dev phpstan/phpstan-doctrine
 - Expand the **PHPStan** area and switch `ON` the tool.
 - In **Configuration**, choose `app-php:latest`.
 - In **Options** area:
-    - Level: `6`.
+    - Level: `8`.
     - Configuration file: choose the `phpstan.dist.neon` file of this repository.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
@@ -48,5 +54,7 @@ TODO
 
 - https://phpstan.org/
 - https://packagist.org/packages/phpstan/phpstan-doctrine
-- https://github.com/phpstan/phpstan-phpunit
+- https://github.com/phpstan/phpstan
+- https://github.com/phpstan/phpstan-symfony
 - https://github.com/phpstan/phpstan-doctrine
+- https://github.com/phpstan/phpstan-phpunit
