@@ -1,6 +1,6 @@
 # PhpMetrics
 
-⬅️ [Go back to README](../README.md)
+⬅️ [README](../README.md)
 
 ## About
 

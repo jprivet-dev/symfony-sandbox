@@ -1,6 +1,6 @@
 # Makefile: variables overloading
 
-⬅️ [Go back to README](../README.md)
+⬅️ [README](../README.md)
 
 ## overload/.env
 

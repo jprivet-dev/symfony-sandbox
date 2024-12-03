@@ -1,6 +1,6 @@
 # Testing
 
-⬅️ [Go back to README](../README.md)
+⬅️ [README](../README.md)
 
 ## Types of Tests
 

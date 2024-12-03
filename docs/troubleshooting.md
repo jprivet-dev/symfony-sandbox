@@ -1,6 +1,6 @@
 # Troubleshooting
 
-⬅️ [Go back to README](../README.md)
+⬅️ [README](../README.md)
 
 ## Error "address already in use" or "port is already allocated"
 
