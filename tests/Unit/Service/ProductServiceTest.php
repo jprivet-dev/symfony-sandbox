@@ -25,7 +25,6 @@ class ProductServiceTest extends TestCase
             ->method('save');
 
         $product = $this->productService->create();
-
         $this->assertSame('Keyboard', $product->getName());
     }
 
