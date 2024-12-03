@@ -78,6 +78,8 @@
         "phpmd/phpmd": "^2.15",
         "phpmetrics/phpmetrics": "2.8.1",
         "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-doctrine": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.1.*",
         "symfony/css-selector": "7.1.*",
