@@ -10,7 +10,7 @@
 | Integration  | These tests test a combination of classes and commonly interact with Symfony's service container. These tests do not yet cover the fully working application, those are called _Application tests_. | KernelTestCase                                |
 | Application  | Application tests test the behavior of a complete application. They make HTTP requests (both real and simulated ones) and test that the response is as expected.                                    | WebTestCase<br>ApiTestCase<br>PantherTestCase |
 
-## Create a test
+## Create a test with Symfony
 
 ```
 php bin/console make:test
@@ -24,22 +24,23 @@ php bin/console make:test
   >
 ```
 
-## the Arrange-Act-Assert (AAA) pattern
+## The Arrange-Act-Assert (AAA) pattern
 
 ```php
 class MyTest ... {
     function test() {
-        // 1. Arrange
-        // ... all necessary preconditions and inputs.
+        // 1. ARRANGE all necessary preconditions and inputs
 
-        // 2. Act
-        // ... on the object or method under test.
+        // 2. ACT on the object or method under test
 
-        // 3. Assert
-        // ... that the expected results have occurred.
+        // 3. ASSERT that the expected results have occurred
     }
 }
 ```
+
+## Launch the tests in PhpStorm and VS Code
+
+You need to configure [PHPUnit](configure/configure-phpunit.md).
 
 ## Resources
 

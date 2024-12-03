@@ -14,7 +14,9 @@ composer require --dev symfony/test-pack
 
 ## PhpStorm
 
-### If you need to use the PHP interpreter without a database
+### Use PHP interpreter without a database (Docker)
+
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.
@@ -33,7 +35,9 @@ composer require --dev symfony/test-pack
 
 ![phpstorm-settings-php-testframeworks.png](../img/phpstorm-settings-php-test-frameworks.png)
 
-### If you need to use the PHP interpreter with a database
+### Use PHP interpreter with a database (Docker Compose)
+
+> In this case, you will configure a **remote PHP interpreter with Docker Compose**, because you will need the relationships between the containers (PHP, database, etc.), with the specifics Symfony development environment variables.
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.

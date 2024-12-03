@@ -19,6 +19,8 @@ composer require --dev phpmd/phpmd
 
 ## PhpStorm
 
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
+
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.
 - In the **PHPUnit by Remote Interpreter** dialog, select `Interpreter: php`.

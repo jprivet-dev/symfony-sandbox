@@ -14,11 +14,15 @@ composer require --dev friendsofphp/php-cs-fixer
 
 ## PhpStorm
 
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
+
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
-- Expand the **PHP CS Fixer** area and switch `ON` the tool.
-- In **Configuration**, choose **app-php:latest**.
-- In **Options > Ruleset**, choose the `.php-cs-fixer.dist.php` file of this repository.
-- In **External formatters**, choose `PHP CS Fixer`.
+- Expand the **PHP CS Fixer** area:
+    - Switch `ON` the tool.
+    - In **Configuration**, choose `app-php:latest`.
+    - In **Options > Ruleset**, choose the `.php-cs-fixer.dist.php` file of this repository.
+- In **External formatters** area:
+    - Choose `PHP CS Fixer`.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
 
 ![phpstorm-settings-php-quality-tools-phpcsfixer.png](../img/phpstorm-settings-php-quality-tools-phpcsfixer.png)
