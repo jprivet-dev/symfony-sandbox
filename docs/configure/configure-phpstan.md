@@ -20,6 +20,12 @@ PHPStan PHPUnit extensions and rules:
 composer require --dev phpstan/phpstan-phpunit
 ```
 
+Doctrine extensions for PHPStan:
+
+```
+composer require --dev phpstan/phpstan-doctrine
+```
+
 ## PhpStorm
 
 > Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
@@ -43,3 +49,4 @@ TODO
 - https://phpstan.org/
 - https://packagist.org/packages/phpstan/phpstan-doctrine
 - https://github.com/phpstan/phpstan-phpunit
+- https://github.com/phpstan/phpstan-doctrine

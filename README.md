@@ -17,12 +17,12 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 - `git clone git@github.com:jprivet-dev/symfony-sandbox.git`
 - `cd symfony-sandbox`
 - `make first`:
-    - Build fresh images.
-    - Start the containers.
-    - Install dependencies.
-    - Fix permissions.
-    - Init Git hook pre-push.
-    - Show info.
+  - Build fresh images.
+  - Start the containers.
+  - Install dependencies.
+  - Fix permissions.
+  - Init Git hook pre-push.
+  - Show info.
 - Go on https://symfony-sandbox.localhost/.
 
 All in one:
