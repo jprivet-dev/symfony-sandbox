@@ -433,7 +433,7 @@ docker_stop_all: confirm_continue ## Stop all running containers [y/N]
 docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
 	docker rm $$(docker ps -a -q)
 
-## — TESTS / QUALITY ✅ ———————————————————————————————————————————————————————
+## — TESTS ✅ —————————————————————————————————————————————————————————————————
 
 .PHONY: phpunit
 phpunit: ## Run PHPUnit - $ make phpunit [p=<params>] - Example: $ make phpunit p="tests/myTest.php"
@@ -540,7 +540,7 @@ application_setup: confirm_continue db@test fixtures@test ## Setup before launch
 xdebug_version: ## Xdebug version number
 	$(PHP) -r "var_dump(phpversion('xdebug'));"
 
-##
+## — QUALITY ✅ ———————————————————————————————————————————————————————————————
 
 .PHONY: phpmetrics
 phpmetrics: ## Run PhpMetrics - $ make phpmetrics [p=<params>] - Example: $ make phpmetrics p=--help
