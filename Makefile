@@ -266,6 +266,7 @@ update_force: ## Execute the generated SQL needed to synchronize the database sc
 .PHONY: migration
 migration: ## Create a new migration based on database changes
 	$(CONSOLE) make:migration
+	$(MAKE) -s list
 
 .PHONY: migrate
 migrate: ## Execute a migration to the latest available version - $ make migrate [p=<param>] - Example: $ make migrate p="current+3"
