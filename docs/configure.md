@@ -10,3 +10,4 @@
 4. [PHP Mess Detector](configure/configure-phpmessdetector.md)
 5. [PHPStan](configure/configure-phpstan.md)
 6. [PHPUnit](configure/configure-phpunit.md)
+7. [PostgreSQL](configure%2Fconfigure-postgresql.md)
