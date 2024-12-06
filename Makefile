@@ -92,8 +92,11 @@ endif
 EXEC               = $(COMPOSE) exec $(T_FLAG)
 CONTAINER_PHP      = $(EXEC) php
 CONTAINER_PHP_ROOT = $(EXEC) -u 0 php
+CONTAINER_DB       = $(EXEC) database
 PHP                = $(CONTAINER_PHP) php
+DB                 = $(CONTAINER_PHP) database
 COMPOSER           = $(CONTAINER_PHP) composer
+PSQL               = $(CONTAINER_DB) psql
 CONSOLE            = $(PHP) bin/console
 PHPMETRICS         = $(PHP) vendor/bin/phpmetrics
 PHPCSFIXER         = $(PHP) vendor/bin/php-cs-fixer
@@ -187,6 +190,49 @@ info i: ## Show info
 	@printf "  * PHPStan\n"
 	@printf "  * PHPUnit\n"
 
+## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
+
+.PHONY: compose
+compose: ## Execute compose with default options - $ make compose [p=<params>] - Example: $ make compose p=--help
+	@$(eval p ?=)
+	$(COMPOSE) $(p)
+
+.PHONY: up
+up: ## Start the container - $ make up [p=<params>] - Example: $ make up p=-d
+	@$(eval p ?=)
+	$(COMPOSE_UP_ENV_BASE) $(COMPOSE_UP_ENV_VARS) $(COMPOSE) up --remove-orphans --pull always $(p)
+
+.PHONY: up_d
+up_d: ## Start the container (wait for services to be running|healthy - detached mode)
+	$(MAKE) up p="--wait -d"
+
+.PHONY: down
+down: ## Stop the container
+	$(COMPOSE) down --remove-orphans
+
+.PHONY: build
+build: ## Build or rebuild services - $ make build [p=<params>] - Example: $ make build p=--no-cache
+	@$(eval p ?=)
+	$(COMPOSE) build $(COMPOSE_BUILD_OPTS) $(p)
+
+.PHONY: logs
+logs: ## View output from containers
+	$(COMPOSE) logs
+
+.PHONY: config
+config: ## Parse, resolve and render compose file in canonical format
+	$(COMPOSE) config
+
+##
+
+.PHONY: docker_stop_all
+docker_stop_all: confirm_continue ## Stop all running containers [y/N]
+	docker stop $$(docker ps -a -q)
+
+.PHONY: docker_remove_all
+docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
+	docker rm $$(docker ps -a -q)
+
 ## — SYMFONY 🎵 ———————————————————————————————————————————————————————————————
 
 .PHONY: symfony
@@ -218,7 +264,67 @@ dotenv: ## Lists all dotenv files with variables and values
 dumpenv: ## Generate .env.local.php (PROD)
 	$(COMPOSER) dump-env prod
 
-## — DOCTRINE & MYSQL 💽 ——————————————————————————————————————————————————————
+## — COMPOSER 🧙 ——————————————————————————————————————————————————————————————
+
+.PHONY: composer
+composer: ## Run composer - $ make composer [p=<params>] - Example: $ make composer p="require --dev phpunit/phpunit"
+	@$(eval p ?=)
+	$(COMPOSER) $(p)
+
+.PHONY: composer_version
+composer_version: ## Composer version
+	$(COMPOSER) --version
+
+.PHONY: composer_validate
+composer_validate: ## Validate composer.json and composer.lock
+	@printf "\n$(Y)Composer validate$(S)"
+	@printf "\n$(Y)-----------------$(S)\n\n"
+	$(COMPOSER) validate --strict --check-lock
+
+##
+
+.PHONY: composer_install
+composer_install: ## Install packages using composer
+	$(COMPOSER) install
+
+.PHONY: composer_install@prod
+composer_install@prod: ## Install packages using composer (PROD)
+	$(COMPOSER) install --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
+
+.PHONY: composer_update
+composer_update: ## Update packages using composer
+	$(COMPOSER) update
+
+.PHONY: composer_update@prod
+composer_update@prod: ## Update packages using composer (PROD)
+	$(COMPOSER) update --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
+
+##
+
+.PHONY: composer_clean
+composer_clean: ## Remove vendor/
+	rm -rf vendor
+
+## — PHP 🐘 ———————————————————————————————————————————————————————————————————
+
+.PHONY: php
+php: ## Run PHP - $ make php [p=<params>]- Example: $ make php p=--version
+	@$(eval p ?=)
+	$(PHP) $(p)
+
+.PHONY: php_sh
+php_sh: ## Connect to the PHP container
+	$(CONTAINER_PHP) sh
+
+.PHONY: php_version
+php_version: ## PHP version number
+	$(PHP) -v
+
+.PHONY: php_modules
+php_modules: ## Show compiled in modules
+	$(PHP) -m
+
+## — DOCTRINE & SQL 💽 ————————————————————————————————————————————————————————
 
 .PHONY: db
 db: confirm_continue ## Drop and create the database and migrate (env "dev" by default) [y/N]
@@ -331,108 +437,16 @@ sql_tables: ## Show all tables
 sql_tables@test: ## Show all tables (TEST)
 	$(MAKE) -s sql@test q="SELECT * FROM pg_catalog.pg_tables;"
 
-## — COMPOSER 🧙 ——————————————————————————————————————————————————————————————
+## — POSTGRESQL 💽 ————————————————————————————————————————————————————————————
 
-.PHONY: composer
-composer: ## Run composer - $ make composer [p=<params>] - Example: $ make composer p="require --dev phpunit/phpunit"
+.PHONY: psql
+psql: ## Execute psql - $ make psql [p=<params>] - Example: $ make psql p="-V"
 	@$(eval p ?=)
-	$(COMPOSER) $(p)
+	$(PSQL) $(p)
 
-.PHONY: composer_version
-composer_version: ## Composer version
-	$(COMPOSER) --version
-
-.PHONY: composer_validate
-composer_validate: ## Validate composer.json and composer.lock
-	@printf "\n$(Y)Composer validate$(S)"
-	@printf "\n$(Y)-----------------$(S)\n\n"
-	$(COMPOSER) validate --strict --check-lock
-
-##
-
-.PHONY: composer_install
-composer_install: ## Install packages using composer
-	$(COMPOSER) install
-
-.PHONY: composer_install@prod
-composer_install@prod: ## Install packages using composer (PROD)
-	$(COMPOSER) install --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
-
-.PHONY: composer_update
-composer_update: ## Update packages using composer
-	$(COMPOSER) update
-
-.PHONY: composer_update@prod
-composer_update@prod: ## Update packages using composer (PROD)
-	$(COMPOSER) update --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
-
-##
-
-.PHONY: composer_clean
-composer_clean: ## Remove vendor/
-	rm -rf vendor
-
-## — PHP 🐘 ———————————————————————————————————————————————————————————————————
-
-.PHONY: php
-php: ## Run PHP - $ make php [p=<params>]- Example: $ make php p=--version
-	@$(eval p ?=)
-	$(PHP) $(p)
-
-.PHONY: php_sh
-php_sh: ## Connect to the PHP container
-	$(CONTAINER_PHP) sh
-
-.PHONY: php_version
-php_version: ## PHP version number
-	$(PHP) -v
-
-.PHONY: php_modules
-php_modules: ## Show compiled in modules
-	$(PHP) -m
-
-## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
-
-.PHONY: compose
-compose: ## Execute compose with default options - $ make compose [p=<params>] - Example: $ make compose p=--help
-	@$(eval p ?=)
-	$(COMPOSE) $(p)
-
-.PHONY: up
-up: ## Start the container - $ make up [p=<params>] - Example: $ make up p=-d
-	@$(eval p ?=)
-	$(COMPOSE_UP_ENV_BASE) $(COMPOSE_UP_ENV_VARS) $(COMPOSE) up --remove-orphans --pull always $(p)
-
-.PHONY: up_d
-up_d: ## Start the container (wait for services to be running|healthy - detached mode)
-	$(MAKE) up p="--wait -d"
-
-.PHONY: down
-down: ## Stop the container
-	$(COMPOSE) down --remove-orphans
-
-.PHONY: build
-build: ## Build or rebuild services - $ make build [p=<params>] - Example: $ make build p=--no-cache
-	@$(eval p ?=)
-	$(COMPOSE) build $(COMPOSE_BUILD_OPTS) $(p)
-
-.PHONY: logs
-logs: ## View output from containers
-	$(COMPOSE) logs
-
-.PHONY: config
-config: ## Parse, resolve and render compose file in canonical format
-	$(COMPOSE) config
-
-##
-
-.PHONY: docker_stop_all
-docker_stop_all: confirm_continue ## Stop all running containers [y/N]
-	docker stop $$(docker ps -a -q)
-
-.PHONY: docker_remove_all
-docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
-	docker rm $$(docker ps -a -q)
+.PHONY: psql_version
+psql_version: ## Show psql version
+	$(PSQL) -V
 
 ## — TESTS ✅ —————————————————————————————————————————————————————————————————
 
