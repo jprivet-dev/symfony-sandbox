@@ -9,6 +9,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
+    public const JANE_ADMIN = 'jane_admin';
+    public const TOM_ADMIN = 'tom_admin';
+    public const JOHN_USER = 'john_user';
+
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
@@ -36,9 +40,9 @@ class UserFixtures extends Fixture
     {
         return [
             // $userData = [$username, $email, $password, $roles];
-            ['jane_admin', 'jane_admin@symfony.com', 'password', [User::ROLE_ADMIN]],
-            ['tom_admin', 'tom_admin@symfony.com', 'password', [User::ROLE_ADMIN]],
-            ['john_user', 'john_user@symfony.com', 'password', [User::ROLE_USER]],
+            [static::JANE_ADMIN, 'jane_admin@symfony.com', 'password', [User::ROLE_ADMIN]],
+            [static::TOM_ADMIN, 'tom_admin@symfony.com', 'password', [User::ROLE_ADMIN]],
+            [static::JOHN_USER, 'john_user@symfony.com', 'password', [User::ROLE_USER]],
         ];
     }
 }
