@@ -4,7 +4,8 @@
 
 Symfony experimentation area.
 
-> This project was initially generated with https://github.com/jprivet-dev/symfony-starter.
+- It was initially generated with https://github.com/jprivet-dev/symfony-starter.
+- Based primarily on [Symfony Demo Application](https://github.com/symfony/demo).
 
 ## Prerequisites
 
@@ -57,6 +58,8 @@ make install  # Install all (for example, after an update of your curent branch)
 
 - https://symfony.com/doc/current/setup/docker.html
 - https://github.com/dunglas/symfony-docker
+- https://github.com/jprivet-dev/symfony-starter
+- https://github.com/symfony/demo
 
 ## Comments, suggestions?
 
