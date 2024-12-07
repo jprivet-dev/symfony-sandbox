@@ -63,7 +63,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $posts[] = [
                 $title,
                 $this->slugger->slug($title)->lower(),
-                $this->getRandomText(),
+                $this->getRandomText(random_int(100, 255)),
                 $this->getPostContent(),
                 $date,
                 $date,
