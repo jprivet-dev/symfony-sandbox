@@ -8,11 +8,26 @@ A set of PHP & JavaScript packages to solve every day frontend problems featurin
 
 ## Installation
 
+Twig:
+
+```
+composer require symfony/twig-bundle
+```
+
+Asset Mapper & Stimulus:
+
 ```
 composer require symfony/asset-mapper symfony/stimulus-bundle
+```
+
+Live Components:
+
+```
+composer require symfony/ux-live-component
 ```
 
 ## Resources
 
 - https://ux.symfony.com/
+- https://ux.symfony.com/live-component
 
