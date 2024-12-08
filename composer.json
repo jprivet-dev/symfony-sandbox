@@ -26,7 +26,8 @@
         "symfony/twig-bundle": "7.1.*",
         "symfony/uid": "7.1.*",
         "symfony/ux-live-component": "^2.22",
-        "symfony/yaml": "7.1.*"
+        "symfony/yaml": "7.1.*",
+        "twig/intl-extra": "^3.16"
     },
     "config": {
         "allow-plugins": {
