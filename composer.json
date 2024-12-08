@@ -25,6 +25,7 @@
         "symfony/translation": "7.1.*",
         "symfony/twig-bundle": "7.1.*",
         "symfony/uid": "7.1.*",
+        "symfony/ux-live-component": "^2.22",
         "symfony/yaml": "7.1.*"
     },
     "config": {
