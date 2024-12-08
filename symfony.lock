@@ -268,5 +268,8 @@
         "files": [
             "config/packages/twig_component.yaml"
         ]
+    },
+    "twig/extra-bundle": {
+        "version": "v3.16.0"
     }
 }
