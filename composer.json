@@ -28,7 +28,8 @@
         "symfony/ux-live-component": "^2.22",
         "symfony/yaml": "7.1.*",
         "twig/extra-bundle": "^3.16",
-        "twig/intl-extra": "^3.16"
+        "twig/intl-extra": "^3.16",
+        "twig/markdown-extra": "^3.16"
     },
     "config": {
         "allow-plugins": {
