@@ -12,6 +12,8 @@ Twig:
 
 ```
 composer require symfony/twig-bundle
+composer require twig/intl-extra
+composer require twig/extra-bundle
 ```
 
 Asset Mapper & Stimulus:
