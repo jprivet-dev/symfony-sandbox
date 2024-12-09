@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    {% for post in posts %}
+        {{ include('posts/_post_summary.html.twig') }}
+    {% endfor %}
+{% endblock %}
