@@ -1,6 +1,6 @@
 # Symfony UX
 
-⬅️ [Front](../frontend.md)
+⬅️ [Frontend](../frontend.md)
 
 ## About
 

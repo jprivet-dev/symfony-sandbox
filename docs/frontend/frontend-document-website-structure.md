@@ -1,6 +1,6 @@
 # Document and website structure
 
-⬅️ [Front](../frontend.md)
+⬅️ [Frontend](../frontend.md)
 
 ## Semantic mark up
 

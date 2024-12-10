@@ -1,6 +1,6 @@
 # Accessibility
 
-⬅️ [Front](../frontend.md)
+⬅️ [Frontend](../frontend.md)
 
 ## Skip menu
 

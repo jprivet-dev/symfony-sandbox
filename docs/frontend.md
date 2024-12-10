@@ -1,4 +1,4 @@
-# Front
+# Frontend
 
 ⬅️ [README](../README.md)
 

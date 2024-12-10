@@ -1,6 +1,6 @@
 # Asset, Tailwind & Flowbite (No Node.js)
 
-⬅️ [Front](../frontend.md)
+⬅️ [Frontend](../frontend.md)
 
 ## About
 
