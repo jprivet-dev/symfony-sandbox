@@ -621,6 +621,30 @@ phpcsfixer_fix: ## Fix code style
 phpcsfixer_version: ## Show PHP CS Fixer version
 	$(PHPCSFIXER) --version
 
+## — ASSETS 🎨‍ ————————————————————————————————————————————————————————————————
+
+.PHONY: asset_compile
+asset_compile: ##  Compile all mapped assets and writes them to the final public output directory.
+	$(CONSOLE) asset-map:compile
+
+.PHONY: asset_deploy
+asset_deploy: asset_compile tailwind_minify ##  Deploy all assets.
+
+##
+
+.PHONY: tailwind_build
+tailwind_build: ##  Build the Tailwind CSS assets - $ make tailwind_build [p=<params>] - Example: $ make tailwind_build p=--help
+	@$(eval p ?=)
+	$(CONSOLE) tailwind:build $(p)
+
+.PHONY: tailwind_watch
+tailwind_watch: ##  Watch for changes and rebuild automatically.
+	$(CONSOLE) tailwind:build --watch
+
+.PHONY: tailwind_minify
+tailwind_minify: ##  Minify the output CSS.
+	$(CONSOLE) tailwind:build --minify
+
 ## — GIT 🐙 ———————————————————————————————————————————————————————————————————
 
 .PHONY: git_hooks_on
