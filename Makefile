@@ -204,7 +204,6 @@ up: ## Start the container - $ make up [p=<params>] - Example: $ make up p=-d
 	@$(eval p ?=)
 	$(COMPOSE_UP_ENV_BASE) $(COMPOSE_UP_ENV_VARS) $(COMPOSE) up --remove-orphans --pull always $(p)
 
-.PHONY: up_d
 up_d: ## Start the container (wait for services to be running|healthy - detached mode)
 	$(MAKE) up p="--wait -d"
 
@@ -227,11 +226,9 @@ config: ## Parse, resolve and render compose file in canonical format
 
 ##
 
-.PHONY: docker_stop_all
 docker_stop_all: confirm_continue ## Stop all running containers [y/N]
 	docker stop $$(docker ps -a -q)
 
-.PHONY: docker_remove_all
 docker_remove_all: confirm_continue ## Remove all stopped containers [y/N]
 	docker rm $$(docker ps -a -q)
 
@@ -273,11 +270,9 @@ composer: ## Run composer - $ make composer [p=<params>] - Example: $ make compo
 	@$(eval p ?=)
 	$(COMPOSER) $(p)
 
-.PHONY: composer_version
 composer_version: ## Composer version
 	$(COMPOSER) --version
 
-.PHONY: composer_validate
 composer_validate: ## Validate composer.json and composer.lock
 	@printf "\n$(Y)Composer validate$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
@@ -285,25 +280,20 @@ composer_validate: ## Validate composer.json and composer.lock
 
 ##
 
-.PHONY: composer_install
 composer_install: ## Install packages using composer
 	$(COMPOSER) install
 
-.PHONY: composer_install@prod
 composer_install@prod: ## Install packages using composer (PROD)
 	$(COMPOSER) install --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
 
-.PHONY: composer_update
 composer_update: ## Update packages using composer
 	$(COMPOSER) update
 
-.PHONY: composer_update@prod
 composer_update@prod: ## Update packages using composer (PROD)
 	$(COMPOSER) update --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
 
 ##
 
-.PHONY: composer_clean
 composer_clean: ## Remove vendor/
 	rm -rf vendor
 
@@ -314,15 +304,12 @@ php: ## Run PHP - $ make php [p=<params>]- Example: $ make php p=--version
 	@$(eval p ?=)
 	$(PHP) $(p)
 
-.PHONY: php_sh
 php_sh: ## Connect to the PHP container
 	$(CONTAINER_PHP) sh
 
-.PHONY: php_version
 php_version: ## PHP version number
 	$(PHP) -v
 
-.PHONY: php_modules
 php_modules: ## Show compiled in modules
 	$(PHP) -m
 
@@ -336,7 +323,6 @@ db: confirm_continue ## Drop and create the database and migrate (env "dev" by d
 	$(MAKE) -s db_create no_interaction=true
 	$(MAKE) -s migrate no_interaction=true
 
-.PHONY: db@test
 db@test: confirm_continue ## Drop and create the database and migrate (env "test") [y/N]
 	@printf "\n$(Y)Database init (test)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
@@ -344,12 +330,10 @@ db@test: confirm_continue ## Drop and create the database and migrate (env "test
 	$(MAKE) -s db_create p="--env=test" no_interaction=true
 	$(MAKE) -s migrate@test no_interaction=true
 
-.PHONY: db_drop
 db_drop: confirm_continue ## Drop the database [y/N] - $ make db_drop [p=<params>] - Example: $ make db_drop p="--env=test"
 	@$(eval p ?=)
 	$(CONSOLE) doctrine:database:drop --if-exists --force $(p)
 
-.PHONY: db_create
 db_create: confirm_continue ## Create the database [y/N] - $ make db_create [p=<params>] - Example: $ make db_create p="--env=test"
 	@$(eval p ?=)
 	$(CONSOLE) doctrine:database:create --if-not-exists $(p)
@@ -361,11 +345,9 @@ validate: ## Validate the mapping files - $ make validate [p=<params>] - Example
 	@$(eval p ?=)
 	-$(CONSOLE) doctrine:schema:validate -v $(p)
 
-.PHONY: update_dump_sql
 update_dump_sql: ## Generate and output the SQL needed to synchronize the database schema with the current mapping metadata
 	$(CONSOLE) doctrine:schema:update --dump-sql
 
-.PHONY: update_force
 update_force: ## Execute the generated SQL needed to synchronize the database schema with the current mapping metadata
 	$(CONSOLE) doctrine:schema:update --force
 
@@ -382,7 +364,6 @@ migrate: ## Execute a migration to the latest available version - $ make migrate
 	$(CONSOLE) doctrine:migrations:migrate --no-interaction --all-or-nothing $(p)
 	$(MAKE) -s --ignore-errors validate
 
-.PHONY: migrate@test
 migrate@test: ## Execute a migration to the latest available version - $ make migrate@test [p=<param>] - Example: $ make migrate@test p="current+3"
 	@$(eval p ?=)
 	$(CONSOLE) doctrine:migrations:migrate --no-interaction --all-or-nothing --env=test $(p)
@@ -410,7 +391,6 @@ fixtures: confirm_continue ## Load fixtures (CAUTION! by default the load comman
 	@$(eval p ?=)
 	$(CONSOLE) doctrine:fixtures:load -n $(p)
 
-.PHONY: fixtures@test
 fixtures@test: confirm_continue ## Load fixtures (TEST) [y/N]
 	@printf "\n$(Y)Load fixtures (test)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
@@ -423,19 +403,16 @@ sql: ## Execute the given SQL query and output the results - $ make sql [q=<quer
 	@$(eval q ?=)
 	$(CONSOLE) doctrine:query:sql "$(q)"
 
-.PHONY: sql@test
 sql@test: ## Execute the given SQL query and output the results (TEST) - $ make sql@test [q=<query>] - Example: $ make sql@test q="SELECT * FROM user"
 	@$(eval q ?=)
 	$(CONSOLE) doctrine:query:sql "$(q)" --env=test
 
 ##
 
-.PHONY: sql_tables
 # @see https://stackoverflow.com/questions/769683/how-to-show-tables-in-postgresql
 sql_tables: ## Show all tables
 	$(MAKE) -s sql q="SELECT * FROM pg_catalog.pg_tables;"
 
-.PHONY: sql_tables@test
 sql_tables@test: ## Show all tables (TEST)
 	$(MAKE) -s sql@test q="SELECT * FROM pg_catalog.pg_tables;"
 
@@ -446,7 +423,6 @@ psql: ## Execute psql - $ make psql [p=<params>] - Example: $ make psql p="-V"
 	@$(eval p ?=)
 	$(PSQL) $(p)
 
-.PHONY: psql_version
 psql_version: ## Show psql version
 	$(PSQL) -V
 
@@ -487,7 +463,6 @@ unit: confirm_continue ## Run unit tests [y/N]
 	@printf "\n$(Y)----------$(S)\n\n"
 	$(PHPUNIT) --testsuite unit
 
-PHONY: unit_coverage
 unit_coverage: confirm_continue ## Generate code coverage report in HTML format for unit tests [y/N]
 	@printf "\n$(Y)Unit tests (coverage)$(S)"
 	@printf "\n$(Y)---------------------$(S)\n\n"
@@ -495,7 +470,6 @@ unit_coverage: confirm_continue ## Generate code coverage report in HTML format 
 	$(PHPUNIT) --testsuite unit --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
-.PHONY: unit_dox
 unit_dox: confirm_continue ## Report test execution progress in TestDox format for unit tests [y/N]
 	@printf "\n$(Y)Unit tests (testdox)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
@@ -509,7 +483,6 @@ integration: confirm_continue integration_setup ## Run integration tests [y/N]
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite integration
 
-PHONY: integration_coverage
 integration_coverage: confirm_continue integration_setup ## Generate code coverage report in HTML format for integration tests [y/N]
 	@printf "\n$(Y)Integration tests (coverage)$(S)"
 	@printf "\n$(Y)----------------------------$(S)\n\n"
@@ -517,13 +490,11 @@ integration_coverage: confirm_continue integration_setup ## Generate code covera
 	$(PHPUNIT) --testsuite integration --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
-.PHONY: integration_dox
 integration_dox: confirm_continue ## Report test execution progress in TestDox format for integration tests [y/N]
 	@printf "\n$(Y)Integration tests (testdox)$(S)"
 	@printf "\n$(Y)---------------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite integration --testdox
 
-PHONY: integration_setup
 integration_setup: confirm_continue db@test fixtures@test ## Setup before launch integration tests [y/N]
 
 ##
@@ -534,7 +505,6 @@ application: confirm_continue application_setup ## Run application tests [y/N]
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application
 
-PHONY: application_coverage
 application_coverage: confirm_continue application_setup ## Generate code coverage report in HTML format for application tests [y/N]
 	@printf "\n$(Y)Application tests (coverage)$(S)"
 	@printf "\n$(Y)----------------------------$(S)\n\n"
@@ -542,18 +512,15 @@ application_coverage: confirm_continue application_setup ## Generate code covera
 	$(PHPUNIT) --testsuite application --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
-.PHONY: application_dox
 application_dox: confirm_continue ## Report test execution progress in TestDox format for application tests [y/N]
 	@printf "\n$(Y)Application tests (testdox)$(S)"
 	@printf "\n$(Y)---------------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application --testdox
 
-PHONY: application_setup
 application_setup: confirm_continue db@test fixtures@test ## Setup before launch application tests [y/N]
 
 ##
 
-.PHONY: xdebug_version
 xdebug_version: ## Xdebug version number
 	$(PHP) -r "var_dump(phpversion('xdebug'));"
 
@@ -564,7 +531,6 @@ phpmetrics: ## Run PhpMetrics - $ make phpmetrics [p=<params>] - Example: $ make
 	@$(eval p ?=)
 	$(PHPMETRICS) $(p)
 
-.PHONY: phpmetrics_report
 phpmetrics_report: confirm_continue ## Generate the PhpMetrics HTML report
 	@printf "\n$(Y)PhpMetrics HTML report$(S)"
 	@printf "\n$(Y)----------------------$(S)\n\n"
@@ -586,14 +552,12 @@ phpstan: ## Run PHPStan - $ make phpstan [p=<params>] - Example: $ make phpstan 
 	@$(eval p ?=)
 	$(PHPSTAN) $(p)
 
-.PHONY: phpstan_analyse
 phpstan_analyse: ## Run PHPStan analyse - $ make phpstan_analyse [p=<params>] - Example: $ make phpstan_analyse p="src tests"
 	@printf "\n$(Y)PHPStan analyse$(S)"
 	@printf "\n$(Y)---------------$(S)\n\n"
 	@$(eval p ?=)
 	$(PHPSTAN) analyse -c $(PHPSTAN_CONFIG) $(p)
 
-.PHONY: phpstan_baseline
 phpstan_baseline: ## Generate PHPStan baseline - $ make phpstan_baseline [p=<params>] - Example: $ make phpstan_baseline p="src tests"
 	@printf "\n$(Y)PHPStan baseline$(S)"
 	@printf "\n$(Y)----------------$(S)\n\n"
@@ -607,17 +571,14 @@ phpcsfixer: ## Run PHP CS Fixer version - $ make phpcsfixer [p=<params>] - Examp
 	@$(eval p ?=)
 	$(PHPCSFIXER) $(p)
 
-.PHONY: phpcsfixer_check
 phpcsfixer_check: ## Check code style
 	@printf "\n$(Y)PHP CS Fixer$(S)"
 	@printf "\n$(Y)------------$(S)\n\n"
 	$(PHPCSFIXER) --config=$(PHPCSFIXER_CONFIG) check -v
 
-.PHONY: phpcsfixer_fix
 phpcsfixer_fix: ## Fix code style
 	$(PHPCSFIXER) --config=$(PHPCSFIXER_CONFIG) fix
 
-.PHONY: phpcsfixer_version
 phpcsfixer_version: ## Show PHP CS Fixer version
 	$(PHPCSFIXER) --version
 
@@ -626,12 +587,10 @@ phpcsfixer_version: ## Show PHP CS Fixer version
 .PHONY: assets
 assets: importmap_install tailwind_build ##  Generate all assets.
 
-.PHONY: assets@prod
 assets@prod: asset_compile tailwind_minify ##  Deploy all assets.
 
 ##
 
-.PHONY: asset_compile
 asset_compile: ##  Compile all mapped assets and writes them to the final public output directory.
 	$(CONSOLE) asset-map:compile
 
@@ -657,30 +616,24 @@ importmap_update: ##  Update JavaScript packages to their latest versions
 
 ##
 
-.PHONY: tailwind_build
 tailwind_build: ##  Build the Tailwind CSS assets - $ make tailwind_build [p=<params>] - Example: $ make tailwind_build p=--help
 	@$(eval p ?=)
 	$(CONSOLE) tailwind:build $(p)
 
-.PHONY: tailwind_watch
 tailwind_watch: ##  Watch for changes and rebuild automatically.
 	$(CONSOLE) tailwind:build --watch
 
-.PHONY: tailwind_minify
 tailwind_minify: ##  Minify the output CSS.
 	$(CONSOLE) tailwind:build --minify
 
 ## — GIT 🐙 ———————————————————————————————————————————————————————————————————
 
-.PHONY: git_hooks_on
 git_hooks_on on: ## Use the hooks directory of this project
 	git config core.hooksPath hooks/
 
-.PHONY: git_hooks_off
 git_hooks_off of: ## Use the default hooks directory of Git
 	git config --unset core.hooksPath
 
-.PHONY: git_hooks_pre_push
 git_hooks_pre_push: check ## Actions on pre-push
 
 ## — TROUBLESHOOTING 😵‍️ ———————————————————————————————————————————————————————
@@ -694,7 +647,6 @@ permissions p: ## Run it if you cannot edit some of the project files on Linux (
 
 ## — UTILS 🛠️  —————————————————————————————————————————————————————————————————
 
-.PHONY: overload_file
 overload_file: ## Show overload file loaded into that Makefile
 	@printf "\n$(Y)Overload file$(S)"
 	@printf "\n$(Y)-------------$(S)\n\n"
@@ -705,7 +657,6 @@ else
 	@printf "* $(R)⨯$(S) overload/.env\n"
 endif
 
-.PHONY: env_files
 env_files: ## Show Symfony env files loaded into that Makefile
 	@printf "\n$(Y)Symfony env files$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
@@ -774,7 +725,6 @@ confirm: ## Display a confirmation before executing a makefile command - @$(MAKE
 		[ -z "$$make_no" ] && printf "$(Y)(NO) no action!$(S)\n" || $(MAKE) -s $$make_no; \
 	fi
 
-PHONY: confirm_continue
 confirm_continue: ## Display a confirmation before continuing [y/N]
 	@$(eval no_interaction ?=) # Interactive question or not
 	@if [ "$${no_interaction}" = "true" ]; then exit 0; fi; \
