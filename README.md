@@ -54,6 +54,7 @@ make install  # Install all (for example, after an update of your curent branch)
 5. [Troubleshooting](docs/troubleshooting.md)
 6. [Security](docs/security.md)
 7. [Symfony UX](docs/symfony-ux.md)
+8. [Front](docs%2Ffront.md)
 
 ## Main resources
 

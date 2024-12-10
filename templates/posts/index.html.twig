@@ -4,6 +4,21 @@
 
 {% block body %}
     {% for post in posts %}
-        {{ include('posts/_post_summary.html.twig') }}
+        <article>
+            <h2>
+                <a href="{{ path('post_by_slug', {slug: post.slug}) }}">
+                    {{ post.title }}
+                </a>
+            </h2>
+
+            <p>
+                <span>{{ post.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>
+                / <span>{{ post.author.username }}</span>
+            </p>
+
+            <p>
+                {{ post.summary }}
+            </p>
+        </article>
     {% endfor %}
 {% endblock %}
