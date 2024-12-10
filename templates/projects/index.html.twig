@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProjectsController!{% endblock %}
+
+{% block body %}
+    <div class="divide-y divide-gray-200 dark:divide-gray-700">
+        <div class="space-y-2 pb-8 pt-6 md:space-y-5"><h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">Projects</h1>
+            <p class="text-lg leading-7 text-gray-500 dark:text-gray-400">Showcase your projects with a hero image (16 x 9)</p></div>
+        <div class="container py-12">
+            <div class="-m-4 flex flex-wrap">
+                <div class="md max-w-[544px] p-4 md:w-1/2">
+                    <div class="h-full  overflow-hidden rounded-md border-2 border-gray-200 border-opacity-60 dark:border-gray-700"><a class="break-words" target="_blank" rel="noopener noreferrer" href="https://www.google.com" aria-label="Link to A Search Engine"><img alt="A Search Engine"
+                                                                                                                                                                                                                                                                             loading="lazy" width="544"
+                                                                                                                                                                                                                                                                             height="306"
+                                                                                                                                                                                                                                                                             decoding="async"
+                                                                                                                                                                                                                                                                             data-nimg="1"
+                                                                                                                                                                                                                                                                             class="object-cover object-center md:h-36 lg:h-48"
+                                                                                                                                                                                                                                                                             style="color:transparent"
+                                                                                                                                                                                                                                                                             srcSet=""
+                                                                                                                                                                                                                                                                             src="https://picsum.photos/id/1/544/306"/></a>
+                        <div class="p-6"><h2 class="mb-3 text-2xl font-bold leading-8 tracking-tight"><a class="break-words" target="_blank" rel="noopener noreferrer" href="https://www.google.com" aria-label="Link to A Search Engine">A Search Engine</a></h2>
+                            <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">What if you could look up any information in the world? Webpages, images, videos
+                                and more. Google has many features to help you find exactly what you&#x27;re looking
+                                for.</p><a class="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" target="_blank" rel="noopener noreferrer" href="https://www.google.com" aria-label="Link to A Search Engine">Learn more →</a></div>
+                    </div>
+                </div>
+                <div class="md max-w-[544px] p-4 md:w-1/2">
+                    <div class="h-full  overflow-hidden rounded-md border-2 border-gray-200 border-opacity-60 dark:border-gray-700"><a class="break-words" aria-label="Link to The Time Machine" href="/blog/the-time-machine"><img alt="The Time Machine" loading="lazy" width="544" height="306"
+                                                                                                                                                                                                                                    decoding="async" data-nimg="1"
+                                                                                                                                                                                                                                    class="object-cover object-center md:h-36 lg:h-48"
+                                                                                                                                                                                                                                    style="color:transparent"
+                                                                                                                                                                                                                                    srcSet=""
+                                                                                                                                                                                                                                    src="https://picsum.photos/id/13/544/306"/></a>
+                        <div class="p-6"><h2 class="mb-3 text-2xl font-bold leading-8 tracking-tight"><a class="break-words" aria-label="Link to The Time Machine" href="/blog/the-time-machine">The Time Machine</a></h2>
+                            <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">Imagine being able to travel back in time or to the future. Simple turn the knob
+                                to the desired date and press &quot;Go&quot;. No more worrying about lost keys or
+                                forgotten headphones with this simple yet affordable solution.</p><a class="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" aria-label="Link to The Time Machine" href="/blog/the-time-machine">Learn more →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
