@@ -5,7 +5,10 @@
 Symfony experimentation area.
 
 - It was initially generated with https://github.com/jprivet-dev/symfony-starter.
-- Based primarily on [Symfony Demo Application](https://github.com/symfony/demo).
+- Based primarily on :
+  - [Symfony Docker](https://github.com/dunglas/symfony-docker).
+  - [Symfony Demo Application](https://github.com/symfony/demo).
+  - [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
 
 ## Prerequisites
 
@@ -53,8 +56,7 @@ make install  # Install all (for example, after an update of your curent branch)
 4. [Testing](docs/testing.md)
 5. [Troubleshooting](docs/troubleshooting.md)
 6. [Security](docs/security.md)
-7. [Symfony UX](docs/symfony-ux.md)
-8. [Front](docs%2Ffront.md)
+8. [Front](docs/frontend.md)
 
 ## Main resources
 
