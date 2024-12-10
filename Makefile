@@ -168,7 +168,7 @@ stop: down ## Stop the project
 restart: stop start ## Restart the project
 
 .PHONY: install
-install: confirm_continue composer_install migrate permissions git_hooks_on info ## Install (or update) the local project [y/N]
+install: confirm_continue composer_install assets migrate permissions git_hooks_on info ## Install (or update) the local project [y/N]
 
 ##
 
@@ -623,12 +623,37 @@ phpcsfixer_version: ## Show PHP CS Fixer version
 
 ## — ASSETS 🎨‍ ————————————————————————————————————————————————————————————————
 
+.PHONY: assets
+assets: importmap_install tailwind_build ##  Generate all assets.
+
+.PHONY: assets@prod
+assets@prod: asset_compile tailwind_minify ##  Deploy all assets.
+
+##
+
 .PHONY: asset_compile
 asset_compile: ##  Compile all mapped assets and writes them to the final public output directory.
 	$(CONSOLE) asset-map:compile
 
-.PHONY: asset_deploy
-asset_deploy: asset_compile tailwind_minify ##  Deploy all assets.
+##
+
+importmap_audit: ##  Check for security vulnerability advisories for dependencies
+	$(CONSOLE) importmap:audit
+
+importmap_install: ##  Download all assets that should be downloaded
+	$(CONSOLE) importmap:install
+
+importmap_outdated: ##  List outdated JavaScript packages and their latest versions
+	$(CONSOLE) importmap:outdated
+
+importmap_remove: ##  Remove JavaScript packages
+	$(CONSOLE) importmap:remove
+
+importmap_require: ##  Require JavaScript packages
+	$(CONSOLE) importmap:require
+
+importmap_update: ##  Update JavaScript packages to their latest versions
+	$(CONSOLE) importmap:update
 
 ##
 
