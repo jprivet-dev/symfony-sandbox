@@ -620,7 +620,7 @@ tailwind_build: ##  Build the Tailwind CSS assets - $ make tailwind_build [p=<pa
 	@$(eval p ?=)
 	$(CONSOLE) tailwind:build $(p)
 
-tailwind_watch: ##  Watch for changes and rebuild automatically.
+tailwind_watch tw: ##  Watch for changes and rebuild automatically.
 	$(CONSOLE) tailwind:build --watch
 
 tailwind_minify: ##  Minify the output CSS.
