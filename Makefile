@@ -103,6 +103,7 @@ PHPCSFIXER         = $(PHP) vendor/bin/php-cs-fixer
 PHPMD              = $(PHP) vendor/bin/phpmd
 PHPSTAN            = $(PHP) vendor/bin/phpstan
 PHPUNIT            = $(PHP) vendor/bin/phpunit
+TWIGCSFIXER        = $(PHP) vendor/bin/twig-cs-fixer
 
 #
 # FILES & DIRECTORIES
@@ -121,6 +122,7 @@ XDEBUG_INI        = /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COVERAGE_DIR      = build/coverage-$(NOW)
 COVERAGE_INDEX    = $(PWD)/$(COVERAGE_DIR)/index.html
 PHPCSFIXER_CONFIG = .php-cs-fixer.dist.php
+TWIGCSFIXER_DIR   = templates
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
 
@@ -173,7 +175,7 @@ install: confirm_continue composer_install assets migrate permissions git_hooks_
 ##
 
 .PHONY: check
-check: confirm_continue composer_validate phpmd phpcsfixer_check phpstan_analyse ## Check everything before you deliver [y/N]
+check: confirm_continue composer_validate phpmd phpcsfixer_check phpstan_analyse twigcsfixer_lint ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
@@ -567,7 +569,7 @@ phpstan_baseline: ## Generate PHPStan baseline - $ make phpstan_baseline [p=<par
 ##
 
 .PHONY: phpcsfixer
-phpcsfixer: ## Run PHP CS Fixer version - $ make phpcsfixer [p=<params>] - Example: $ make phpcsfixer p=list
+phpcsfixer: ## Run PHP CS Fixer - $ make phpcsfixer [p=<params>] - Example: $ make phpcsfixer p=list
 	@$(eval p ?=)
 	$(PHPCSFIXER) $(p)
 
@@ -581,6 +583,24 @@ phpcsfixer_fix: ## Fix code style
 
 phpcsfixer_version: ## Show PHP CS Fixer version
 	$(PHPCSFIXER) --version
+
+##
+
+.PHONY: twigcsfixer
+twigcsfixer: ## Run Twig CS Fixer - $ make twigcsfixer [p=<params>] - Example: $ make twigcsfixer p=--help
+	@$(eval p ?=)
+	$(TWIGCSFIXER) $(p)
+
+twigcsfixer_lint: ## Check code style
+	@printf "\n$(Y)Twig CS Fixer$(S)"
+	@printf "\n$(Y)-------------$(S)\n\n"
+	$(TWIGCSFIXER) lint $(TWIGCSFIXER_DIR)
+
+twigcsfixer_fix: ## Fix code style
+	$(TWIGCSFIXER) lint --fix $(TWIGCSFIXER_DIR)
+
+twigcsfixer_version: ## Show Twig CS Fixer version
+	$(TWIGCSFIXER) --version
 
 ## — ASSETS 🎨‍ ————————————————————————————————————————————————————————————————
 
