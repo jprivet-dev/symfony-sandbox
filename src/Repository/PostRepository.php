@@ -16,6 +16,9 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
+    /**
+     * @return array<Post>
+     */
     public function findLatest(): array
     {
         $qb = $this->createQueryBuilder('p')
