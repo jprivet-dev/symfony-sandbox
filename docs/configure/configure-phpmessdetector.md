@@ -11,11 +11,50 @@ PHPMD takes a given PHP source code base and look for several potential problems
 - Overcomplicated expressions
 - Unused parameters, methods, properties
 
+List of rulesets and rules contained in each ruleset.
+
+- [Clean Code Rules](https://phpmd.org/rules/index.html#clean-code-rules): The Clean Code ruleset contains rules that enforce a clean code base. This includes rules from SOLID and object calisthenics.
+- [Code Size Rules](https://phpmd.org/rules/index.html#code-size-rules): The Code Size Ruleset contains a collection of rules that find code size related problems.
+- [Controversial Rules](https://phpmd.org/rules/index.html#controversial-rules): This ruleset contains a collection of controversial rules.
+- [Design Rules](https://phpmd.org/rules/index.html#design-rules): The Design Ruleset contains a collection of rules that find software design related problems.
+- [Naming Rules](https://phpmd.org/rules/index.html#naming-rules): The Naming Ruleset contains a collection of rules about names - too long, too short, and so forth.
+- [Unused Code Rules](https://phpmd.org/rules/index.html#unused-code-rules): The Unused Code Ruleset contains a collection of rules that find unused code.
+
 ## Installation
 
 ```
 composer require --dev phpmd/phpmd
 ```
+
+## Troubleshooting
+
+### Missing class import via use statement
+
+If you are using an external class (e.g.: `new \DateTimeImmutable()`), this violation may appear in PHPStorm:
+
+```
+phpmd: Missing class import via use statement
+```
+
+Or with the `phpmd` command:
+
+```
+FILE: /app/src/...
+--------------------------------------------
+ 24 | VIOLATION | Missing class import via use statement ...
+```
+
+Solution - Exclude the `MissingImport` rule in `phpmd.xml`:
+
+```xml
+    <!-- https://phpmd.org/rules/#clean-code-rules -->
+    <rule ref="rulesets/cleancode.xml">
+        <exclude name="StaticAccess"/>
+        <exclude name="MissingImport"/>
+    </rule>
+```
+
+> See https://phpmd.org/rules/cleancode.html#missingimport
 
 ## PhpStorm
 
