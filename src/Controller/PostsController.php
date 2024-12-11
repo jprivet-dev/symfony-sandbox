@@ -18,12 +18,4 @@ class PostsController extends AbstractController
             'posts' => $postRepository->findAll(),
         ]);
     }
-
-    #[Route('/{slug:post}', name: 'post_by_slug')]
-    public function postBySlug(Post $post): Response
-    {
-        return $this->render('posts/post.html.twig', [
-            'post' => $post,
-        ]);
-    }
 }

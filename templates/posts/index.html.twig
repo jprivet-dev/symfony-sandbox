@@ -6,7 +6,7 @@
     {% for post in posts %}
         <article>
             <h2>
-                <a href="{{ path('post_by_slug', {slug: post.slug}) }}">
+                <a href="{{ path('app_blog_post_by_slug', {slug: post.slug}) }}">
                     {{ post.title }}
                 </a>
             </h2>

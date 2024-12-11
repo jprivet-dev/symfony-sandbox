@@ -171,7 +171,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             }
         }
 
-        return implode('. ', $composition);
+        return implode('. ', $composition) . '.';
     }
 
     public function getDependencies(): array
