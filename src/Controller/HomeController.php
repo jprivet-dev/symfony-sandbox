@@ -12,7 +12,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function index(PostRepository $postRepository): Response
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('home.html.twig', [
             'posts' => $postRepository->findLatest(),
         ]);
     }

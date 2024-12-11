@@ -11,7 +11,7 @@ class TagsController extends AbstractController
     #[Route('/tags', name: 'app_tags')]
     public function index(): Response
     {
-        return $this->render('tags/index.html.twig', [
+        return $this->render('tags.html.twig', [
             'controller_name' => 'TagsController',
         ]);
     }
