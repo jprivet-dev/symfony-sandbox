@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -20,7 +21,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        foreach ($this->getData() as [$title, $slug, $summary, $content, $createdAt, $updatedAt, $publishedAt, $author]) {
+        foreach ($this->getData() as [$title, $slug, $summary, $content, $createdAt, $updatedAt, $publishedAt, $author, $tags]) {
             $post = new Post();
             $post->setTitle($title);
             $post->setSlug($slug);
@@ -30,6 +31,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post->setUpdatedAt($updatedAt);
             $post->setPublishedAt($publishedAt);
             $post->setAuthor($author);
+            $post->addTag(...$tags);
 
             $manager->persist($post);
         }
@@ -47,7 +49,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
         $posts = [];
 
         foreach ($this->getPhrases() as $i => $title) {
-            // $postData = [$title, $slug, $summary, $content, $createdAt, $updatedAt, $publishedAt, $author];
+            // $postData = [$title, $slug, $summary, $content, $createdAt, $updatedAt, $publishedAt, $author, $tags];
 
             // Ensure that the first post is written by jane_admin to simplify tests
             $userReference = [UserFixtures::JANE_ADMIN, UserFixtures::TOM_ADMIN][0 === $i ? 0 : \random_int(0, 1)];
@@ -69,6 +71,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
                 $date,
                 $date,
                 $user,
+                $this->getRandomTags(),
             ];
         }
 
@@ -174,10 +177,30 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
         return implode('. ', $composition).'.';
     }
 
+    /**
+     * @return array<Tag>
+     *
+     * @throws \Exception
+     */
+    private function getRandomTags(): array
+    {
+        $tagNames = TagFixtures::getTagData();
+        shuffle($tagNames);
+        $selectedTags = \array_slice($tagNames, 0, random_int(2, 4));
+
+        return array_map(function ($tagName) {
+            /** @var Tag $tag */
+            $tag = $this->getReference('tag-'.$tagName);
+
+            return $tag;
+        }, $selectedTags);
+    }
+
     public function getDependencies(): array
     {
         return [
             UserFixtures::class,
+            TagFixtures::class,
         ];
     }
 }
