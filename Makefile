@@ -587,6 +587,11 @@ twigcsfixer_lint: ## Check code style
 twigcsfixer_fix: ## Fix code style
 	$(TWIGCSFIXER) lint --fix $(TWIGCSFIXER_DIR)
 
+##
+
+.PHONY: fix
+fix: phpcsfixer_fix twigcsfixer_fix ## Fix all (PHP CS Fixer & Twig CS Fixer)
+
 ## — ASSETS 🎨‍ ————————————————————————————————————————————————————————————————
 
 .PHONY: assets
