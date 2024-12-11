@@ -182,7 +182,6 @@ info i: ## Show info
 	@$(MAKE) -s overload_file env_files vars
 	@printf "\n$(Y)Info$(S)"
 	@printf "\n$(Y)----$(S)\n\n"
-	@printf "* Go on $(G)https://$(COMPOSE_UP_SERVER_NAME)/$(S)\n"
 	@printf "* Run $(Y)make$(S) to see all shorcuts for the most common tasks.\n"
 	@printf "* Run $(Y). aliases$(S) to load all the project aliases.\n"
 	@printf "* Configure PHPStorm or VS Code:\n"
@@ -193,6 +192,7 @@ info i: ## Show info
 	@printf "  * PHPUnit\n"
 	@printf "  * PostgreSQL\n"
 	@printf "  * See the README...\n"
+	@printf "* Go on $(G)https://$(COMPOSE_UP_SERVER_NAME)/$(S)\n"
 
 ## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
 
@@ -272,9 +272,6 @@ composer: ## Run composer - $ make composer [p=<params>] - Example: $ make compo
 	@$(eval p ?=)
 	$(COMPOSER) $(p)
 
-composer_version: ## Composer version
-	$(COMPOSER) --version
-
 composer_validate: ## Validate composer.json and composer.lock
 	@printf "\n$(Y)Composer validate$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
@@ -308,9 +305,6 @@ php: ## Run PHP - $ make php [p=<params>]- Example: $ make php p=--version
 
 php_sh: ## Connect to the PHP container
 	$(CONTAINER_PHP) sh
-
-php_version: ## PHP version number
-	$(PHP) -v
 
 php_modules: ## Show compiled in modules
 	$(PHP) -m
@@ -424,9 +418,6 @@ sql_tables@test: ## Show all tables (TEST)
 psql: ## Execute psql - $ make psql [p=<params>] - Example: $ make psql p="-V"
 	@$(eval p ?=)
 	$(PSQL) $(p)
-
-psql_version: ## Show psql version
-	$(PSQL) -V
 
 ## — TESTS ✅ —————————————————————————————————————————————————————————————————
 
@@ -581,9 +572,6 @@ phpcsfixer_check: ## Check code style
 phpcsfixer_fix: ## Fix code style
 	$(PHPCSFIXER) --config=$(PHPCSFIXER_CONFIG) fix
 
-phpcsfixer_version: ## Show PHP CS Fixer version
-	$(PHPCSFIXER) --version
-
 ##
 
 .PHONY: twigcsfixer
@@ -598,9 +586,6 @@ twigcsfixer_lint: ## Check code style
 
 twigcsfixer_fix: ## Fix code style
 	$(TWIGCSFIXER) lint --fix $(TWIGCSFIXER_DIR)
-
-twigcsfixer_version: ## Show Twig CS Fixer version
-	$(TWIGCSFIXER) --version
 
 ## — ASSETS 🎨‍ ————————————————————————————————————————————————————————————————
 
