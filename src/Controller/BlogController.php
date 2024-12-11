@@ -14,7 +14,7 @@ class BlogController extends AbstractController
     #[Route('/', name: 'app_blog')]
     public function index(PostRepository $postRepository): Response
     {
-        return $this->render('blog/index.html.twig', [
+        return $this->render('blog.html.twig', [
             'posts' => $postRepository->findAll(),
         ]);
     }
@@ -22,7 +22,7 @@ class BlogController extends AbstractController
     #[Route('/{slug:post}', name: 'app_blog_post_by_slug')]
     public function postBySlug(Post $post): Response
     {
-        return $this->render('blog/post.html.twig', [
+        return $this->render('post.html.twig', [
             'post' => $post,
         ]);
     }
