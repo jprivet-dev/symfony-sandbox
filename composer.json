@@ -102,6 +102,7 @@
         "symfony/maker-bundle": "^1.61",
         "symfony/phpunit-bridge": "^7.1",
         "symfony/stopwatch": "7.1.*",
-        "symfony/web-profiler-bundle": "7.1.*"
+        "symfony/web-profiler-bundle": "7.1.*",
+        "vincentlanglet/twig-cs-fixer": "^3.4"
     }
 }
