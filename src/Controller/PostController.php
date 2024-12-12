@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/posts')]
-class PostsController extends AbstractController
+class PostController extends AbstractController
 {
     #[Route('/', name: 'posts')]
     public function posts(PostRepository $postRepository): Response

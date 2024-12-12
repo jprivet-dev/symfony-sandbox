@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class TagsController extends AbstractController
+class TagController extends AbstractController
 {
     #[Route('/tags', name: 'app_tags')]
     public function index(TagRepository $tagRepository): Response
