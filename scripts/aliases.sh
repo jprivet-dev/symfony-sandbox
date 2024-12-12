@@ -67,7 +67,7 @@ function aliases_create_all() {
   aliases_create sf
   aliases_create composer
   aliases_create php
-  aliases_create ppunit
+  aliases_create phpunit
   aliases_info
 }
 
@@ -78,6 +78,7 @@ function aliases_delete_all() {
   aliases_delete sf
   aliases_delete composer
   aliases_delete php
+  aliases_delete phpunit
   aliases_info
 }
 
