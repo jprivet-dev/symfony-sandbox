@@ -46,6 +46,23 @@ composer require --dev phpstan/phpstan-phpunit
 
 ![phpstorm-settings-php-quality-tools-phpstan.png](../img/phpstorm-settings-php-quality-tools-phpstan.png)
 
+### !!! TROUBLESHOOTING !!!
+
+Works fine with the command line, but not in PHPStorm :
+
+```
+PHP Warning:  file_get_contents(/opt/project/vendor/phpstan/phpstan/../../../var/cache/dev/App_KernelDevDebugContainer.xml): Failed to open stream: No such file or directory in /opt/project/vendor/phpstan/phpstan-symfony/src/Symfony/XmlServiceMapFactory.php on line 28
+Warning: file_get_contents(/opt/project/vendor/phpstan/phpstan/../../../var/cache/dev/App_KernelDevDebugContainer.xml): Failed to open stream: No such file or directory in /opt/project/vendor/phpstan/phpstan-symfony/src/Symfony/XmlServiceMapFactory.php on line 28
+
+In XmlServiceMapFactory.php line 30:
+                                                                               
+  Container /opt/project/vendor/phpstan/phpstan/../../../var/cache/dev/App_KernelDevDebugContainer.xml does not exist                                     
+
+analyse [-c|--configuration CONFIGURATION] [-l|--level LEVEL] [--no-progress] [--debug] [-a|--autoload-file AUTOLOAD-FILE] [--error-format ERROR-FORMAT] [-b|--generate-baseline [GENERATE-BASELINE]] [--allow-empty-baseline] [--memory-limit MEMORY-LIMIT] [--xdebug] [--fix] [--watch] [--pro] [--fail-without-result-cache] [--] [<paths>...]
+```
+
+Looking for a solution...
+
 ## VS Code
 
 TODO
