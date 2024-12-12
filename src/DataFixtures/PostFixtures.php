@@ -31,7 +31,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post->setUpdatedAt($updatedAt);
             $post->setPublishedAt($publishedAt);
             $post->setAuthor($author);
-            $post->addTag(...$tags);
+            $post->addTags(...$tags);
 
             $manager->persist($post);
         }

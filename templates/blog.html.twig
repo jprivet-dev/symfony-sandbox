@@ -16,23 +16,13 @@
                         All Posts
                     </h3>
                     <ul>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged next-js" href="/tags/next-js">next-js (6)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged guide" href="/tags/guide">guide (5)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged tailwind" href="/tags/tailwind">tailwind (3)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged feature" href="/tags/feature">feature (2)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged markdown" href="/tags/markdown">markdown (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged code" href="/tags/code">code (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged features" href="/tags/features">features (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged math" href="/tags/math">math (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged ols" href="/tags/ols">ols (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged github" href="/tags/github">github (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged holiday" href="/tags/holiday">holiday (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged canada" href="/tags/canada">canada (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged images" href="/tags/images">images (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged writings" href="/tags/writings">writings (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged book" href="/tags/book">book (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged reflection" href="/tags/reflection">reflection (1)</a></li>
-                        <li class="my-3"><a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged multi-author" href="/tags/multi-author">multi-author (1)</a></li>
+                        {% for tag in tags %}
+                            <li class="my-3">
+                                <a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged next-js" href="/tags/next-js">
+                                    {{ tag.name }} (1)
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -59,10 +49,11 @@
                                             </a>
                                         </h2>
                                         <div class="flex flex-wrap">
-                                            <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/next-js">next-js</a>
-                                            <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/tailwind">tailwind</a>
-                                            <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/guide">guide</a>
-                                            <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/feature">feature</a>
+                                            {% for tag in post.tags %}
+                                                <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/next-js">
+                                                    {{ tag.name }}
+                                                </a>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="prose max-w-none text-gray-500 dark:text-gray-400">

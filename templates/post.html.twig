@@ -84,10 +84,11 @@
                                     Tags
                                 </h2>
                                 <div class="flex flex-wrap">
-                                    <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/next-js">next-js</a>
-                                    <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/tailwind">tailwind</a>
-                                    <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/guide">guide</a>
-                                    <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/feature">feature</a>
+                                    {% for tag in post.tags %}
+                                        <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/next-js">
+                                            {{ tag.name }}
+                                        </a>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">

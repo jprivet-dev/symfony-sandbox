@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,9 +13,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'app_blog')]
-    public function index(PostRepository $postRepository): Response
+    public function index(TagRepository $tagRepository, PostRepository $postRepository): Response
     {
         return $this->render('blog.html.twig', [
+            'tags' => $tagRepository->findAll(),
             'posts' => $postRepository->findAll(),
         ]);
     }
