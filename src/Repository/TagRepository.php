@@ -30,7 +30,7 @@ class TagRepository extends ServiceEntityRepository
         return static::getArrayTagPostsCountDto($qb->getQuery()->getScalarResult());
     }
 
-    private static function addPostsCount(QueryBuilder $qb): void
+    protected static function addPostsCount(QueryBuilder $qb): void
     {
         $qb
             ->leftJoin('t.posts', 'p')
@@ -38,7 +38,7 @@ class TagRepository extends ServiceEntityRepository
             ->groupBy('t.id');
     }
 
-    private static function orderByTagNameAsc(QueryBuilder $qb): void
+    protected static function orderByTagNameAsc(QueryBuilder $qb): void
     {
         $qb->orderBy('t.name', 'ASC');
     }
@@ -48,7 +48,7 @@ class TagRepository extends ServiceEntityRepository
      *
      * @return array<TagPostsCountDto>
      */
-    private static function getArrayTagPostsCountDto(array $scalarResult): array
+    protected static function getArrayTagPostsCountDto(array $scalarResult): array
     {
         return array_map(
             fn ($item) => new TagPostsCountDto(

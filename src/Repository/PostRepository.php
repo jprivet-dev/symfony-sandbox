@@ -19,6 +19,9 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
+    /**
+     * @return PaginationInterface<int, mixed>
+     */
     public function findAllPaginate(Request $request): PaginationInterface
     {
         return $this->paginator->paginate(
