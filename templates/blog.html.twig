@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BlogController!{% endblock %}
+{% block title %}Blog{% endblock %}
 
 {% block body %}
     <div>
@@ -19,7 +19,7 @@
                         {% for tag in tags %}
                             <li class="my-3">
                                 <a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged next-js" href="/tags/next-js">
-                                    {{ tag.name }} (1)
+                                    {{ tag.name }} ({{ tag.postsCount }})
                                 </a>
                             </li>
                         {% endfor %}

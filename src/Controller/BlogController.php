@@ -16,7 +16,7 @@ class BlogController extends AbstractController
     public function index(TagRepository $tagRepository, PostRepository $postRepository): Response
     {
         return $this->render('blog.html.twig', [
-            'tags' => $tagRepository->findAll(),
+            'tags' => $tagRepository->findAllWithPostsCount(),
             'posts' => $postRepository->findAll(),
         ]);
     }
