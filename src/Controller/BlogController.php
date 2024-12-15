@@ -16,9 +16,11 @@ class BlogController extends AbstractController
     #[Route('/', name: 'app_blog')]
     public function index(TagRepository $tagRepository, PostRepository $postRepository, Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+
         return $this->render('blog.html.twig', [
             'tags' => $tagRepository->findAllWithPostsCount(),
-            'posts' => $postRepository->findAllPaginate($request),
+            'posts' => $postRepository->findAllPaginate($page),
         ]);
     }
 
