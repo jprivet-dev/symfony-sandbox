@@ -7,7 +7,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -22,12 +21,9 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return PaginationInterface<int, mixed>
      */
-    public function findAllPaginate(Request $request): PaginationInterface
+    public function findAllPaginate(int $page): PaginationInterface
     {
-        return $this->paginator->paginate(
-            $this->findAll(),
-            $request->query->getInt('page', 1),
-        );
+        return $this->paginator->paginate($this->findAll(), $page);
     }
 
     /**

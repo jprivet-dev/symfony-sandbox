@@ -48,7 +48,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
     {
         $posts = [];
 
-        foreach ($this->getPhrases() as $i => $title) {
+        foreach (static::getPhrases() as $i => $title) {
             // $postData = [$title, $slug, $summary, $content, $createdAt, $updatedAt, $publishedAt, $author, $tags];
 
             // Ensure that the first post is written by jane_admin to simplify tests
@@ -65,8 +65,8 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $posts[] = [
                 $title,
                 $this->slugger->slug($title)->lower(),
-                $this->getRandomText(random_int(100, 255)),
-                $this->getPostContent(),
+                static::getRandomText(random_int(100, 255)),
+                static::getPostContent(),
                 $date,
                 $date,
                 $date,
@@ -78,7 +78,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
         return $posts;
     }
 
-    private function getPostContent(): string
+    public static function getPostContent(): string
     {
         return <<<'MARKDOWN'
             Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor
@@ -121,7 +121,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @return non-empty-array<string>
      */
-    private function getPhrases(): array
+    public static function getPhrases(): array
     {
         return [
             'Lorem ipsum dolor sit amet consectetur adipiscing elit',
@@ -152,14 +152,17 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             'Sunt seculaes transferre talis camerarius fluctuies',
             'Era brevis ratione est',
             'Sunt torquises imitari velox mirabilis medicinaes',
-            'Mineralis persuadere omnes finises desiderium',
-            'Bassus fatalis classiss virtualiter transferre de flavum',
         ];
     }
 
-    private function getRandomText(int $maxLength = 255): string
+    public static function getPhrasesCount(): int
     {
-        $phrases = $this->getPhrases();
+        return count(self::getPhrases());
+    }
+
+    public static function getRandomText(int $maxLength = 255): string
+    {
+        $phrases = static::getPhrases();
         shuffle($phrases);
 
         $length = 0;
