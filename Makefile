@@ -429,13 +429,13 @@ phpunit: ## Run PHPUnit - $ make phpunit [p=<params>] - Example: $ make phpunit 
 ##
 
 .PHONY: tests
-tests: confirm_continue application_setup ## Run all tests [y/N]
+tests t: confirm_continue functional_setup ## Run all tests [y/N]
 	@printf "\n$(Y)All tests$(S)"
 	@printf "\n$(Y)---------$(S)\n\n"
 	$(PHPUNIT)
 
 PHONY: coverage
-coverage: confirm_continue application_setup ## Generate code coverage report in HTML format for all tests [y/N]
+coverage c: confirm_continue functional_setup ## Generate code coverage report in HTML format for all tests [y/N]
 	@printf "\n$(Y)All tests (coverage)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
 	@printf "Generate code coverage report in HTML format for all tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
@@ -443,7 +443,7 @@ coverage: confirm_continue application_setup ## Generate code coverage report in
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
 .PHONY: dox
-dox: confirm_continue application_setup ## Report test execution progress in TestDox format for all tests [y/N]
+dox d: confirm_continue functional_setup ## Report test execution progress in TestDox format for all tests [y/N]
 	@printf "\n$(Y)All tests (testdox)$(S)"
 	@printf "\n$(Y)-------------------$(S)\n\n"
 	$(PHPUNIT) --testdox
@@ -451,66 +451,84 @@ dox: confirm_continue application_setup ## Report test execution progress in Tes
 ##
 
 .PHONY: unit
-unit: confirm_continue ## Run unit tests [y/N]
+unit u: confirm_continue ## Run unit tests [y/N]
 	@printf "\n$(Y)Unit tests$(S)"
 	@printf "\n$(Y)----------$(S)\n\n"
 	$(PHPUNIT) --testsuite unit
 
-unit_coverage: confirm_continue ## Generate code coverage report in HTML format for unit tests [y/N]
+unit_coverage uc: confirm_continue ## Generate code coverage report in HTML format for unit tests [y/N]
 	@printf "\n$(Y)Unit tests (coverage)$(S)"
 	@printf "\n$(Y)---------------------$(S)\n\n"
 	@printf "Generate code coverage report in HTML format for unit tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
 	$(PHPUNIT) --testsuite unit --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
-unit_dox: confirm_continue ## Report test execution progress in TestDox format for unit tests [y/N]
+unit_dox ud: confirm_continue ## Report test execution progress in TestDox format for unit tests [y/N]
 	@printf "\n$(Y)Unit tests (testdox)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite unit --testdox
 
 ##
 
+.PHONY: functional
+functional f: confirm_continue functional_setup ## Run functional tests (integration + application) [y/N]
+	@printf "\n$(Y)Functional tests (integration + application)$(S)"
+	@printf "\n$(Y)--------------------------------------------$(S)\n\n"
+	$(PHPUNIT) --testsuite integration,application
+
+functional_coverage fc: confirm_continue functional_setup ## Generate code coverage report in HTML format for functional tests (integration + application) [y/N]
+	@printf "\n$(Y)Functional tests (integration + application) (coverage)$(S)"
+	@printf "\n$(Y)-------------------------------------------------------$(S)\n\n"
+	@printf "Generate code coverage report in HTML format for functional tests (integration + application) in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
+	$(PHPUNIT) --testsuite integration,application --coverage-html $(COVERAGE_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
+
+functional_dox fd: confirm_continue ## Report test execution progress in TestDox format for functional tests (integration + application) [y/N]
+	@printf "\n$(Y)Functional tests (integration + application) (testdox)$(S)"
+	@printf "\n$(Y)------------------------------------------------------$(S)\n\n"
+	$(PHPUNIT) --testsuite integration,application --testdox
+
+functional_setup: confirm_continue db@test fixtures@test ## Setup before launch functional tests [y/N]
+
+##
+
 .PHONY: integration
-integration: confirm_continue integration_setup ## Run integration tests [y/N]
+integration in: confirm_continue functional_setup ## Run integration tests [y/N]
 	@printf "\n$(Y)Integration tests$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite integration
 
-integration_coverage: confirm_continue integration_setup ## Generate code coverage report in HTML format for integration tests [y/N]
+integration_coverage ic: confirm_continue functional_setup ## Generate code coverage report in HTML format for integration tests [y/N]
 	@printf "\n$(Y)Integration tests (coverage)$(S)"
 	@printf "\n$(Y)----------------------------$(S)\n\n"
 	@printf "Generate code coverage report in HTML format for integration tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
 	$(PHPUNIT) --testsuite integration --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
-integration_dox: confirm_continue ## Report test execution progress in TestDox format for integration tests [y/N]
+integration_dox id: confirm_continue ## Report test execution progress in TestDox format for integration tests [y/N]
 	@printf "\n$(Y)Integration tests (testdox)$(S)"
 	@printf "\n$(Y)---------------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite integration --testdox
 
-integration_setup: confirm_continue db@test fixtures@test ## Setup before launch integration tests [y/N]
-
 ##
 
 .PHONY: application
-application: confirm_continue application_setup ## Run application tests [y/N]
+application ap: confirm_continue functional_setup ## Run application tests [y/N]
 	@printf "\n$(Y)Application tests$(S)"
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application
 
-application_coverage: confirm_continue application_setup ## Generate code coverage report in HTML format for application tests [y/N]
+application_coverage ac: confirm_continue functional_setup ## Generate code coverage report in HTML format for application tests [y/N]
 	@printf "\n$(Y)Application tests (coverage)$(S)"
 	@printf "\n$(Y)----------------------------$(S)\n\n"
 	@printf "Generate code coverage report in HTML format for application tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
 	$(PHPUNIT) --testsuite application --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
-application_dox: confirm_continue ## Report test execution progress in TestDox format for application tests [y/N]
+application_dox ad: confirm_continue ## Report test execution progress in TestDox format for application tests [y/N]
 	@printf "\n$(Y)Application tests (testdox)$(S)"
 	@printf "\n$(Y)---------------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application --testdox
-
-application_setup: confirm_continue db@test fixtures@test ## Setup before launch application tests [y/N]
 
 ##
 
