@@ -39,6 +39,12 @@ class MyTest ... {
 }
 ```
 
+## Smoke testing
+
+In software engineering, [smoke testing](https://en.wikipedia.org/wiki/Smoke_testing_(software)) consists of "_preliminary testing to reveal simple failures severe enough to reject a prospective software release_". Using [PHPUnit data providers](https://docs.phpunit.de/en/9.6/writing-tests-for-phpunit.html#data-providers) you can define a functional test that checks that all application URLs load successfully.
+
+> Example : [tests/Application/SmokeTest.php](../tests/Application/SmokeTest.php)
+
 ## Launch specific tests
 
 ### In PhpStorm and VS Code
@@ -105,3 +111,5 @@ unalias t
 - https://symfony.com/doc/current/testing.html
 - https://pguso.medium.com/how-to-write-unit-tests-in-symfony-0a3cf12bcfd2
 - https://stackoverflow.com/questions/9470795/using-the-arrange-act-assert-pattern-with-integration-tests
+- https://symfony.com/doc/current/best_practices.html#smoke-test-your-urls
+- https://github.com/shopsys/http-smoke-testing
