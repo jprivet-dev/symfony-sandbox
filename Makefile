@@ -175,7 +175,7 @@ install: confirm_continue composer_install assets migrate permissions git_hooks_
 ##
 
 .PHONY: check
-check: confirm_continue composer_validate phpmd phpcsfixer_check phpstan_analyse twigcsfixer_lint ## Check everything before you deliver [y/N]
+check: confirm_continue composer_validate phpmd phpcsfixer_check phpstan_analyse twigcsfixer_lint tests ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
