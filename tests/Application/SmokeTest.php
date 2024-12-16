@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 class SmokeTest extends WebTestCase
 {
     /**
-     * @dataProvider getUrl
+     * @dataProvider getPublicUrl
      */
-    public function testPageIsSuccessful(string $url): void
+    public function testPublicPageIsSuccessful(string $url): void
     {
         $client = static::createClient();
         $client->request(Request::METHOD_GET, $url);
@@ -21,7 +21,7 @@ class SmokeTest extends WebTestCase
      * Show routes:
      *   $ make sf p="debug:router"
      */
-    public static function getUrl(): \Generator
+    public static function getPublicUrl(): \Generator
     {
         yield ['/'];
         yield ['/about'];
