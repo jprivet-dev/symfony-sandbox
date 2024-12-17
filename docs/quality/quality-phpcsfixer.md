@@ -1,6 +1,6 @@
-# PHP CS Fixer
+# Quality - PHP CS Fixer
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [Quality](../quality.md)
 
 ## About
 
@@ -12,9 +12,13 @@ The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow sta
 composer require --dev friendsofphp/php-cs-fixer
 ```
 
-## PhpStorm
+## Makefile
 
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
+> Run `make` to see all shorcuts for the most common tasks.
+
+## Configure PhpStorm
+
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHP CS Fixer** area:
@@ -27,7 +31,7 @@ composer require --dev friendsofphp/php-cs-fixer
 
 ![phpstorm-settings-php-quality-tools-phpcsfixer.png](../img/phpstorm-settings-php-quality-tools-phpcsfixer.png)
 
-## VS Code
+## Configure VS Code
 
 TODO
 

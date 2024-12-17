@@ -1,4 +1,4 @@
-# Document and website structure
+# Frontend - Document and website structure
 
 ⬅️ [Frontend](../frontend.md)
 

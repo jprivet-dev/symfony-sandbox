@@ -1,6 +1,6 @@
-# PHPStan
+# Quality - PHPStan
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [Quality](../quality.md)
 
 ## About
 
@@ -32,9 +32,13 @@ PHPStan PHPUnit extensions and rules:
 composer require --dev phpstan/phpstan-phpunit
 ```
 
-## PhpStorm
+## Makefile
 
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
+> Run `make` to see all shorcuts for the most common tasks.
+
+## Configure PhpStorm
+
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHPStan** area and switch `ON` the tool.
@@ -48,7 +52,7 @@ composer require --dev phpstan/phpstan-phpunit
 
 ### !!! TROUBLESHOOTING !!!
 
-Works fine with the command line, but not in PHPStorm :
+Works fine with the command line, but not in PhpStorm :
 
 ```
 PHP Warning:  file_get_contents(/opt/project/vendor/phpstan/phpstan/../../../var/cache/dev/App_KernelDevDebugContainer.xml): Failed to open stream: No such file or directory in /opt/project/vendor/phpstan/phpstan-symfony/src/Symfony/XmlServiceMapFactory.php on line 28

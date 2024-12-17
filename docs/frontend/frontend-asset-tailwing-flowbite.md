@@ -1,4 +1,4 @@
-# Asset, Tailwind & Flowbite (No Node.js)
+# Frontend - Asset, Tailwind & Flowbite (No Node.js)
 
 ⬅️ [Frontend](../frontend.md)
 
@@ -32,6 +32,9 @@ Flowbite:
 php bin/console importmap:require flowbite
 ```
 
+## Makefile
+
+> Run `make` to see all shorcuts for the most common tasks.
 ## Resources
 
 - Asset:

@@ -1,6 +1,6 @@
-# PHP Mess Detector
+# Quality - PHP Mess Detector
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [Quality](../quality.md)
 
 ## About
 
@@ -26,11 +26,15 @@ List of rulesets and rules contained in each ruleset.
 composer require --dev phpmd/phpmd
 ```
 
+## Makefile
+
+> Run `make` to see all shorcuts for the most common tasks.
+
 ## Troubleshooting
 
 ### Missing class import via use statement
 
-If you are using an external class (e.g.: `new \DateTimeImmutable()`), this violation may appear in PHPStorm:
+If you are using an external class (e.g.: `new \DateTimeImmutable()`), this violation may appear in PhpStorm:
 
 ```
 phpmd: Missing class import via use statement
@@ -56,9 +60,9 @@ Solution - Exclude the `MissingImport` rule in `phpmd.xml`:
 
 > See https://phpmd.org/rules/cleancode.html#missingimport
 
-## PhpStorm
+## Configure PhpStorm
 
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.
@@ -76,7 +80,7 @@ Solution - Exclude the `MissingImport` rule in `phpmd.xml`:
 
 ![phpstorm-settings-php-quality-tools-phpmessdetector.png](../img/phpstorm-settings-php-quality-tools-phpmessdetector.png)
 
-## VS Code
+## Configure VS Code
 
 TODO
 

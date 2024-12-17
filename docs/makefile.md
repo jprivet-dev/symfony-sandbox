@@ -1,4 +1,4 @@
-# Makefile: variables overloading
+# Makefile - Variables overloading
 
 ⬅️ [README](../README.md)
 

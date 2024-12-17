@@ -1,12 +1,12 @@
-# PostgreSQL
+# Database - PostgreSQL
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [README](../README.md)
 
 ## About
 
 PostgreSQL is an object-relational database management system (ORDMBS), which means that it has relational capabilities and an object-oriented design.
 
-## PhpStorm
+## Configure PhpStorm
 
 - In the **Database** tool window (**View > Tool Windows > Database**), click on `+` in the toolbar.
 - Navigate to **Data Source** and select **PostgreSQL**.
@@ -20,9 +20,9 @@ PostgreSQL is an object-relational database management system (ORDMBS), which me
     - Click on **Test Connection**: if all goes well, you will see the **Succeeded** message.
     - Click on `OK` or `Apply` to validate all.
 
-![phpstorm-data-sources-and-drivers-postgresql.png](..%2Fimg%2Fphpstorm-data-sources-and-drivers-postgresql.png)
+![phpstorm-data-sources-and-drivers-postgresql.png](img/phpstorm-data-sources-and-drivers-postgresql.png)
 
-## VS Code
+## Configure VS Code
 
 TODO
 

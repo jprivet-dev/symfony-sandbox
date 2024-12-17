@@ -50,13 +50,14 @@ make install  # Install all (for example, after an update of your curent branch)
 
 ## Docs
 
-1. [Makefile: variables overloading](docs/makefile.md)
-2. [Configure PhpStorm & VS Code](docs/configure.md)
-3. [PhpMetrics](docs/phpmetrics.md)
-4. [Testing](docs/testing.md)
-5. [Troubleshooting](docs/troubleshooting.md)
+1. [Makefile - Variables overloading](docs/makefile.md)
+2. [Database - PostgreSQL](docs/database-postgre.md)
+3. [Remote PHP interpreter (Docker)](docs/remote-php-interpreter.md)
+4. [Quality](docs/quality.md)
+5. [Testing](docs/testing.md)
 6. [Security](docs/security.md)
-8. [Frontend](docs/frontend.md)
+7. [Frontend](docs/frontend.md)
+8. [Troubleshooting](docs/troubleshooting.md)
 
 ## Main resources
 

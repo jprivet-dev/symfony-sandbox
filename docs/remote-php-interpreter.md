@@ -1,12 +1,12 @@
 # Remote PHP interpreter (Docker)
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [README](../README.md)
 
 ## About
 
 You can access a PHP interpreter installed in a Docker container. This is the main configuration to be made before any others.
 
-## PhpStorm
+## Configure PhpStorm
 
 ### 1. Connect to Docker daemon
 
@@ -16,7 +16,7 @@ You can access a PHP interpreter installed in a Docker container. This is the ma
         - Unix socket: `default unix:///.../docker.sock`.
     - Click on `OK`.
 
-![phpstorm-settings-build-execution-deployment-docker.png](../img/phpstorm-settings-build-execution-deployment-docker.png)
+![phpstorm-settings-build-execution-deployment-docker.png](img/phpstorm-settings-build-execution-deployment-docker.png)
 
 ### 2. Select the PHP interpreter image
 
@@ -41,9 +41,9 @@ You can access a PHP interpreter installed in a Docker container. This is the ma
         - Click on `OK`.
 - In the **Settings** dialog, click on `OK` or `Apply` to validate all.
   Select the image of the PHP interpreter
-![phpstorm-settings-php.png](../img/phpstorm-settings-php.png)
+![phpstorm-settings-php.png](img/phpstorm-settings-php.png)
 
-## VS Code
+## Configure VS Code
 
 TODO
 

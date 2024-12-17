@@ -1,22 +1,10 @@
-# PHPUnit
+# Testing - Configure PhpStorm
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [Testing](../testing.md)
 
-## About
+## Use PHP interpreter without a database (Docker)
 
-PHPUnit is a programmer-oriented testing framework for PHP. It is an instance of the xUnit architecture for unit testing frameworks.
-
-## Installation
-
-```
-composer require --dev symfony/test-pack
-```
-
-## PhpStorm
-
-### Use PHP interpreter without a database (Docker)
-
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](configure-remote-php-interpreter.md)
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.
@@ -35,7 +23,7 @@ composer require --dev symfony/test-pack
 
 ![phpstorm-settings-php-testframeworks.png](../img/phpstorm-settings-php-test-frameworks.png)
 
-### Use PHP interpreter with a database (Docker Compose)
+## Use PHP interpreter with a database (Docker Compose)
 
 > In this case, you will configure a **remote PHP interpreter with Docker Compose**, because you will need the relationships between the containers (PHP, database, etc.), with the specifics Symfony development environment variables.
 
@@ -83,18 +71,11 @@ composer require --dev symfony/test-pack
 
 ![phpstorm-settings-php-testframeworks-2.png](../img/phpstorm-settings-php-test-frameworks-2.png)
 
-### Run tests
-
-TODO
-
-## VS Code
+## Run tests
 
 TODO
 
 ## Resources
 
-- https://phpunit.de/
-- https://symfony.com/doc/current/testing.html
 - https://www.jetbrains.com/help/phpstorm/using-phpunit-framework.html
-- https://github.com/dunglas/symfony-docker/blob/main/docs/xdebug.md
-- https://www.youtube.com/watch?v=I7aGWO6K3Ho
+- [Youtube: Running PHPUnit Tests in PhpStorm with Docker](https://www.youtube.com/watch?v=I7aGWO6K3Ho)

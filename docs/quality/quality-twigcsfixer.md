@@ -1,6 +1,6 @@
-# Twig CS Fixer
+# Quality - Twig CS Fixer
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [Quality](../quality.md)
 
 ## About
 
@@ -12,11 +12,15 @@ A tool to automatically fix Twig Coding Standards issues.
 composer require --dev vincentlanglet/twig-cs-fixer
 ```
 
-## PhpStorm
+## Makefile
+
+> Run `make` to see all shorcuts for the most common tasks.
+
+## Configure PhpStorm
 
 TODO
 
-## VS Code
+## Configure VS Code
 
 TODO
 

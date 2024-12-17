@@ -1,6 +1,6 @@
-# PHP_CodeSniffer
+# Quality - PHP_CodeSniffer
 
-⬅️ [Configure PhpStorm & VS Code](../configure.md)
+⬅️ [Quality](../quality.md)
 
 ## About
 

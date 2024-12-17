@@ -1,4 +1,4 @@
-# Symfony UX
+# Frontend - Symfony UX
 
 ⬅️ [Frontend](../frontend.md)
 
