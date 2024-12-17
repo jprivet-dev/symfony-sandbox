@@ -30,5 +30,6 @@ class SmokeTest extends WebTestCase
         yield ['/posts/'];
         yield ['/projects'];
         yield ['/tags'];
+        yield ['/login'];
     }
 }

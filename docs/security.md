@@ -45,9 +45,7 @@ php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
-## Troubleshooting
-
-### PHPStan: `doctrine.uuid_generator` vs `UuidGenerator::class`
+### Troubleshooting: `doctrine.uuid_generator` vs `UuidGenerator::class`
 
 With:
 
@@ -80,6 +78,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 ```
 
 > See https://github.com/phpstan/phpstan-doctrine/issues/297#issuecomment-1211838441
+
+## Generate the code needed for the form_login authenticator
+
+```
+php bin/console make:security:form-login
+```
 
 ## Resources
 
