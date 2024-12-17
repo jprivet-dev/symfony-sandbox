@@ -315,16 +315,24 @@ php_modules: ## Show compiled in modules
 db: confirm_continue ## Drop and create the database and migrate (env "dev" by default) [y/N]
 	@printf "\n$(Y)Database init$(S)"
 	@printf "\n$(Y)-------------$(S)\n\n"
+ifeq ("$(no_fixtures)","true")
+	@printf "$(R)>\n> DISABLED (no_fixtures=true)\n>$(S)\n"
+else
 	$(MAKE) -s db_drop no_interaction=true
 	$(MAKE) -s db_create no_interaction=true
 	$(MAKE) -s migrate no_interaction=true
+endif
 
 db@test: confirm_continue ## Drop and create the database and migrate (env "test") [y/N]
-	@printf "\n$(Y)Database init (test)$(S)"
+	@printf "\n$(Y)Database init (TEST)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
+ifeq ("$(no_fixtures)","true")
+	@printf "$(R)>\n> DISABLED (no_fixtures=true)\n>$(S)\n"
+else
 	$(MAKE) -s db_drop p="--env=test" no_interaction=true
 	$(MAKE) -s db_create p="--env=test" no_interaction=true
 	$(MAKE) -s migrate@test no_interaction=true
+endif
 
 db_drop: confirm_continue ## Drop the database [y/N] - $ make db_drop [p=<params>] - Example: $ make db_drop p="--env=test"
 	@$(eval p ?=)
@@ -384,13 +392,21 @@ generate: ## Generate a blank migration class
 fixtures: confirm_continue ## Load fixtures (CAUTION! by default the load command purges the database) [y/N] - $ make fixtures [p=<param>] - Example: $ make fixtures p="--append"
 	@printf "\n$(Y)Load fixtures$(S)"
 	@printf "\n$(Y)-------------$(S)\n\n"
+ifeq ("$(no_fixtures)","true")
+	@printf "$(R)>\n> DISABLED (no_fixtures=true)\n>$(S)\n"
+else
 	@$(eval p ?=)
 	$(CONSOLE) doctrine:fixtures:load -n $(p)
+endif
 
 fixtures@test: confirm_continue ## Load fixtures (TEST) [y/N]
-	@printf "\n$(Y)Load fixtures (test)$(S)"
+	@printf "\n$(Y)Load fixtures (TEST)$(S)"
 	@printf "\n$(Y)--------------------$(S)\n\n"
+ifeq ("$(no_fixtures)","true")
+	@printf "$(R)>\n> DISABLED (no_fixtures=true)\n>$(S)\n"
+else
 	$(CONSOLE) doctrine:fixtures:load -n --env=test
+endif
 
 ##
 
