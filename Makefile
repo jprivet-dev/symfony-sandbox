@@ -499,7 +499,7 @@ functional_coverage fc: confirm_continue functional_setup ## Generate code cover
 	$(PHPUNIT) --testsuite functional --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
-functional_dox fd: confirm_continue ## Report test execution progress in TestDox format for functional tests [y/N]
+functional_dox fd: confirm_continue functional_setup ## Report test execution progress in TestDox format for functional tests [y/N]
 	@printf "\n$(Y)Functional tests (testdox)$(S)"
 	@printf "\n$(Y)--------------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite functional --testdox
