@@ -21,11 +21,8 @@
         <testsuite name="unit">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="integration">
-            <directory>tests/Integration</directory>
-        </testsuite>
-        <testsuite name="application">
-            <directory>tests/Application</directory>
+        <testsuite name="functional">
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
 

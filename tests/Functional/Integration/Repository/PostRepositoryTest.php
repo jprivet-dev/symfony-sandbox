@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Integration\Repository;
+namespace App\Tests\Functional\Integration\Repository;
 
 use App\DataFixtures\PostFixtures;
 use App\Repository\PostRepository;
