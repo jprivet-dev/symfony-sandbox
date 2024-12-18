@@ -51,8 +51,8 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
         foreach (static::getPhrases() as $i => $title) {
             // $postData = [$title, $slug, $summary, $content, $createdAt, $updatedAt, $publishedAt, $author, $tags];
 
-            // Ensure that the first post is written by jane_admin to simplify tests
-            $userReference = [UserFixtures::JANE_ADMIN, UserFixtures::TOM_ADMIN][0 === $i ? 0 : \random_int(0, 1)];
+            // Ensure that the first post is written by admin to simplify tests
+            $userReference = [UserFixtures::ADMIN, UserFixtures::ADMIN_2][0 === $i ? 0 : \random_int(0, 1)];
 
             /** @var User $user */
             $user = $this->getReference($userReference);
