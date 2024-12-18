@@ -79,11 +79,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 > See https://github.com/phpstan/phpstan-doctrine/issues/297#issuecomment-1211838441
 
-## Generate the code needed for the form_login authenticator
+## Create the form login authenticator
+
+- Generate the code:
 
 ```
 php bin/console make:security:form-login
 ```
+- Activate [remember me functionality](https://symfony.com/doc/current/security/remember_me.html).
+- Use [Authentication-form Flowbite component](https://flowbite.com/docs/components/jumbotron/#authentication-form).
 
 ## Resources
 
