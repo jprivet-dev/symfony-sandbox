@@ -175,7 +175,7 @@ install: confirm_continue composer_install assets migrate permissions git_hooks_
 ##
 
 .PHONY: check
-check: confirm_continue composer_validate phpmd phpcsfixer_check phpstan_analyse twigcsfixer_lint tests ## Check everything before you deliver [y/N]
+check: confirm_continue composer_validate lint tests ## Check everything before you deliver [y/N]
 
 PHONY: info
 info i: ## Show info
@@ -492,6 +492,9 @@ functional f: confirm_continue functional_setup ## Run functional tests [y/N]
 	@printf "\n$(Y)----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite functional
 
+functional_no_fixtures ff: ## Run functional tests without functional setup (no database init & no fixtures) [y/N]
+	$(MAKE) -s functional no_interaction=true no_fixtures=true
+
 functional_coverage fc: confirm_continue functional_setup ## Generate code coverage report in HTML format for functional tests [y/N]
 	@printf "\n$(Y)Functional tests (coverage)$(S)"
 	@printf "\n$(Y)---------------------------$(S)\n\n"
@@ -504,7 +507,7 @@ functional_dox fd: confirm_continue functional_setup ## Report test execution pr
 	@printf "\n$(Y)--------------------------$(S)\n\n"
 	$(PHPUNIT) --testsuite functional --testdox
 
-functional_setup: confirm_continue db@test fixtures@test ## Setup before launch functional tests [y/N]
+functional_setup fs: confirm_continue db@test fixtures@test ## Setup before launch functional tests (database init & fixtures) [y/N]
 
 ##
 
@@ -583,8 +586,11 @@ twigcsfixer_fix: ## Fix code style
 
 ##
 
+.PHONY: lint
+lint: confirm_continue phpmd phpcsfixer_check phpstan_analyse twigcsfixer_lint ## Run all linters [y/N]
+
 .PHONY: fix
-fix: phpcsfixer_fix twigcsfixer_fix ## Fix all (PHP CS Fixer & Twig CS Fixer)
+fix: confirm_continue phpcsfixer_fix twigcsfixer_fix ## Fix with all linters [y/N]
 
 ## — ASSETS 🎨‍ ————————————————————————————————————————————————————————————————
 
@@ -638,7 +644,7 @@ git_hooks_on on: ## Use the hooks directory of this project
 git_hooks_off of: ## Use the default hooks directory of Git
 	git config --unset core.hooksPath
 
-git_hooks_pre_push: check ## Actions on pre-push
+git_pre_push: check ## Actions on pre-push
 
 ## — TROUBLESHOOTING 😵‍️ ———————————————————————————————————————————————————————
 
