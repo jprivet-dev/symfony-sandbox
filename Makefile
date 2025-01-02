@@ -492,7 +492,7 @@ functional f: confirm_continue functional_setup ## Run functional tests [y/N]
 	@printf "\n$(Y)----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application,integration
 
-functional_no_fixtures ff: ## Run functional tests without functional setup (no database init & no fixtures) [y/N]
+functional_no_fixtures fn: ## Run functional tests without functional setup (no database init & no fixtures) [y/N]
 	$(MAKE) -s functional no_interaction=true no_fixtures=true
 
 functional_coverage fc: confirm_continue functional_setup ## Generate code coverage report in HTML format for functional tests [y/N]
@@ -517,7 +517,7 @@ application a: confirm_continue functional_setup ## Run application tests [y/N]
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite application
 
-application_no_fixtures af: ## Run application tests without functional setup (no database init & no fixtures) [y/N]
+application_no_fixtures an: ## Run application tests without functional setup (no database init & no fixtures) [y/N]
 	$(MAKE) -s application no_interaction=true no_fixtures=true
 
 application_coverage ac: confirm_continue functional_setup ## Generate code coverage report in HTML format for application tests [y/N]
@@ -540,7 +540,7 @@ integration i: confirm_continue functional_setup ## Run integration tests [y/N]
 	@printf "\n$(Y)-----------------$(S)\n\n"
 	$(PHPUNIT) --testsuite integration
 
-integration_no_fixtures if: ## Run integration tests without functional setup (no database init & no fixtures) [y/N]
+integration_no_fixtures in: ## Run integration tests without functional setup (no database init & no fixtures) [y/N]
 	$(MAKE) -s integration no_interaction=true no_fixtures=true
 
 integration_coverage ic: confirm_continue functional_setup ## Generate code coverage report in HTML format for integration tests [y/N]
