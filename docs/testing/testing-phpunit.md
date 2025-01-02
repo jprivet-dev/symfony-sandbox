@@ -51,6 +51,21 @@ alias t='make functional no_interaction=true no_fixtures=true f="--filter testMy
 unalias t # Delete your alias
 ```
 
+## Question: `$this->assertTrue()` or `self::assertTrue()` ?
+
+* **There is no right way. And there is no wrong way, either.** It is a matter of personal preference.
+* See https://docs.phpunit.de/en/10.5/assertions.html
+
+## Troubleshooting: `You must set the KERNEL_CLASS environment variable`
+
+Add in `phpunit.xml.dist`:
+
+```
+<php>
+    <env name="KERNEL_CLASS" value="App\Kernel" />
+</php>
+```
+
 ## Resources
 
 - https://phpunit.de/
