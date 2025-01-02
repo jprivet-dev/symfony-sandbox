@@ -60,7 +60,8 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $hour = \random_int(8, 17);
             $minute = \random_int(0, 59);
             $second = \random_int(0, 59);
-            $date = (new \DateTimeImmutable('now - '.$i.'days'))->setTime($hour, $minute, $second);
+            $datetime = sprintf('now - %sdays', $i + 1);
+            $date = (new \DateTimeImmutable($datetime))->setTime($hour, $minute, $second);
 
             $posts[] = [
                 $title,
