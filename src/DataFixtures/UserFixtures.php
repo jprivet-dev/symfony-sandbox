@@ -12,6 +12,7 @@ class UserFixtures extends Fixture
     public const ADMIN = 'admin';
     public const ADMIN_2 = 'admin_2';
     public const USER = 'user';
+    public const PASSWORD = 'password';
 
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
     {
@@ -40,9 +41,9 @@ class UserFixtures extends Fixture
     {
         return [
             // $userData = [$username, $email, $password, $roles];
-            [static::ADMIN, 'admin@email.com', 'password', [User::ROLE_ADMIN]],
-            [static::ADMIN_2, 'admin_2@email.com', 'password', [User::ROLE_ADMIN]],
-            [static::USER, 'user@email.com', 'password', [User::ROLE_USER]],
+            [static::ADMIN, static::ADMIN.'@email.com', static::PASSWORD, [User::ROLE_ADMIN]],
+            [static::ADMIN_2, static::ADMIN_2.'@email.com', static::PASSWORD, [User::ROLE_ADMIN]],
+            [static::USER, static::USER.'@email.com', static::PASSWORD, [User::ROLE_USER]],
         ];
     }
 }

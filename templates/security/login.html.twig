@@ -9,7 +9,7 @@
         </h2>
 
         {% if error %}
-            <div class="text-sm text-red-800 rounded-lg dark:text-red-400" role="alert">
+            <div id="login-alert" class="text-sm text-red-800 rounded-lg dark:text-red-400" role="alert">
                 {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
         {% endif %}
