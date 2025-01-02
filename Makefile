@@ -178,7 +178,7 @@ install: confirm_continue composer_install assets migrate permissions git_hooks_
 check: confirm_continue composer_validate lint tests ## Check everything before you deliver [y/N]
 
 PHONY: info
-info i: ## Show info
+info: ## Show info
 	@$(MAKE) -s overload_file env_files vars
 	@printf "\n$(Y)Info$(S)"
 	@printf "\n$(Y)----$(S)\n\n"
@@ -490,7 +490,7 @@ unit_dox ud: confirm_continue ## Report test execution progress in TestDox forma
 functional f: confirm_continue functional_setup ## Run functional tests [y/N]
 	@printf "\n$(Y)Functional tests$(S)"
 	@printf "\n$(Y)----------------$(S)\n\n"
-	$(PHPUNIT) --testsuite functional
+	$(PHPUNIT) --testsuite application,integration
 
 functional_no_fixtures ff: ## Run functional tests without functional setup (no database init & no fixtures) [y/N]
 	$(MAKE) -s functional no_interaction=true no_fixtures=true
@@ -499,15 +499,61 @@ functional_coverage fc: confirm_continue functional_setup ## Generate code cover
 	@printf "\n$(Y)Functional tests (coverage)$(S)"
 	@printf "\n$(Y)---------------------------$(S)\n\n"
 	@printf "Generate code coverage report in HTML format for functional tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
-	$(PHPUNIT) --testsuite functional --coverage-html $(COVERAGE_DIR)
+	$(PHPUNIT) --testsuite application,integration --coverage-html $(COVERAGE_DIR)
 	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
 
 functional_dox fd: confirm_continue functional_setup ## Report test execution progress in TestDox format for functional tests [y/N]
 	@printf "\n$(Y)Functional tests (testdox)$(S)"
 	@printf "\n$(Y)--------------------------$(S)\n\n"
-	$(PHPUNIT) --testsuite functional --testdox
+	$(PHPUNIT) --testsuite application,integration --testdox
 
 functional_setup fs: confirm_continue db@test fixtures@test ## Setup before launch functional tests (database init & fixtures) [y/N]
+
+##
+
+.PHONY: application
+application a: confirm_continue functional_setup ## Run application tests [y/N]
+	@printf "\n$(Y)Application tests$(S)"
+	@printf "\n$(Y)-----------------$(S)\n\n"
+	$(PHPUNIT) --testsuite application
+
+application_no_fixtures af: ## Run application tests without functional setup (no database init & no fixtures) [y/N]
+	$(MAKE) -s application no_interaction=true no_fixtures=true
+
+application_coverage ac: confirm_continue functional_setup ## Generate code coverage report in HTML format for application tests [y/N]
+	@printf "\n$(Y)Application tests (coverage)$(S)"
+	@printf "\n$(Y)----------------------------$(S)\n\n"
+	@printf "Generate code coverage report in HTML format for application tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
+	$(PHPUNIT) --testsuite application --coverage-html $(COVERAGE_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
+
+application_dox ad: confirm_continue functional_setup ## Report test execution progress in TestDox format for application tests [y/N]
+	@printf "\n$(Y)Application tests (testdox)$(S)"
+	@printf "\n$(Y)---------------------------$(S)\n\n"
+	$(PHPUNIT) --testsuite application --testdox
+
+##
+
+.PHONY: integration
+integration i: confirm_continue functional_setup ## Run integration tests [y/N]
+	@printf "\n$(Y)Integration tests$(S)"
+	@printf "\n$(Y)-----------------$(S)\n\n"
+	$(PHPUNIT) --testsuite integration
+
+integration_no_fixtures if: ## Run integration tests without functional setup (no database init & no fixtures) [y/N]
+	$(MAKE) -s integration no_interaction=true no_fixtures=true
+
+integration_coverage ic: confirm_continue functional_setup ## Generate code coverage report in HTML format for integration tests [y/N]
+	@printf "\n$(Y)Integration tests (coverage)$(S)"
+	@printf "\n$(Y)----------------------------$(S)\n\n"
+	@printf "Generate code coverage report in HTML format for integration tests in the $(Y)$(COVERAGE_DIR)$(S) directory.\n"
+	$(PHPUNIT) --testsuite integration --coverage-html $(COVERAGE_DIR)
+	@printf " $(G)✔$(S) Open in your favorite browser the file $(Y)$(COVERAGE_INDEX)$(S)\n"
+
+integration_dox id: confirm_continue functional_setup ## Report test execution progress in TestDox format for integration tests [y/N]
+	@printf "\n$(Y)Integration tests (testdox)$(S)"
+	@printf "\n$(Y)---------------------------$(S)\n\n"
+	$(PHPUNIT) --testsuite integration --testdox
 
 ##
 
