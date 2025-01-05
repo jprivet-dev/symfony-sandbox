@@ -5,6 +5,6 @@ namespace App\Twig\Components;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent]
-final class BtnThemeSwitcherComponent
+final class ThemeSwitcherButton
 {
 }
