@@ -1,5 +1,5 @@
 # Usage:
-#   . scripts/alias.sh [options]
+#   . scripts/aliases.sh [options]
 
 # (G)REEN, (R)ED, (Y)ELLOW & RE(S)ET
 G="\033[32m"
@@ -62,19 +62,23 @@ function aliases_info() {
 
 function aliases_create_all() {
   aliases_title
+  aliases_create compose
   aliases_create symfony
   aliases_create sf
   aliases_create composer
   aliases_create php
+  aliases_create phpunit
   aliases_info
 }
 
 function aliases_delete_all() {
   aliases_title
+  aliases_delete compose
   aliases_delete symfony
   aliases_delete sf
   aliases_delete composer
   aliases_delete php
+  aliases_delete phpunit
   aliases_info
 }
 

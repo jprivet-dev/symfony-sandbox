@@ -1,0 +1,30 @@
+{# See vendor/knplabs/knp-paginator-bundle/templates/Pagination/sliding.html.twig #}
+{% if pageCount > 1 %}
+    <div class="space-y-2 pb-8 pt-6 md:space-y-5">
+        <nav class="flex justify-between">
+            {% if previous is defined %}
+                <a class="break-words" rel="prev" href="{{ path(route, knp_pagination_query(query, previous)) }}">
+                    Previous
+                </a>
+            {% else %}
+                <button class="cursor-auto disabled:opacity-50" disabled="">
+                    Previous
+                </button>
+            {% endif %}
+
+            <span>
+                {{ current }} of {{ pageCount }}
+            </span>
+
+            {% if next is defined %}
+                <a class="break-words" rel="next" href="{{ path(route, knp_pagination_query(query, next)) }}">
+                    Next
+                </a>
+            {% else %}
+                <button class="cursor-auto disabled:opacity-50" disabled="">
+                    Next
+                </button>
+            {% endif %}
+        </nav>
+    </div>
+{% endif %}
