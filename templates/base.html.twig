@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="__variable_0aa4ae scroll-smooth dark">
+<html class="__variable_0aa4ae scroll-smooth light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -12,6 +12,7 @@
     {% endblock %}
 
     {% block javascripts %}
+        <script src="{{ asset('js/theme.js') }}"></script>
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
