@@ -1,9 +1,11 @@
 /*!
- * Inspired by https://github.com/twbs/bootstrap/blob/main/site/static/docs/5.3/assets/js/color-modes.js.
- *
  * To avoid darkmode flickering, insert the following <script> directly into the <head>, before all other scripts:
  *
  *  <script src="{{ asset('js/theme.js') }}"></script>
+ *
+ * By default, a <script> tag interrupts the parsing of the HTML and block rendering until the script has been downloaded, analyzed and executed.
+ * Thanks to this trick, the theme is initialized well before the page is rendered, avoiding flickering between light and dark themes.
+ * Inspired by https://github.com/twbs/bootstrap/blob/main/site/static/docs/5.3/assets/js/color-modes.js.
  */
 
 const initTheme = () => setTheme(getStoredTheme());
@@ -11,7 +13,6 @@ const nextTheme = () => setTheme(getNextTheme(getStoredTheme()));
 const getStoredTheme = () => localStorage.getItem('theme') || 'auto';
 const setStoredTheme = (theme) => localStorage.setItem('theme', theme);
 const getNextTheme = (theme) => ({'light': 'dark', 'dark': 'auto', 'auto': 'light'})[theme];
-const activeThemeIcon = (element) => element.querySelector('svg use').setAttribute('href', `#theme-icon-${getStoredTheme()}`)
 
 const setTheme = (theme) => {
     setStoredTheme(theme);

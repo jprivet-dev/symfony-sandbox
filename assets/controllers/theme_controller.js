@@ -3,11 +3,19 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
     connect() {
         super.connect();
-        activeThemeIcon(this.element);
+        this.activeThemeIcon();
     }
 
     next = () => {
         nextTheme();
-        activeThemeIcon(this.element);
+        this.activeThemeIcon();
+    }
+
+    activeThemeIcon = () => {
+        this.element.querySelector('svg use').setAttribute('href', `#theme-icon-${getStoredTheme()}`);
+
+        const title = `Toggle theme (${getStoredTheme()})`;
+        this.element.setAttribute('aria-label', title);
+        this.element.setAttribute('title', title);
     }
 }
