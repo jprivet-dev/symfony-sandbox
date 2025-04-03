@@ -6,9 +6,7 @@
 
 A set of PHP & JavaScript packages to solve every day frontend problems featuring Stimulus and Turbo.
 
-## Installation
-
-Twig:
+## Twig
 
 ```
 composer require symfony/twig-bundle
@@ -16,13 +14,13 @@ composer require twig/intl-extra
 composer require twig/extra-bundle
 ```
 
-Asset Mapper & Stimulus:
+## Asset Mapper & Stimulus
 
 ```
 composer require symfony/asset-mapper symfony/stimulus-bundle
 ```
 
-Live Components:
+## Live Components
 
 ```
 composer require symfony/ux-live-component

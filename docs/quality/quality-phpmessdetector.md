@@ -26,10 +26,6 @@ List of rulesets and rules contained in each ruleset.
 composer require --dev phpmd/phpmd
 ```
 
-## Makefile
-
-> Run `make` to see all shorcuts for the most common tasks.
-
 ## Troubleshooting
 
 ### Missing class import via use statement
@@ -62,7 +58,7 @@ Solution - Exclude the `MissingImport` rule in `phpmd.xml`:
 
 ## Configure PhpStorm
 
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter-ide.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.

@@ -12,10 +12,6 @@ A tool to automatically fix Twig Coding Standards issues.
 composer require --dev vincentlanglet/twig-cs-fixer
 ```
 
-## Makefile
-
-> Run `make` to see all shorcuts for the most common tasks.
-
 ## Configure PhpStorm
 
 TODO

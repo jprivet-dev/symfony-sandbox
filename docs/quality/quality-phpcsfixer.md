@@ -12,13 +12,9 @@ The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow sta
 composer require --dev friendsofphp/php-cs-fixer
 ```
 
-## Makefile
-
-> Run `make` to see all shorcuts for the most common tasks.
-
 ## Configure PhpStorm
 
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter-ide.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHP CS Fixer** area:

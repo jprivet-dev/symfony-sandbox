@@ -16,48 +16,57 @@ Be sure to install the latest version of [Docker Engine](https://docs.docker.com
 
 ## Installation
 
-### The very first time
- 
-- `git clone git@github.com:jprivet-dev/symfony-sandbox.git`
-- `cd symfony-sandbox`
-- `make first`:
-  - Build fresh images.
-  - Start the containers.
-  - Install dependencies.
-  - Fix permissions.
-  - Init Git hook pre-push.
-  - Show info.
-- Go on https://symfony-sandbox.localhost/.
-
-All in one:
+### 1 - Clone the project
 
 ```shell
-git clone git@github.com:jprivet-dev/symfony-sandbox.git \
-&& cd symfony-sandbox \
-&& make first
+git clone git@github.com:jprivet-dev/symfony-sandbox.git
+cd symfony-sandbox
 ```
 
-### The following times
+### 2 - Build fresh images and start the containers
 
 ```shell
-make start    # Start the project
-make stop     # Stop the project
-make restart  # Stop and start the project
-make install  # Install all (for example, after an update of your curent branch)
+make build upd
+```
+
+### 3 - Install all
+
+Install dependencies, generate assets, execute the migration, init git hooks and show info:
+
+```shell
+make install
+```
+
+### 4 - Go on the app
+
+Open https://symfony-sandbox.localhost/ and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334).
+
+### All in one
+
+```shell
+git clone git@github.com:jprivet-dev/symfony-sandbox.git && cd symfony-sandbox && make build upd install
+```
+
+### Then with Makefile...
+
+```shell
+make start # Start the project and show info (upd & info alias)
+make stop  # Stop the project (down alias)
 ```
 
 > Run `make` to see all shorcuts for the most common tasks.
 
 ## Docs
 
-1. [Makefile - Variables overloading](docs/makefile.md)
-2. [Database - PostgreSQL](docs/database-postgre.md)
-3. [Remote PHP interpreter (Docker)](docs/remote-php-interpreter.md)
-4. [Quality](docs/quality.md)
-5. [Testing](docs/testing.md)
-6. [Security](docs/security.md)
-7. [Frontend](docs/frontend.md)
-8. [Troubleshooting](docs/troubleshooting.md)
+- [Frontend](docs/frontend.md)
+- [Makefile: use Docker build options](docs/makefile.md)
+- [PostgreSQL](docs/postgre.md)
+- [Quality](docs/quality.md)
+- [Remote PHP interpreter (Docker) with your IDE](docs/remote-php-interpreter-ide.md)
+- [Security](docs/security.md)
+- [Testing](docs/testing.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [dunglas/symfony-docker](docs/dunglas-symfony-docker.md)
 
 ## Main resources
 

@@ -1,4 +1,4 @@
-# Database - PostgreSQL
+# PostgreSQL
 
 ⬅️ [README](../README.md)
 

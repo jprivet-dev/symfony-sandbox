@@ -30,17 +30,14 @@ make functional
 # ... without interaction [Yes/No]
 make functional no_interaction=true
 
-# ... without database init and fixtures
-make functional no_fixtures=true
-
 # ... from specific folder
-make functional f="tests/Functional/Application"
+make functional ARG="tests/Functional/Application"
 
 # ... from specific file
-make functional f="tests/Functional/Application/MyTest.php"
+make functional ARG="tests/Functional/Application/MyTest.php"
 
 # ... from specific method
-make functional f="--filter testMyPage tests/Functional/Application/MyTest.php"
+make functional ARG="--filter testMyPage tests/Functional/Application/MyTest.php"
 ```
 
 TIPS - To execute your complex commands more quickly, create an `t` alias:

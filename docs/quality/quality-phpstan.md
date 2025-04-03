@@ -32,13 +32,9 @@ PHPStan PHPUnit extensions and rules:
 composer require --dev phpstan/phpstan-phpunit
 ```
 
-## Makefile
-
-> Run `make` to see all shorcuts for the most common tasks.
-
 ## Configure PhpStorm
 
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter-ide.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Quality Tools**.
 - Expand the **PHPStan** area and switch `ON` the tool.

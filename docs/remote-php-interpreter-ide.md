@@ -1,4 +1,4 @@
-# Remote PHP interpreter (Docker)
+# Remote PHP interpreter (Docker) with your IDE
 
 ⬅️ [README](../README.md)
 

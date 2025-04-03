@@ -1,5 +1,7 @@
 # Pagination with KnpPaginatorBundle
 
+⬅️ [README](../README.md)
+
 ## About
 
 Friendly Symfony paginator to paginate everything.

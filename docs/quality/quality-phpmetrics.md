@@ -16,10 +16,6 @@ I need to force the version with the following command :
 composer require --dev phpmetrics/phpmetrics:2.8.1 --with-all-dependencies
 ```
 
-## Makefile
-
-> Run `make` to see all shorcuts for the most common tasks.
-
 ## Resources
 
 - https://phpmetrics.org/

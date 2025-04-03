@@ -4,7 +4,7 @@
 
 ## Use PHP interpreter without a database (Docker)
 
-> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter.md)
+> Prerequisite : configure a [Remote PHP interpreter (Docker)](../remote-php-interpreter-ide.md)
 
 - Go on **Settings (Ctrl+Alt+S) > PHP > Test Framework**.
 - Click on `+` and select **PHPUnit by Remote Interpreter**.

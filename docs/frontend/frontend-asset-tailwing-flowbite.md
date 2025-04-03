@@ -2,42 +2,45 @@
 
 ⬅️ [Frontend](../frontend.md)
 
-## About
+## AssetMapper
 
 The Symfony [AssetMapper](https://symfony.com/doc/current/frontend/asset_mapper.html) component lets you write modern JavaScript and CSS without the complexity of using a bundler.
 
-[Tailwind](https://tailwindcss.com/) is a utility-first CSS framework packed with classes like `flex`, `pt-4`, `text-center` and `rotate-90` that can be composed to build any design, directly in your markup.
+### Installation
 
-[Flowbite](https://flowbite.com/) is an open source collection of UI components built with the utility classes from Tailwind CSS that you can use as a starting point when coding user interfaces and websites.
-
-## Installation
-
-Asset:
-
-```
+```shell
 composer require symfony/asset
 ```
 
-Tailwind:
+## Tailwind
 
-```
+[Tailwind](https://tailwindcss.com/) is a utility-first CSS framework packed with classes like `flex`, `pt-4`, `text-center` and `rotate-90` that can be composed to build any design, directly in your markup.
+
+### Installation
+
+```shell
 composer require symfonycasts/tailwind-bundle
 php bin/console tailwind:init
 php bin/console tailwind:build
 ```
 
-Flowbite:
+### How does it work with AssetMapper?
 
-```
+The first time you run one of the Tailwind commands, the bundle will download the correct [Tailwind binary](https://tailwindcss.com/blog/standalone-cli) for your system into a `var/tailwind/` directory.
+
+## Flowbite
+
+[Flowbite](https://flowbite.com/) is an open source collection of UI components built with the utility classes from Tailwind CSS that you can use as a starting point when coding user interfaces and websites.
+
+### Installation
+
+```shell
 php bin/console importmap:require flowbite
 ```
 
-## Makefile
-
-> Run `make` to see all shorcuts for the most common tasks.
 ## Resources
 
-- Asset:
+- AssetMapper:
   - https://symfony.com/doc/current/frontend/asset_mapper.html
 - Tailwind:
   - https://tailwindcss.com/
