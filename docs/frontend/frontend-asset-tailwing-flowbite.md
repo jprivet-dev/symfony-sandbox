@@ -28,6 +28,16 @@ php bin/console tailwind:build
 
 The first time you run one of the Tailwind commands, the bundle will download the correct [Tailwind binary](https://tailwindcss.com/blog/standalone-cli) for your system into a `var/tailwind/` directory.
 
+Choose a binary version:
+
+```yaml
+# config/packages/symfonycasts_tailwind.yaml
+symfonycasts_tailwind:
+  binary_version: 'v3.4.*'
+```
+
+> If using Tailwind CSS v4+, `tailwind.config.js` is not created or used.
+
 ## Flowbite
 
 [Flowbite](https://flowbite.com/) is an open source collection of UI components built with the utility classes from Tailwind CSS that you can use as a starting point when coding user interfaces and websites.
