@@ -1,6 +1,6 @@
 /**
  * See https://tailwindcss.com/docs/configuration
- * See https://github.com/timlrx/tailwind-nextjs-starter-blog/blob/main/tailwind.config.js
+ * See https://github.com/timlrx/tailwind-nextjs-starter-blog/blob/v2.3.0/tailwind.config.js
  */
 
 const colors = require('tailwindcss/colors')
