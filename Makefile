@@ -466,13 +466,13 @@ fix: confirm phpcsfixer_fix twigcsfixer_fix ## Fix with all linters [y/N]
 ## — ASSETS 🎨‍ ————————————————————————————————————————————————————————————————
 
 .PHONY: assets
-assets: importmap_install tailwind_build ##  Generate all assets.
+assets: importmap_install tailwind_build ## Generate all assets.
 
-assets@prod: asset_compile tailwind_minify ##  Deploy all assets.
+assets@prod: asset_compile tailwind_minify ## Deploy all assets.
 
 ##
 
-asset_compile: ##  Compile all mapped assets and writes them to the final public output directory.
+asset_compile: ## Compile all mapped assets and writes them to the final public output directory.
 	$(CONSOLE) asset-map:compile
 
 asset_debug: ## See all of the mapped assets .
@@ -480,34 +480,37 @@ asset_debug: ## See all of the mapped assets .
 
 ##
 
-importmap_audit: ##  Check for security vulnerability advisories for dependencies
+importmap_audit: ## Check for security vulnerability advisories for dependencies
 	$(CONSOLE) importmap:audit
 
-importmap_install: ##  Download all assets that should be downloaded
+importmap_install: ## Download all assets that should be downloaded
 	$(CONSOLE) importmap:install
 
-importmap_outdated: ##  List outdated JavaScript packages and their latest versions
+importmap_outdated: ## List outdated JavaScript packages and their latest versions
 	$(CONSOLE) importmap:outdated
 
-importmap_remove: ##  Remove JavaScript packages
+importmap_remove: ## Remove JavaScript packages
 	$(CONSOLE) importmap:remove
 
-importmap_require: ##  Require JavaScript packages
+importmap_require: ## Require JavaScript packages
 	$(CONSOLE) importmap:require
 
-importmap_update: ##  Update JavaScript packages to their latest versions
+importmap_update: ## Update JavaScript packages to their latest versions
 	$(CONSOLE) importmap:update
 
 ##
 
-tailwind_build: ##  Build the Tailwind CSS assets - $ make tailwind_build [ARG=<arguments>] - Example: $ make tailwind_build ARG=--help
+tailwind_build: ## Build the Tailwind CSS assets - $ make tailwind_build [ARG=<arguments>] - Example: $ make tailwind_build ARG=--help
 	$(CONSOLE) tailwind:build -v $(ARG)
 
 tailwind_watch w: ARG=--watch
-tailwind_watch w: tailwind_build ##  Watch for changes and rebuild automatically.
+tailwind_watch w: tailwind_build ## Watch for changes and rebuild automatically.
 
 tailwind_minify: ARG=--minify
-tailwind_minify: tailwind_build ##  Minify the output CSS.
+tailwind_minify: tailwind_build ## Minify the output CSS.
+
+tailwind_debug: ## See the full config from TailwindBundle
+	$(CONSOLE) config:dump symfonycasts_tailwind
 
 ## — DOCKER 🐳 ————————————————————————————————————————————————————————————————
 
