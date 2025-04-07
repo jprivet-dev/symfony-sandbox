@@ -2,11 +2,11 @@
 
 namespace App\Repository;
 
-use App\Dto\TagPostsCountDto;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Tag>
@@ -19,7 +19,7 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array<TagPostsCountDto>
+     * @return array<string, array{t_id: Uuid, t_name: string, p_count: int}>
      */
     public function findAllWithPostsCount(): array
     {
@@ -27,7 +27,7 @@ class TagRepository extends ServiceEntityRepository
         static::addPostsCount($qb);
         static::orderByTagNameAsc($qb);
 
-        return static::getArrayTagPostsCountDto($qb->getQuery()->getScalarResult());
+        return $qb->getQuery()->getScalarResult();
     }
 
     protected static function addPostsCount(QueryBuilder $qb): void
@@ -41,22 +41,5 @@ class TagRepository extends ServiceEntityRepository
     protected static function orderByTagNameAsc(QueryBuilder $qb): void
     {
         $qb->orderBy('t.name', 'ASC');
-    }
-
-    /**
-     * @param array<string, mixed> $scalarResult
-     *
-     * @return array<TagPostsCountDto>
-     */
-    protected static function getArrayTagPostsCountDto(array $scalarResult): array
-    {
-        return array_map(
-            fn ($item) => new TagPostsCountDto(
-                $item['t_id'],
-                $item['t_name'],
-                $item['p_count'],
-            ),
-            $scalarResult
-        );
     }
 }

@@ -23,7 +23,7 @@ class PostRepository extends ServiceEntityRepository
      */
     public function findAllPaginate(int $page): PaginationInterface
     {
-        return $this->paginator->paginate($this->findAll(), $page);
+        return $this->paginate($this->findAll(), $page);
     }
 
     /**
@@ -38,5 +38,14 @@ class PostRepository extends ServiceEntityRepository
             ->setParameter('now', new \DateTimeImmutable());
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param array<Post> $posts
+     * @return PaginationInterface<int, mixed>
+     */
+    public function paginate(array $posts, int $page): PaginationInterface
+    {
+        return $this->paginator->paginate($posts, $page);
     }
 }

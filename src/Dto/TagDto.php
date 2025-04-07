@@ -4,12 +4,12 @@ namespace App\Dto;
 
 use Symfony\Component\Uid\Uuid;
 
-readonly class TagPostsCountDto
+readonly class TagDto
 {
     public function __construct(
-        private Uuid $id,
-        private string $name,
-        private int $postsCount,
+        public Uuid $id,
+        public string $name,
+        public int $postsCount,
     ) {
     }
 
