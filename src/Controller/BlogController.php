@@ -17,32 +17,30 @@ class BlogController extends AbstractController
     #[Route('/', name: 'app_blog')]
     public function posts(TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
     {
-        $page = $request->query->getInt('page', 1);
-
         return $this->render('blog.html.twig', [
             'tags' => $tagDtoMapper->findAllWithPostsCount(),
-            'posts' => $postRepository->findAllPaginate($page),
+            'posts' => $postRepository->findAllPaginate(
+                $request->query->getInt('page', 1)
+            ),
         ]);
     }
 
     #[Route('/{slug:post}', name: 'app_blog_post_by_slug')]
     public function postBySlug(Post $post): Response
     {
-        return $this->render('post.html.twig', [
-            'post' => $post,
-        ]);
+        return $this->render('post.html.twig', ['post' => $post]);
     }
 
     #[Route('/tag/{id:tag}', name: 'app_blog_posts_by_tag_id')]
     public function postsByTagId(Tag $tag, TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
     {
-        $page = $request->query->getInt('page', 1);
-
         return $this->render('blog.html.twig', [
             'currentTag' => $tag,
             'tags' => $tagDtoMapper->findAllWithPostsCount(),
-            'posts' => $postRepository->paginate($tag->getPosts()->toArray(), $page),
+            'posts' => $postRepository->findAllByTagPaginate(
+                $tag,
+                $request->query->getInt('page', 1)
+            ),
         ]);
     }
-
 }

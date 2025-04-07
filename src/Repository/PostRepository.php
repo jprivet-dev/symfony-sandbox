@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -24,6 +25,14 @@ class PostRepository extends ServiceEntityRepository
     public function findAllPaginate(int $page): PaginationInterface
     {
         return $this->paginate($this->findAll(), $page);
+    }
+
+    /**
+     * @return PaginationInterface<int, mixed>
+     */
+    public function findAllByTagPaginate(Tag $tag, int $page): PaginationInterface
+    {
+        return $this->paginate($tag->getPosts()->toArray(), $page);
     }
 
     /**
