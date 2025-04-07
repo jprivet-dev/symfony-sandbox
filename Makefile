@@ -21,34 +21,24 @@ USER     = $(USER_ID):$(GROUP_ID)
 #
 
 # Files in order of increasing priority.
-# @see https://github.com/jprivet-dev/makefiles/tree/main/symfony-env-include
-# @see https://www.gnu.org/software/make/manual/html_node/Environment.html
-# @see https://github.com/symfony/recipes/issues/18
-# @see https://symfony.com/doc/current/quick_tour/the_architecture.html#environment-variables
-# @see https://symfony.com/doc/current/configuration.html#listing-environment-variables
-# @see https://symfony.com/doc/current/configuration.html#overriding-environment-values-via-env-local
--include .env
+# See https://github.com/jprivet-dev/makefiles/tree/main/symfony-env-include
+# See https://www.gnu.org/software/make/manual/html_node/Environment.html
+# See https://github.com/symfony/recipes/issues/18
+# See https://symfony.com/doc/current/quick_tour/the_architecture.html#environment-variables
+# See https://symfony.com/doc/current/configuration.html#listing-environment-variables
+# See https://symfony.com/doc/current/configuration.html#overriding-environment-values-via-env-local
+include .env
 -include .env.local
+-include .env.$(APP_ENV)
+-include .env.$(APP_ENV).local
 
-# get APP_ENV original value
-FILE_ENV := $(APP_ENV)
--include .env.$(FILE_ENV)
--include .env.$(FILE_ENV).local
-
-ifneq ($(FILE_ENV),$(APP_ENV))
-$(info Warning: APP_ENV is overloaded outside .env and .env.local files)
-endif
-
-ifeq ($(FILE_ENV),prod)
+ifeq ($(APP_ENV),prod)
 $(info Warning: Your are in the prod environment)
-else ifeq ($(FILE_ENV),test)
-$(info Warning: Your are in the test environment)
 endif
 
-# @see https://symfony.com/doc/current/deployment.html#b-configure-your-environment-variables
+# See https://symfony.com/doc/current/deployment.html#b-configure-your-environment-variables
 ifneq ($(wildcard .env.local.php),)
 $(info Warning: It is not possible to use variables from .env.local.php file)
-$(info Warning: The final APP_ENV of that Makefile may be different from the APP_ENV of .env.local.php)
 endif
 
 #
@@ -56,7 +46,7 @@ endif
 #
 
 PWD               = $(shell pwd)
-NOW               = $(shell date +%Y%m%d-%H%M)
+NOW               = $(shell date +%Y%m%d-%H%M%S)
 PHPMETRICS_DIR    = src
 PHPMETRICS_REPORT = build/phpmetrics-report-$(NOW)
 PHPMETRICS_INDEX  = $(PWD)/$(PHPMETRICS_REPORT)/index.html
@@ -73,14 +63,14 @@ TAILWIND_CONFIG   = tailwind.config.js
 
 #
 # OPTIONS
-# https://github.com/dunglas/symfony-docker/blob/main/docs/options.md
+# See https://github.com/dunglas/symfony-docker/blob/main/docs/options.md
 #
 
 PROJECT_NAME    ?= $(shell basename $(CURDIR))
 SERVER_NAME     ?= $(PROJECT_NAME).localhost
 UP_ENV          ?=
 
-ifneq ($(FILE_ENV),prod)
+ifneq ($(APP_ENV),prod)
 XDEBUG_MODE = coverage
 endif
 
@@ -124,7 +114,7 @@ endif
 
 COMPOSE = docker compose
 
-ifeq ($(FILE_ENV),prod)
+ifeq ($(APP_ENV),prod)
 COMPOSE = $(COMPOSE) -f compose.yaml -f compose.prod.yaml
 endif
 
@@ -161,14 +151,9 @@ TWIGCSFIXER        = $(PHP) vendor/bin/twig-cs-fixer
 help: ## Print self-documented Makefile
 	@grep -E '(^[.a-zA-Z_-]+[^:]+:.*##.*?$$)|(^#{2})' Makefile | awk 'BEGIN {FS = "## "}; { \
 		split($$1, line, ":"); targets=line[1]; description=$$2; \
-		if (targets == "##") { \
-			printf "\033[33m%s\n", ""; # space \
-		} else if (targets == "" && description != "") { \
-			printf "\033[33m\n%s\n", description; # title \
-		} else if (targets != "" && description != "") { \
-			split(targets, parts, " "); target=parts[1]; alias=parts[2]; \
-			printf "\033[32m  %-26s \033[34m%-2s \033[0m%s\n", target, alias, description; # target alias: description \
-		} \
+		if (targets == "##") { printf "\033[33m%s\n", ""; } \
+		else if (targets == "" && description != "") { printf "\033[33m\n%s\n", description; } \
+		else if (targets != "" && description != "") { split(targets, parts, " "); target=parts[1]; alias=parts[2]; printf "\033[32m  %-26s \033[34m%-2s \033[0m%s\n", target, alias, description; } \
 	}'
 	@echo
 
@@ -329,7 +314,7 @@ sql@test: sql ## Execute the given SQL query and output the results (env=test)
 
 ##
 
-# @see https://stackoverflow.com/questions/769683/how-to-show-tables-in-postgresql
+# See https://stackoverflow.com/questions/769683/how-to-show-tables-in-postgresql
 sql_tables: ## Show all tables
 	$(MAKE) -s sql QUERY="SELECT * FROM pg_catalog.pg_tables;" $(ARG)
 
@@ -468,6 +453,8 @@ fix: confirm phpcsfixer_fix twigcsfixer_fix ## Fix with all linters [y/N]
 .PHONY: assets
 assets: importmap_install tailwind_build ## Generate all assets.
 
+assets@dev: importmap_install tailwind_build ## Generate all assets.
+
 assets@prod: asset_compile tailwind_minify ## Deploy all assets.
 
 ##
@@ -566,9 +553,7 @@ vars: ## Show some Makefile variables
 	@printf "\n$(Y)Vars$(S)"
 	@printf "\n$(Y)----$(S)\n\n"
 	@printf "USER      : $(USER)\n"
-	@printf "FILE_ENV  : $(FILE_ENV)\n"
 	@printf "APP_ENV   : $(APP_ENV)\n"
-	@printf "APP_SECRET: $(APP_SECRET)\n"
 	@printf "UP_ENV    : $(UP_ENV)\n"
 	@printf "COMPOSE_V2: $(COMPOSE_V2)\n"
 	@printf "COMPOSE   : $(COMPOSE)\n"
@@ -576,6 +561,5 @@ vars: ## Show some Makefile variables
 ## — INTERNAL 🚧‍️ ——————————————————————————————————————————————————————————————
 
 confirm: ## Display a confirmation before continuing [y/N]
-	@$(eval no_interaction ?=) # Interactive question or not
-	@if [ "$${no_interaction}" = "true" ]; then exit 0; fi; \
+	@if [ "$${NO_INTERACTION}" = "true" ]; then exit 0; fi; \
 	printf "$(G)Do you want to continue?$(S) [$(Y)y/N$(S)]: " && read answer && [ $${answer:-N} = y ]

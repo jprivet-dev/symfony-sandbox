@@ -28,7 +28,7 @@ Examples :
 make functional
 
 # ... without interaction [Yes/No]
-make functional no_interaction=true
+make functional NO_INTERACTION=true
 
 # ... from specific folder
 make functional ARG="tests/Functional/Application"
@@ -43,7 +43,7 @@ make functional ARG="--filter testMyPage tests/Functional/Application/MyTest.php
 TIPS - To execute your complex commands more quickly, create an `t` alias:
 
 ```shell
-alias t='make functional no_interaction=true no_fixtures=true f="--filter testMyPage tests/Functional/Application/MyTest.php"'
+alias t='make functional NO_INTERACTION=true ARG="--filter testMyPage tests/Functional/Application/MyTest.php"'
 
 unalias t # Delete your alias
 ```
