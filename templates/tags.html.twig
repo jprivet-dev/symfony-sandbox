@@ -8,7 +8,7 @@
         <div class="flex max-w-lg flex-wrap">
             {% for tag in tags %}
                 <div class="mb-2 mr-5 mt-2">
-                    <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/next-js">
+                    <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="{{ path('app_blog_posts_by_tag_id', { 'id': tag.id }) }}">
                         {{ tag.name }} ({{ tag.postsCount }})
                     </a>
                 </div>

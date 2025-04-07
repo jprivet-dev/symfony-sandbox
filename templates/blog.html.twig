@@ -18,7 +18,12 @@
                     <ul>
                         {% for tag in tags %}
                             <li class="my-3">
-                                <a class="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" aria-label="View posts tagged next-js" href="/tags/next-js">
+                                {% if tag.id == currentTag.id %}
+                                    {% set tagClasses = "text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" %}
+                                {% else %}
+                                    {% set tagClasses = "text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500" %}
+                                {% endif %}
+                                <a class="px-3 py-2 text-sm font-medium uppercase {{ tagClasses }}" aria-label="View posts tagged {{ tag.name }}" href="{{ path('app_blog_posts_by_tag_id', { 'id': tag.id }) }}">
                                     {{ tag.name }} ({{ tag.postsCount }})
                                 </a>
                             </li>
@@ -50,7 +55,7 @@
                                         </h2>
                                         <div class="flex flex-wrap">
                                             {% for tag in post.tags %}
-                                                <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="/tags/next-js">
+                                                <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="{{ path('app_blog_posts_by_tag_id', { 'id': tag.id }) }}">
                                                     {{ tag.name }}
                                                 </a>
                                             {% endfor %}
