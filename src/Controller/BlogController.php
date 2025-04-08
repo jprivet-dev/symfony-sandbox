@@ -19,9 +19,19 @@ class BlogController extends AbstractController
     {
         return $this->render('blog.html.twig', [
             'tags' => $tagDtoMapper->findAllWithPostsCount(),
-            'posts' => $postRepository->findAllPaginate(
-                $request->query->getInt('page', 1)
-            ),
+            'posts' => $postRepository->findAllPaginate($this->getCurrentPage($request)),
+            'postsCount' => $postRepository->count(),
+        ]);
+    }
+
+    #[Route('/tag/{id:tag}', name: 'app_blog_posts_by_tag_id')]
+    public function postsByTagId(Tag $tag, TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
+    {
+        return $this->render('blog.html.twig', [
+            'currentTag' => $tag,
+            'tags' => $tagDtoMapper->findAllWithPostsCount(),
+            'posts' => $postRepository->findAllByTagPaginate($tag, $this->getCurrentPage($request)),
+            'postsCount' => $postRepository->count(),
         ]);
     }
 
@@ -31,16 +41,8 @@ class BlogController extends AbstractController
         return $this->render('post.html.twig', ['post' => $post]);
     }
 
-    #[Route('/tag/{id:tag}', name: 'app_blog_posts_by_tag_id')]
-    public function postsByTagId(Tag $tag, TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
+    private function getCurrentPage(Request $request): int
     {
-        return $this->render('blog.html.twig', [
-            'currentTag' => $tag,
-            'tags' => $tagDtoMapper->findAllWithPostsCount(),
-            'posts' => $postRepository->findAllByTagPaginate(
-                $tag,
-                $request->query->getInt('page', 1)
-            ),
-        ]);
+        return $request->query->getInt('page', 1);
     }
 }
