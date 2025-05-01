@@ -30,6 +30,7 @@
         "symfony/twig-bundle": "7.1.*",
         "symfony/uid": "7.1.*",
         "symfony/ux-live-component": "^2.22",
+        "symfony/ux-swup": "^2.24",
         "symfony/yaml": "7.1.*",
         "symfonycasts/tailwind-bundle": "^0.6.1",
         "twig/extra-bundle": "^3.16",

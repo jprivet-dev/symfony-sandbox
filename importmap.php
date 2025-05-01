@@ -38,4 +38,25 @@ return [
         'version' => '2.5.2',
         'type' => 'css',
     ],
+    '@swup/fade-theme' => [
+        'version' => '1.0.5',
+    ],
+    '@swup/slide-theme' => [
+        'version' => '1.0.5',
+    ],
+    '@swup/forms-plugin' => [
+        'version' => '2.0.1',
+    ],
+    '@swup/plugin' => [
+        'version' => '2.0.2',
+    ],
+    'swup' => [
+        'version' => '3.1.1',
+    ],
+    'delegate-it' => [
+        'version' => '6.0.1',
+    ],
+    '@swup/debug-plugin' => [
+        'version' => '3.0.0',
+    ],
 ];
