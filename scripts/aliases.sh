@@ -22,7 +22,7 @@ function aliases_delete() {
 function aliases_make() {
   local name="${1}"
   shift
-  make ${name} p="${*}"
+  make ${name} ARG="${*}"
 }
 
 function aliases_help() {

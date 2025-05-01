@@ -4,5 +4,6 @@
 
 1. [Testing - Overview](testing/testing-overview.md)
 2. [Testing - PHPUnit](testing/testing-phpunit.md)
+2. [Testing - Behat](testing/testing-behat.md)
 3. [Testing - Configure PhpStorm](testing/testing-phpunit-phpstorm.md)
 4. [Testing - Configure VS Code](testing/testing-phpunit-vscode.md)
