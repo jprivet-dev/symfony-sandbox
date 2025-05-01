@@ -55,7 +55,6 @@ PHPSTAN_DIR       = src
 PHPSTAN_CONFIG    = phpstan.dist.neon
 PHPSTAN_BASELINE  = phpstan-baseline.php
 XDEBUG_INI        = /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-COVERAGE_DIR      = build/coverage-$(NOW)
 COVERAGE_INDEX    = $(PWD)/$(COVERAGE_DIR)/index.html
 PHPCSFIXER_CONFIG = .php-cs-fixer.dist.php
 TWIGCSFIXER_DIR   = templates
@@ -138,6 +137,7 @@ PHPCSFIXER         = $(PHP) vendor/bin/php-cs-fixer
 PHPMD              = $(PHP) vendor/bin/phpmd
 PHPSTAN            = $(PHP) vendor/bin/phpstan
 PHPUNIT            = $(PHP) vendor/bin/phpunit
+BEHAT              = $(PHP) vendor/bin/behat
 TWIGCSFIXER        = $(PHP) vendor/bin/twig-cs-fixer
 
 ## — 🐳 🎵 THE SYMFONY STARTER MAKEFILE 🎵 🐳 —————————————————————————————————
@@ -203,6 +203,16 @@ dotenv: ## Lists all dotenv files with variables and values
 dumpenv: ## Generate .env.local.php
 	$(COMPOSER) dump-env prod
 
+##
+
+.PHONY: container
+container: ## Displays all configured public services - $ make container [ARG=<arguments>] - Example: $ make container ARG="-e test twig"
+	$(CONSOLE) debug:container $(ARG)
+
+.PHONY: deprecations
+deprecations: ARG=--deprecations
+deprecations: container ## See deprecations generated during container compilation and cache warmup
+
 ## — COMPOSER 🧙 ——————————————————————————————————————————————————————————————
 
 .PHONY: composer
@@ -211,6 +221,9 @@ composer: ## Run composer - $ make composer [ARG=<arguments>] - Example: $ make 
 
 composer_validate: ## Validate composer.json and composer.lock
 	$(COMPOSER) validate --strict --check-lock
+
+composer_hash: ## Recalculate "content-hash" of composer.lock
+	$(COMPOSER) update --lock
 
 ##
 
@@ -240,21 +253,18 @@ php: ## Run PHP - $ make php [ARG=<arguments>]- Example: $ make php ARG=--versio
 php_sh: ## Connect to the PHP container
 	$(CONTAINER_PHP) sh
 
-php_modules: ## Show compiled in modules
-	$(PHP) -m
-
 ## — DOCTRINE & SQL 💽 ————————————————————————————————————————————————————————
 
 .PHONY: db
 db: confirm db_drop db_create migrate ## Drop and create the database and migrate [y/N]
 
 db@test: ARG="--env=test"
-db@test: db ## Drop and create the database and migrate (env=test) [y/N]
+db@test: db ## Drop and create the database and migrate (env=test)
 
-db_drop: confirm ## Drop the database [y/N] - $ make db_drop [ARG=<arguments>] - Example: $ make db_drop ARG="--env=test" [y/N]
+db_drop: confirm ## Drop the database [y/N] - $ make db_drop [ARG=<arguments>] - Example: $ make db_drop ARG="--env=test"
 	$(CONSOLE) doctrine:database:drop --if-exists --force $(ARG)
 
-db_create: confirm ## Create the database [y/N] - $ make db_create [ARG=<arguments>] - Example: $ make db_create ARG="--env=test" [y/N]
+db_create: confirm ## Create the database [y/N] - $ make db_create [ARG=<arguments>] - Example: $ make db_create ARG="--env=test"
 	$(CONSOLE) doctrine:database:create --if-not-exists $(ARG)
 
 ##
@@ -297,7 +307,7 @@ generate: ## Generate a blank migration class
 ##
 
 .PHONY: fixtures
-fixtures: confirm ## Load fixtures (CAUTION! by default the load command purges the database) [y/N] - $ make fixtures [ARG=<param>] - Example: $ make fixtures ARG="--append" [y/N]
+fixtures: confirm ## Load fixtures (CAUTION! by default the load command purges the database) [y/N] - $ make fixtures [ARG=<param>] - Example: $ make fixtures ARG="--append"
 	$(CONSOLE) doctrine:fixtures:load -n $(ARG)
 
 fixtures@test: ARG="--env=test"
@@ -378,12 +388,19 @@ _functional_setup: confirm db@test fixtures@test # INTERNAL: Setup before launch
 ##
 
 .PHONY: application
-application: _functional_setup ## Run application tests [y/N]
+application: confirm _functional_setup ## Run application tests [y/N]
 	$(PHPUNIT) --testsuite application $(ARG)
 
 .PHONY: integration
-integration: _functional_setup ## Run integration tests [y/N]
+integration: _functional_setup ## Run integration tests
 	$(PHPUNIT) --testsuite integration $(ARG)
+
+##
+
+.PHONY: behat
+behat: ARG=-vvv --no-snippets
+behat: ## Run Behat [y/N]
+	$(BEHAT) $(ARG)
 
 ##
 
