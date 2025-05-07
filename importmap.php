@@ -16,47 +16,53 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    '@hotwired/stimulus' => [
-        'version' => '3.2.2',
-    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
     '@symfony/ux-live-component' => [
         'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
+    ],
     'flowbite' => [
-        'version' => '2.5.2',
+        'version' => '3.1.2',
     ],
     '@popperjs/core' => [
         'version' => '2.11.8',
     ],
     'flowbite-datepicker' => [
-        'version' => '1.3.0',
+        'version' => '1.3.2',
     ],
     'flowbite/dist/flowbite.min.css' => [
-        'version' => '2.5.2',
+        'version' => '3.1.2',
         'type' => 'css',
     ],
     '@swup/fade-theme' => [
-        'version' => '1.0.5',
-    ],
-    '@swup/slide-theme' => [
-        'version' => '1.0.5',
-    ],
-    '@swup/forms-plugin' => [
         'version' => '2.0.1',
     ],
+    '@swup/slide-theme' => [
+        'version' => '2.0.1',
+    ],
+    '@swup/forms-plugin' => [
+        'version' => '3.6.0',
+    ],
     '@swup/plugin' => [
-        'version' => '2.0.2',
+        'version' => '4.0.0',
     ],
     'swup' => [
-        'version' => '3.1.1',
+        'version' => '4.8.2',
     ],
     'delegate-it' => [
-        'version' => '6.0.1',
+        'version' => '6.2.1',
     ],
     '@swup/debug-plugin' => [
-        'version' => '3.0.0',
+        'version' => '4.1.0',
+    ],
+    '@swup/theme' => [
+        'version' => '2.1.0',
+    ],
+    'path-to-regexp' => [
+        'version' => '6.3.0',
     ],
 ];
