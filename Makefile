@@ -498,7 +498,7 @@ importmap_remove: ## Remove JavaScript packages
 	$(CONSOLE) importmap:remove
 
 importmap_require: ## Require JavaScript packages
-	$(CONSOLE) importmap:require
+	$(CONSOLE) importmap:require $(ARG)
 
 importmap_update: ## Update JavaScript packages to their latest versions
 	$(CONSOLE) importmap:update
