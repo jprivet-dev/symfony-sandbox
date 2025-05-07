@@ -470,16 +470,17 @@ fix: confirm phpcsfixer_fix twigcsfixer_fix ## Fix with all linters [y/N]
 .PHONY: assets
 assets: importmap_install tailwind_build ## Generate all assets.
 
-assets@dev: importmap_install tailwind_build ## Generate all assets.
-
-assets@prod: asset_compile tailwind_minify ## Deploy all assets.
+assets@prod: asset_map_compile tailwind_minify ## Deploy all assets.
 
 ##
 
-asset_compile: ## Compile all mapped assets and writes them to the final public output directory.
+asset_map_clear: ## Clear all assets in the public output directory.
+	$(COMPOSE) run --rm php rm -rf ./public/assets
+
+asset_map_compile: asset_map_clear ## Compile all mapped assets and writes them to the final public output directory.
 	$(CONSOLE) asset-map:compile
 
-asset_debug: ## See all of the mapped assets .
+asset_map_debug: ## See all of the mapped assets .
 	$(CONSOLE) debug:asset-map --full
 
 ##
@@ -503,6 +504,9 @@ importmap_update: ## Update JavaScript packages to their latest versions
 	$(CONSOLE) importmap:update
 
 ##
+
+tailwind_clear: ## Clear var/tailwind directory
+	$(COMPOSE) run --rm php rm -rf ./var/tailwind
 
 tailwind_build: ## Build the Tailwind CSS assets - $ make tailwind_build [ARG=<arguments>] - Example: $ make tailwind_build ARG=--help
 	$(CONSOLE) tailwind:build -v $(ARG)
