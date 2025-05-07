@@ -16,7 +16,7 @@
     {% endblock %}
 </head>
 <body class="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white"
-        {{ stimulus_controller('symfony/ux-swup/swup', {
+        {{ stimulus_controller('extend_ux_swup')|stimulus_controller('symfony/ux-swup/swup', {
             containers: ['main'],
             plugins: [],
         }) }}
