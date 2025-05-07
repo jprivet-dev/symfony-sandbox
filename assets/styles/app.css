@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background-color: skyblue;
+/* h1 animations: */
+/* - https://swup.js.org/getting-started/demos/#multiple-animations */
+/* - https://glitch.com/edit/#!/swup-demo-multiple?path=transitions.css */
+
+h1 {
+    transition: transform 300ms, opacity 300ms;
+}
+
+html.is-animating.is-rendering h1 {
+    transform: translateY(-2rem);
+    opacity: 0;
 }
