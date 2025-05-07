@@ -77,8 +77,15 @@ Configuration:
 </html>
 ```
 
+Install SwupFragmentPlugin:
+
+```
+php bin/console importmap:require @swup/fragment-plugin
+```
+
 Resources:
 
 - https://symfony.com/bundles/ux-swup/current/index.html
 - https://swup.js.org/
 - https://swup.js.org/getting-started/demos/#multiple-animations
+- https://swup.js.org/plugins/fragment-plugin/
