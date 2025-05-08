@@ -13,27 +13,14 @@ export default class extends Controller {
     }
 
     onPreConnect(event) {
-        const postByTagElement = '#posts-by-tag';
-
         event.detail.options.plugins.push(new FragmentPlugin({
             debug: true,
-            rules: [
-                {
-                    from: '/blog/tag/(.*)',
-                    to: '/blog/tag(.*)',
-                    containers: [postByTagElement],
-                },
-                {
-                    from: '/blog/',
-                    to: '/blog/tag(.*)',
-                    containers: [postByTagElement],
-                },
-                {
-                    from: '/blog/tag(.*)',
-                    to: '/blog/',
-                    containers: [postByTagElement],
-                }
-            ]
+            rules: [{
+                from: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
+                to: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
+                containers: ['#posts-by-tag'],
+                scroll: '#posts-by-tag',
+            }]
         }));
     }
 }
