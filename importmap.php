@@ -68,7 +68,4 @@ return [
     '@swup/fragment-plugin' => [
         'version' => '1.1.1',
     ],
-    '@swup/preload-plugin' => [
-        'version' => '3.2.11',
-    ],
 ];
