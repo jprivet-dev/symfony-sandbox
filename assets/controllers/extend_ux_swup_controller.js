@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import FragmentPlugin from '@swup/fragment-plugin';
 
 /**
  * See:
@@ -12,6 +13,27 @@ export default class extends Controller {
     }
 
     onPreConnect(event) {
-        console.log(event.detail.options);
+        const postByTagElement = '#posts-by-tag';
+
+        event.detail.options.plugins.push(new FragmentPlugin({
+            debug: true,
+            rules: [
+                {
+                    from: '/blog/tag/(.*)',
+                    to: '/blog/tag(.*)',
+                    containers: [postByTagElement],
+                },
+                {
+                    from: '/blog/',
+                    to: '/blog/tag(.*)',
+                    containers: [postByTagElement],
+                },
+                {
+                    from: '/blog/tag(.*)',
+                    to: '/blog/',
+                    containers: [postByTagElement],
+                }
+            ]
+        }));
     }
 }
