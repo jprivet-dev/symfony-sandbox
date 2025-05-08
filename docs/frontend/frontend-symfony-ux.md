@@ -77,10 +77,11 @@ Configuration:
 </html>
 ```
 
-Install SwupFragmentPlugin:
+Install `SwupFragmentPlugin` & `FragmentPlugin`:
 
 ```
 php bin/console importmap:require @swup/fragment-plugin
+php bin/console importmap:require @swup/preload-plugin
 ```
 
 Resources:
