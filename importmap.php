@@ -39,31 +39,31 @@ return [
         'type' => 'css',
     ],
     '@swup/fade-theme' => [
-        'version' => '1.0.5',
-    ],
-    '@swup/slide-theme' => [
-        'version' => '1.0.5',
-    ],
-    '@swup/forms-plugin' => [
         'version' => '2.0.1',
     ],
+    '@swup/slide-theme' => [
+        'version' => '2.0.1',
+    ],
+    '@swup/forms-plugin' => [
+        'version' => '3.6.0',
+    ],
     '@swup/plugin' => [
-        'version' => '2.0.2',
+        'version' => '4.0.0',
     ],
     'swup' => [
-        'version' => '3.1.1',
+        'version' => '4.8.2',
     ],
     'delegate-it' => [
-        'version' => '6.0.1',
+        'version' => '6.2.1',
     ],
     '@swup/debug-plugin' => [
-        'version' => '3.0.0',
+        'version' => '4.1.0',
     ],
     '@swup/theme' => [
         'version' => '2.1.0',
     ],
     'path-to-regexp' => [
-        'version' => '6.3.0',
+        'version' => '8.2.0',
     ],
     '@swup/fragment-plugin' => [
         'version' => '1.1.1',
