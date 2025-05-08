@@ -16,6 +16,8 @@ export default class extends Controller {
         event.detail.options.plugins.push(new FragmentPlugin({
             debug: true,
             rules: [{
+                // TODO: Error: [swup] Error parsing path "/blog/tag/,/blog{/*?page=},/blog/":
+                //  See https://github.com/pillarjs/path-to-regexp#errors
                 from: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
                 to: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
                 containers: ['#posts-by-tag'],
