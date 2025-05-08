@@ -51,10 +51,10 @@ return [
         'version' => '4.0.0',
     ],
     'swup' => [
-        'version' => '4.6.1',
+        'version' => '4.8.1',
     ],
     'delegate-it' => [
-        'version' => '6.1.0',
+        'version' => '6.2.0',
     ],
     '@swup/debug-plugin' => [
         'version' => '4.1.0',
@@ -63,9 +63,12 @@ return [
         'version' => '2.1.0',
     ],
     'path-to-regexp' => [
-        'version' => '6.2.1',
+        'version' => '6.3.0',
     ],
     '@swup/fragment-plugin' => [
         'version' => '1.1.1',
+    ],
+    '@swup/preload-plugin' => [
+        'version' => '3.2.11',
     ],
 ];
