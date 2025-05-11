@@ -40,6 +40,12 @@ Install:
 composer require symfony/ux-live-component
 ```
 
+Create Twig component with JS controller:
+
+```
+php bin/console make:twig-component
+```
+
 Resources:
 
 - https://ux.symfony.com/live-component
