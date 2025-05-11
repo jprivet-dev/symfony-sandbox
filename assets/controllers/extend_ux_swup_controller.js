@@ -9,7 +9,7 @@ import FragmentPlugin from '@swup/fragment-plugin';
  */
 export default class extends Controller {
     connect() {
-        this.element.addEventListener('swup:pre-connect', this.onPreConnect);
+        document.addEventListener('swup:pre-connect', this.onPreConnect);
     }
 
     onPreConnect(event) {
@@ -18,8 +18,10 @@ export default class extends Controller {
             rules: [{
                 // TODO: Error: [swup] Error parsing path "/blog/tag/,/blog{/*?page=},/blog/":
                 //  See https://github.com/pillarjs/path-to-regexp#errors
-                from: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
-                to: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
+                // from: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
+                // to: ['/blog/tag/(.*)', '/blog/(.*)?page=(.*)', '/blog/'],
+                from: ['/blog/'],
+                to: ['/blog/'],
                 containers: ['#posts-by-tag'],
                 scroll: '#posts-by-tag',
             }]
