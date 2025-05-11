@@ -16,8 +16,8 @@ export default class extends Controller {
         event.detail.options.plugins.push(new FragmentPlugin({
             debug: true,
             rules: [{
-                from: ['/blog/tag/:id', '/blog/'],
-                to: ['/blog/tag/:id', '/blog/'],
+                from: ['/blog/posts-by-tag/:id', '/blog/posts-by-tag/'],
+                to: ['/blog/posts-by-tag/:id', '/blog/posts-by-tag/'],
                 containers: ['#posts-by-tag'],
                 scroll: '#posts-by-tag',
             }]

@@ -14,25 +14,15 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/blog')]
 class BlogController extends AbstractController
 {
-    #[Route('/', name: 'app_blog')]
-    public function latest(TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
+    #[Route('/posts/{slug:post}', name: 'app_blog_post')]
+    public function postBySlug(Post $post): Response
     {
-        return $this->render('blog.html.twig', [
-            'tags' => $tagDtoMapper->findAllWithPostsCount(),
-            'posts' => $postRepository->findAllPaginate($this->getCurrentPage($request)),
-            'postsCount' => $postRepository->count(),
-        ]);
+        return $this->render('post.html.twig', ['post' => $post]);
     }
 
-    #[Route('/tag/{id:tag}', name: 'app_blog_posts_by_tag_id')]
-    public function postsByTagId(Tag $tag, TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
+    private function getCurrentPage(Request $request): int
     {
-        return $this->render('blog.html.twig', [
-            'currentTag' => $tag,
-            'tags' => $tagDtoMapper->findAllWithPostsCount(),
-            'posts' => $postRepository->findAllByTagPaginate($tag, $this->getCurrentPage($request)),
-            'postsCount' => $postRepository->count(),
-        ]);
+        return $request->query->getInt('page', 1);
     }
 
     #[Route('/posts', name: 'app_blog_posts')]
@@ -43,14 +33,24 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/posts/{slug:post}', name: 'app_blog_post')]
-    public function postBySlug(Post $post): Response
+    #[Route('/posts-by-tag/{id:tag}', name: 'app_blog_posts_by_tag_id')]
+    public function postsByTagId(Tag $tag, TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
     {
-        return $this->render('post.html.twig', ['post' => $post]);
+        return $this->render('blog.html.twig', [
+            'currentTag' => $tag,
+            'tags' => $tagDtoMapper->findAllWithPostsCount(),
+            'posts' => $postRepository->findAllByTagPaginate($tag, $this->getCurrentPage($request)),
+            'postsCount' => $postRepository->count(),
+        ]);
     }
 
-    private function getCurrentPage(Request $request): int
+    #[Route('/posts-by-tag/', name: 'app_blog')]
+    public function latest(TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
     {
-        return $request->query->getInt('page', 1);
+        return $this->render('blog.html.twig', [
+            'tags' => $tagDtoMapper->findAllWithPostsCount(),
+            'posts' => $postRepository->findAllPaginate($this->getCurrentPage($request)),
+            'postsCount' => $postRepository->count(),
+        ]);
     }
 }
