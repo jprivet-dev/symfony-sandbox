@@ -5,28 +5,31 @@
  *
  * By default, a <script> tag interrupts the parsing of the HTML and block rendering until the script has been downloaded, analyzed and executed.
  * Thanks to this trick, the theme is initialized well before the page is rendered, avoiding flickering between light and dark themes.
- * Inspired by https://github.com/twbs/bootstrap/blob/main/site/static/docs/5.3/assets/js/color-modes.js.
+ * Inspired by https://github.com/twbs/bootstrap/blob/v5.3.6/site/static/docs/%5Bversion%5D/assets/js/color-modes.js.
  */
 
-const initTheme = () => setTheme(getStoredTheme());
-const nextTheme = () => setTheme(getNextTheme(getStoredTheme()));
-const getStoredTheme = () => localStorage.getItem('theme') || 'auto';
-const setStoredTheme = (theme) => localStorage.setItem('theme', theme);
-const getNextTheme = (theme) => ({'light': 'dark', 'dark': 'auto', 'auto': 'light'})[theme];
+(() => {
+    'use strict';
 
-const setTheme = (theme) => {
-    setStoredTheme(theme);
+    const init = () => setTheme(getStoredTheme());
+    const next = () => setTheme(chooseNext(getStoredTheme()));
+    const opposite = (theme) => theme === 'dark' ? 'light' : 'dark';
+    const chooseNext = (theme) => ({ 'light': 'dark', 'dark': 'auto', 'auto': 'light' })[theme];
+    const getStoredTheme = () => localStorage.getItem('theme') || 'auto';
+    const setStoredTheme = (theme) => localStorage.setItem('theme', theme);
+    const getMatchMediaPrefersColorSchema = () => window.matchMedia(`(prefers-color-scheme: dark)`).matches ? 'dark' : 'light';
 
-    document.documentElement.classList.remove('light', 'dark', 'auto');
+    const setTheme = (theme) => {
+        setStoredTheme(theme);
+        theme = theme === 'auto' ? getMatchMediaPrefersColorSchema() : theme;
+        document.documentElement.classList.add(theme);
+        document.documentElement.classList.remove(opposite(theme));
+        document.documentElement.dispatchEvent(new CustomEvent('theme:active', { detail: { theme: getStoredTheme() } }));
+    };
 
-    if (theme === 'auto') {
-        document.documentElement.classList.add('auto');
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
+    document.documentElement.addEventListener('theme:init', () => init());
+    document.documentElement.addEventListener('theme:next', () => next());
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => init());
 
-    document.documentElement.classList.add(theme);
-};
-
-initTheme();
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => initTheme());
+    init();
+})();
