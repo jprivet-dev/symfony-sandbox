@@ -48,20 +48,20 @@
 {% endblock %}
 
 {% block linkElement %}{% import _self as knp_menu %}
-    {%- set classes_current = 'block font-medium text-primary-500 hover:text-primary-600 dark:hover:text-primary-400' %}
-    {%- set classes_default = 'block font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400' %}
+    {%- set classesCurrent = 'block font-medium text-primary-500 hover:text-primary-600 dark:hover:text-primary-400' %}
+    {%- set classesDefault = 'block font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400' %}
     {%- set attributes = item.linkAttributes %}
     {%- set classes = attributes.class is defined ? [attributes.class] : [] %}
     {%- if matcher.isCurrent(item) %}
-        {%- set classes = classes|merge([classes_current]) %}
+        {%- set classes = classes|merge([classesCurrent]) %}
     {%- else %}
-        {%- set classes = classes|merge([classes_default]) %}
+        {%- set classes = classes|merge([classesDefault]) %}
     {%- endif %}
     {%- set attributes = attributes|merge({class: classes|join(' ')}) %}
     {# <a href="{{ item.uri }}"{{ knp_menu.attributes(attributes) }}>{{ block('label') }}</a> #}
     <twig:MainMenuLinkElement
-            classes_current="{{ classes_current }}"
-            classes_default="{{ classes_default }}"
+            classes_current="{{ classesCurrent }}"
+            classes_default="{{ classesDefault }}"
             attributes="{{ attributes }}"
             href="{{ item.uri }}"
             label="{{ block('label') }}"
