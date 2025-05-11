@@ -21,14 +21,14 @@
                             {% else %}
                                 {% set classes = classesDefault %}
                             {% endif %}
-                            <twig:SideMenuTagsLinkElement
+                            <twig:MenuLinkElement
                                     classes_active="{{ classesActive }}"
                                     classes_default="{{ classesDefault }}"
                                     class="{{ classes }}"
                                     href="{{ path('app_blog') }}"
                                     label="All posts ({{ postsCount }})"
                                     aria-label="View all posts"
-                            ></twig:SideMenuTagsLinkElement>
+                            ></twig:MenuLinkElement>
                         </li>
                         {% for tag in tags %}
                             <li class="my-3">
@@ -37,14 +37,14 @@
                                 {% else %}
                                     {% set classes = classesDefault %}
                                 {% endif %}
-                                <twig:SideMenuTagsLinkElement
+                                <twig:MenuLinkElement
                                         classes_active="{{ classesActive }}"
                                         classes_default="{{ classesDefault }}"
                                         class="{{ classes }}"
                                         href="{{ path('app_blog_posts_by_tag_id', { 'id': tag.id }) }}"
                                         label="{{ tag.name }} ({{ tag.postsCount }})"
                                         aria-label="View posts tagged {{ tag.name }}"
-                                ></twig:SideMenuTagsLinkElement>
+                                ></twig:MenuLinkElement>
                             </li>
                         {% endfor %}
                     </ul>

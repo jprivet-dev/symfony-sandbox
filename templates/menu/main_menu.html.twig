@@ -59,13 +59,13 @@
     {%- endif %}
     {%- set attributes = attributes|merge({class: classes|join(' ')}) %}
     {# <a href="{{ item.uri }}"{{ knp_menu.attributes(attributes) }}>{{ block('label') }}</a> #}
-    <twig:MainMenuLinkElement
+    <twig:MenuLinkElement
             classes_active="{{ classesActive }}"
             classes_default="{{ classesDefault }}"
             attributes="{{ attributes }}"
             href="{{ item.uri }}"
             label="{{ block('label') }}"
-    ></twig:MainMenuLinkElement>
+    ></twig:MenuLinkElement>
 {% endblock %}
 
 {% block label %}{% if options.allow_safe_labels and item.getExtra('safe_label', false) %}{{ item.label|raw }}{% else %}{{ item.label }}{% endif %}{% endblock %}
