@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/blog')]
 class BlogController extends AbstractController
 {
-    #[Route('/posts/{slug:post}', name: 'app_blog_post')]
+    #[Route('/posts/{slug:post}', name: 'app_blog_post_by_slug')]
     public function postBySlug(Post $post): Response
     {
         return $this->render('post.html.twig', ['post' => $post]);
@@ -44,7 +44,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/posts-by-tag/', name: 'app_blog')]
+    #[Route('/posts-by-tag/', name: 'app_blog_all_posts')]
     public function latest(TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
     {
         return $this->render('blog.html.twig', [

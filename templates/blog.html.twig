@@ -25,7 +25,7 @@
                                     classes_active="{{ classesActive }}"
                                     classes_default="{{ classesDefault }}"
                                     class="{{ classes }}"
-                                    href="{{ path('app_blog') }}"
+                                    href="{{ path('app_blog_all_posts') }}"
                                     label="All posts ({{ postsCount }})"
                                     aria-label="View all posts"
                             ></twig:MenuLinkElement>
@@ -68,7 +68,7 @@
                                 <div class="space-y-3">
                                     <div>
                                         <h2 class="text-2xl font-bold leading-8 tracking-tight">
-                                            <a class="text-gray-900 dark:text-gray-100" href="{{ path('app_blog_post', {slug: post.slug}) }}">
+                                            <a class="text-gray-900 dark:text-gray-100" href="{{ path('app_blog_post_by_slug', {slug: post.slug}) }}">
                                                 {{ post.title }}
                                             </a>
                                         </h2>

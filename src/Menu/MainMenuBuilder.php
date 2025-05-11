@@ -21,7 +21,7 @@ class MainMenuBuilder
     {
         $menu = $this->factory->createItem('root');
 
-        $menu->addChild('Blog', ['route' => 'app_blog']);
+        $menu->addChild('Blog', ['route' => 'app_blog_all_posts']);
         $menu->addChild('Tags', ['route' => 'app_tags']);
         $menu->addChild('Projects', ['route' => 'app_projects']);
         $menu->addChild('About', ['route' => 'app_about']);
