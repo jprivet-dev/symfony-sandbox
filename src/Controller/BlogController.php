@@ -33,7 +33,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/posts-by-tag/{id:tag}', name: 'app_blog_posts_by_tag_id')]
+    #[Route('/posts-by-tag/{slug:tag}', name: 'app_blog_posts_by_tag_id')]
     public function postsByTagId(Tag $tag, TagDtoMapper $tagDtoMapper, PostRepository $postRepository, Request $request): Response
     {
         return $this->render('blog.html.twig', [

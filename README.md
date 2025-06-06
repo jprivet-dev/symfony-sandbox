@@ -6,9 +6,9 @@ Symfony experimentation area.
 
 - It was initially generated with https://github.com/jprivet-dev/symfony-starter.
 - Based primarily on :
-  - [Symfony Docker](https://github.com/dunglas/symfony-docker).
-  - [Symfony Demo Application](https://github.com/symfony/demo).
-  - [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
+    - [Symfony Docker](https://github.com/dunglas/symfony-docker).
+    - [Symfony Demo Application](https://github.com/symfony/demo).
+    - [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
 
 ## Prerequisites
 
@@ -58,6 +58,7 @@ make stop  # Stop the project (down alias)
 
 ## Docs
 
+- [DoctrineMigrationsBundle](docs/doctrine-migration-bundle.md)
 - [Frontend](docs/frontend.md)
 - [Makefile: use Docker build options](docs/makefile.md)
 - [PostgreSQL](docs/postgre.md)

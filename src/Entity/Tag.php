@@ -22,6 +22,9 @@ class Tag implements \JsonSerializable
     #[ORM\Column(length: 255, unique: true)]
     private string $name;
 
+    #[ORM\Column(length: 255)]
+    private string $slug;
+
     /**
      * @var Collection<int, Post>
      */
@@ -47,6 +50,18 @@ class Tag implements \JsonSerializable
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

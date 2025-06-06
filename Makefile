@@ -286,7 +286,7 @@ migration: ## Create a new migration based on database changes
 	$(CONSOLE) make:migration $(ARG)
 
 .PHONY: migrate
-migrate: ## Execute a migration to the latest available version - $ make migrate [ARG=<param>] - Example: $ make migrate ARG="current+3"
+migrate: ## Execute a migration to the latest available version (in a transaction) - $ make migrate [ARG=<param>] - Example: $ make migrate ARG="current+3"
 	$(CONSOLE) doctrine:migrations:migrate --no-interaction --all-or-nothing $(ARG)
 
 migrate@test: ARG="--env=test"
