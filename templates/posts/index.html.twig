@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    {% for post in posts %}
+        <article>
+            <h2>
+                <a href="{{ path('app_blog_post_by_slug', {slug: post.slug}) }}">
+                    {{ post.title }}
+                </a>
+            </h2>
+
+            <p>
+                <span>{{ post.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>
+                / <span>{{ post.author.username }}</span>
+            </p>
+
+            <p>
+                {{ post.summary }}
+            </p>
+        </article>
+    {% endfor %}
+{% endblock %}
